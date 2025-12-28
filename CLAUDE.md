@@ -28,7 +28,7 @@ prism/
 ### Package Dependencies
 - `@prism/ui` depends on `@prism/tokens`
 - `apps/docs` depends on `@prism/ui` and `@prism/tokens`
-- All packages share `@repo/typescript-config` and `@repo/eslint-config`
+- All packages share `@prism/typescript-config` and `@prism/eslint-config`
 
 ## Development Commands
 
@@ -51,6 +51,9 @@ pnpm release          # Build and publish to npm
 
 # Cleanup
 pnpm clean            # Remove node_modules and dist folders
+
+# Preview
+pnpm preview-storybook # Serve built Storybook (after running build)
 ```
 
 ### Running Single Package Commands
@@ -119,9 +122,10 @@ Components are built with React and TypeScript, consuming tokens from `@prism/to
 
 **When adding a new component:**
 1. Create `src/component-name.tsx`
-2. Add export to `package.json` exports field
-3. Create Storybook story in `apps/docs/stories/`
-4. Add inline documentation explaining architectural decisions
+2. Add the component to `tsup.config.ts` entryPoints array
+3. Add export to `package.json` exports field
+4. Create Storybook story in `apps/docs/stories/`
+5. Add inline documentation explaining architectural decisions
 
 ### Documentation (`apps/docs`)
 
@@ -203,12 +207,22 @@ Components and tokens are bundled with `tsup` (esbuild-powered).
 
 **Configuration (`tsup.config.ts`):**
 ```typescript
+// For tokens package (single entry point)
 export default defineConfig({
-  entry: ["src/index.ts"],  // or individual files
-  format: ["cjs", "esm"],   // CommonJS and ES Modules
-  dts: true,                // Generate .d.ts files
-  clean: true,              // Clean dist before building
+  entry: ["src/index.ts"],
+  format: ["cjs", "esm"],
+  dts: true,
+  clean: true,
 });
+
+// For UI package (individual component exports)
+export default defineConfig((options) => ({
+  entryPoints: ["src/button.tsx"],  // Add new components here
+  format: ["cjs", "esm"],
+  dts: true,
+  external: ["react"],  // Don't bundle React
+  ...options,
+}));
 ```
 
 **Why both CJS and ESM?**
@@ -237,7 +251,18 @@ export function Card({ variant = "outlined", children, ...props }: CardProps) {
 Card.displayName = "Card";
 ```
 
-2. Add export to `packages/ui/package.json`:
+2. Add component to `packages/ui/tsup.config.ts`:
+```typescript
+export default defineConfig((options) => ({
+  entryPoints: ["src/button.tsx", "src/card.tsx"],  // Add card.tsx
+  format: ["cjs", "esm"],
+  dts: true,
+  external: ["react"],
+  ...options,
+}));
+```
+
+3. Add export to `packages/ui/package.json`:
 ```json
 {
   "exports": {
@@ -250,9 +275,9 @@ Card.displayName = "Card";
 }
 ```
 
-3. Create story in `apps/docs/stories/card.stories.tsx`
+4. Create story in `apps/docs/stories/card.stories.tsx`
 
-4. Build and test:
+5. Build and test:
 ```bash
 pnpm build
 pnpm dev  # View in Storybook
