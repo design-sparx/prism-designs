@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "@prism/ui/button";
+import { Button } from "@prism/react/button";
 
 const meta: Meta<typeof Button> = {
   component: Button,

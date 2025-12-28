@@ -18,16 +18,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 prism/
 ├── packages/
 │   ├── tokens/       # Design tokens (colors, spacing, typography)
-│   ├── ui/           # React component library
+│   ├── core/         # Core utilities and types
+│   ├── react/        # React component library
 │   ├── eslint-config/
 │   └── typescript-config/
 └── apps/
-    └── docs/         # Storybook documentation
+    ├── docs/         # Storybook documentation
+    └── examples/     # Real-world usage examples (to be added)
 ```
 
 ### Package Dependencies
-- `@prism/ui` depends on `@prism/tokens`
-- `apps/docs` depends on `@prism/ui` and `@prism/tokens`
+- `@prism/core` depends on `@prism/tokens`
+- `@prism/react` depends on `@prism/core` and `@prism/tokens`
+- `apps/docs` depends on `@prism/react`
 - All packages share `@prism/typescript-config` and `@prism/eslint-config`
 
 ## Development Commands
@@ -65,8 +68,8 @@ pnpm --filter @prism/tokens build
 # Run Storybook only
 pnpm --filter docs dev
 
-# Lint only the UI package
-pnpm --filter @prism/ui lint
+# Lint only the React package
+pnpm --filter @prism/react lint
 ```
 
 ## Architecture Guidelines
@@ -96,9 +99,32 @@ tokens/src/
 3. Export the type (e.g., `export type ShadowToken = typeof shadows`)
 4. Add export to `src/index.ts`
 
-### Component Library (`packages/ui`)
+### Core Utilities (`packages/core`)
 
-Components are built with React and TypeScript, consuming tokens from `@prism/tokens`.
+Core contains framework-agnostic utilities and types shared across the design system.
+
+**Key Concepts:**
+- Framework-agnostic (no React, Vue, etc. specific code)
+- Depends on `@prism/tokens` for accessing design tokens
+- Exports utility functions, TypeScript types, and constants
+- Used by `@prism/react` and potentially other framework packages
+
+**File Structure:**
+```
+core/src/
+├── index.ts        # Re-exports all utilities and types
+├── utils.ts        # Utility functions (cn, string manipulation, etc.)
+└── types.ts        # Shared TypeScript types
+```
+
+**When adding to core:**
+1. Create utility or type in appropriate file
+2. Export from `src/index.ts`
+3. Ensure it's framework-agnostic (no React/Vue/etc.)
+
+### Component Library (`packages/react`)
+
+Components are built with React and TypeScript, consuming tokens from `@prism/tokens` and utilities from `@prism/core`.
 
 **Key Patterns:**
 - Each component is a separate file in `src/` (e.g., `button.tsx`, `card.tsx`)
@@ -108,7 +134,7 @@ Components are built with React and TypeScript, consuming tokens from `@prism/to
 
 **Component Export Pattern:**
 ```json
-// packages/ui/package.json
+// packages/react/package.json
 {
   "exports": {
     "./button": {
@@ -197,8 +223,9 @@ Turborepo orchestrates builds across the monorepo with intelligent caching.
 - `^build` means "run build in dependencies first"
 - When you run `pnpm build`, Turborepo:
   1. Builds `@prism/tokens` first
-  2. Then builds `@prism/ui` (depends on tokens)
-  3. Finally builds `apps/docs` (depends on ui)
+  2. Then builds `@prism/core` (depends on tokens)
+  3. Then builds `@prism/react` (depends on core and tokens)
+  4. Finally builds `apps/docs` (depends on react)
 - Outputs are cached - unchanged packages skip rebuilding
 
 ## Package Bundling (tsup)
@@ -234,9 +261,9 @@ export default defineConfig((options) => ({
 
 ### Adding a New Component
 
-1. Create component file in `packages/ui/src/`:
+1. Create component file in `packages/react/src/`:
 ```tsx
-// packages/ui/src/card.tsx
+// packages/react/src/card.tsx
 import * as React from "react";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -251,7 +278,7 @@ export function Card({ variant = "outlined", children, ...props }: CardProps) {
 Card.displayName = "Card";
 ```
 
-2. Add component to `packages/ui/tsup.config.ts`:
+2. Add component to `packages/react/tsup.config.ts`:
 ```typescript
 export default defineConfig((options) => ({
   entryPoints: ["src/button.tsx", "src/card.tsx"],  // Add card.tsx
@@ -262,7 +289,7 @@ export default defineConfig((options) => ({
 }));
 ```
 
-3. Add export to `packages/ui/package.json`:
+3. Add export to `packages/react/package.json`:
 ```json
 {
   "exports": {

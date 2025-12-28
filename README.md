@@ -6,7 +6,7 @@ Prism is not just another design system - it's a learning resource. Every archit
 
 ## 🎯 Philosophy
 
-Most design systems (Material-UI, Ant Design, Carbon) are production-ready but difficult to learn from. Their codebases are complex, and architectural decisions aren't always clear. Prism takes the opposite approach:
+Most design systems (Material-UI, Ant Design, Carbon) are production-ready but challenging to learn from. Their codebases are complex, and architectural decisions aren't always clear. Prism takes the opposite approach:
 
 - **Education First**: Inline documentation explains the "why" behind every pattern
 - **Simple Architecture**: Easy to understand, not over-engineered
@@ -55,13 +55,15 @@ By studying and contributing to Prism, you'll understand:
 This monorepo contains:
 
 - **`@prism/tokens`** - Design tokens (colors, spacing, typography)
-- **`@prism/ui`** - React component library
+- **`@prism/core`** - Core utilities and types
+- **`@prism/react`** - React component library
 - **`apps/docs`** - Storybook documentation site
+- **`apps/examples`** - Real-world usage examples (to be added)
 
 ### Additional Tooling Packages
 
-- **`@repo/typescript-config`** - Shared TypeScript configurations
-- **`@repo/eslint-config`** - Shared ESLint configurations
+- **`@prism/typescript-config`** - Shared TypeScript configurations
+- **`@prism/eslint-config`** - Shared ESLint configurations
 
 ## 🛠️ Tech Stack
 
@@ -124,16 +126,21 @@ pnpm clean            # Remove all node_modules and dist folders
 ```
 prism/
 ├── apps/
-│   └── docs/                 # Storybook documentation
-│       ├── stories/          # Component stories
-│       └── .storybook/       # Storybook configuration
+│   ├── docs/                # Storybook documentation
+│   │   ├── stories/         # Component stories
+│   │   └── .storybook/      # Storybook configuration
+│   └── examples/            # Real-world usage examples (to be added)
 ├── packages/
 │   ├── tokens/              # Design tokens
 │   │   └── src/
 │   │       ├── colors.ts    # Color palette
 │   │       ├── spacing.ts   # Spacing scale
 │   │       └── typography.ts # Font system
-│   ├── ui/                  # React components
+│   ├── core/                # Core utilities and types
+│   │   └── src/
+│   │       ├── utils.ts     # Utility functions
+│   │       └── types.ts     # Shared TypeScript types
+│   ├── react/               # React components
 │   │   └── src/
 │   │       └── button.tsx   # Example component
 │   ├── eslint-config/       # Shared ESLint config
@@ -152,17 +159,22 @@ If you're new to design systems, we recommend this learning path:
    - Understand the color, spacing, and typography systems
    - Try modifying token values and see how they propagate
 
-2. **Explore Components** (`packages/ui`)
+2. **Explore Core** (`packages/core`)
+   - See framework-agnostic utilities
+   - Understand shared TypeScript types
+   - Learn when to extract to core vs keep in components
+
+3. **Explore Components** (`packages/react`)
    - Study the Button component as a reference
    - Understand the export pattern in `package.json`
-   - Learn how components consume tokens
+   - Learn how components consume tokens and core utilities
 
-3. **Run Storybook** (`apps/docs`)
+4. **Run Storybook** (`apps/docs`)
    - See how components are documented
    - Understand the stories structure
    - Try creating a story for a new component
 
-4. **Build Something**
+5. **Build Something**
    - Create a new component (Card, Input, Badge)
    - Apply the patterns you've learned
    - Document it in Storybook
@@ -184,7 +196,7 @@ Contributions are welcome! This project is designed to be a learning resource, s
 
 ## 📄 License
 
-MIT - Feel free to use this for learning and building your own design systems!
+MIT – Feel free to use this for learning and building your own design systems!
 
 ---
 

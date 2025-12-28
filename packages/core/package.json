@@ -1,13 +1,14 @@
 {
-  "name": "@prism/ui",
+  "name": "@prism/core",
   "version": "0.0.0",
+  "description": "Core utilities and types for Prism design system",
   "sideEffects": false,
   "license": "MIT",
   "exports": {
-    "./button": {
-      "types": "./src/button.tsx",
-      "import": "./dist/button.mjs",
-      "require": "./dist/button.js"
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
@@ -18,16 +19,13 @@
   },
   "devDependencies": {
     "@prism/eslint-config": "workspace:*",
-    "@types/react": "^18.2.61",
-    "@types/react-dom": "^18.2.19",
-    "eslint": "^8.57.0",
     "@prism/typescript-config": "workspace:*",
+    "eslint": "^8.57.0",
     "tsup": "^8.0.2",
     "typescript": "5.5.4"
   },
   "dependencies": {
-    "@prism/tokens": "workspace:*",
-    "react": "^18.2.0"
+    "@prism/tokens": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
