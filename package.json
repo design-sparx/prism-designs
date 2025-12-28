@@ -17,5 +17,6 @@
     "turbo": "^2.7.2"
   },
   "packageManager": "pnpm@8.15.6",
-  "name": "design-system"
+  "name": "prism",
+  "description": "An educational design system to teach developers how to build their own"
 }

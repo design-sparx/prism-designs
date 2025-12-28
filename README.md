@@ -1,208 +1,191 @@
-# Turborepo Design System Starter
+# Prism Design System
 
-This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
+> **An educational design system to teach developers how to build their own**
 
-This guide explains how to use a React design system starter powered by:
+Prism is not just another design system - it's a learning resource. Every architectural decision, pattern, and convention is documented to help you understand **why** design systems are built the way they are.
 
-- 🏎 [Turborepo](https://turborepo.com) — High-performance build system for Monorepos
-- 🚀 [React](https://reactjs.org/) — JavaScript library for user interfaces
-- 🛠 [Tsup](https://github.com/egoist/tsup) — TypeScript bundler powered by esbuild
-- 📖 [Storybook](https://storybook.js.org/) — UI component environment powered by Vite
+## 🎯 Philosophy
 
-As well as a few others tools preconfigured:
+Most design systems (Material-UI, Ant Design, Carbon) are production-ready but difficult to learn from. Their codebases are complex, and architectural decisions aren't always clear. Prism takes the opposite approach:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-- [Changesets](https://github.com/changesets/changesets) for managing versioning and changelogs
-- [GitHub Actions](https://github.com/changesets/action) for fully automated package publishing
+- **Education First**: Inline documentation explains the "why" behind every pattern
+- **Simple Architecture**: Easy to understand, not over-engineered
+- **Progressive Complexity**: Start simple, add complexity only when needed
+- **Real-World Patterns**: Learn industry-standard practices used by major design systems
 
-## Using this example
+## 🚀 What You'll Learn
 
-Run the following command:
+By studying and contributing to Prism, you'll understand:
 
-```sh
-npx create-turbo@latest -e design-system
-```
+1. **Design Tokens** - The foundation of any design system
+   - Color systems and semantic naming
+   - Spacing scales and mathematical ratios
+   - Typography scales and font hierarchies
 
-### Useful Commands
+2. **Component Architecture**
+   - API design patterns
+   - Composition vs configuration
+   - Polymorphic components
+   - Compound components
 
-- `pnpm build` - Build all packages, including the Storybook site
-- `pnpm dev` - Run all packages locally and preview with Storybook
-- `pnpm lint` - Lint all packages
-- `pnpm changeset` - Generate a changeset
-- `pnpm clean` - Clean up all `node_modules` and `dist` folders (runs each package's clean script)
+3. **Theming**
+   - CSS-in-JS vs CSS variables
+   - Light/dark mode implementation
+   - Custom theme creation
 
-## Turborepo
+4. **Accessibility (a11y)**
+   - ARIA patterns
+   - Keyboard navigation
+   - Screen reader support
+   - Focus management
 
-[Turborepo](https://turborepo.com) is a high-performance build system for JavaScript and TypeScript codebases. It was designed after the workflows used by massive software engineering organizations to ship code at scale. Turborepo abstracts the complex configuration needed for monorepos and provides fast, incremental builds with zero-configuration remote caching.
+5. **Build & Distribution**
+   - Monorepo management with Turborepo
+   - Package bundling with tsup
+   - Tree-shaking and code-splitting
+   - Publishing to npm
 
-Using Turborepo simplifies managing your design system monorepo, as you can have a single lint, build, test, and release process for all packages. [Learn more](https://vercel.com/blog/monorepos-are-changing-how-teams-build-software) about how monorepos improve your development workflow.
+6. **Documentation**
+   - Interactive documentation with Storybook
+   - Component API documentation
+   - Usage examples and patterns
 
-## Apps & Packages
+## 📦 Packages
 
-This Turborepo includes the following packages and applications:
+This monorepo contains:
 
-- `apps/docs`: Component documentation site with Storybook
-- `packages/ui`: Core React components
-- `packages/typescript-config`: Shared `tsconfig.json`s used throughout the Turborepo
-- `packages/eslint-config`: ESLint preset
+- **`@prism/tokens`** - Design tokens (colors, spacing, typography)
+- **`@prism/ui`** - React component library
+- **`apps/docs`** - Storybook documentation site
 
-Each package and app is 100% [TypeScript](https://www.typescriptlang.org/). Workspaces enables us to "hoist" dependencies that are shared between packages to the root `package.json`. This means smaller `node_modules` folders and a better local dev experience. To install a dependency for the entire monorepo, use the `-w` workspaces flag with `pnpm add`.
+### Additional Tooling Packages
 
-This example sets up your `.gitignore` to exclude all generated files, other folders like `node_modules` used to store your dependencies.
+- **`@repo/typescript-config`** - Shared TypeScript configurations
+- **`@repo/eslint-config`** - Shared ESLint configurations
 
-### Compilation
+## 🛠️ Tech Stack
 
-To make the ui library code work across all browsers, we need to compile the raw TypeScript and React code to plain JavaScript. We can accomplish this with `tsup`, which uses `esbuild` to greatly improve performance.
+- **[Turborepo](https://turbo.build/repo)** - High-performance monorepo build system
+- **[TypeScript](https://www.typescriptlang.org/)** - Type safety and developer experience
+- **[React](https://react.dev/)** - Component framework
+- **[tsup](https://tsup.egoist.dev/)** - Fast TypeScript bundler (powered by esbuild)
+- **[Storybook](https://storybook.js.org/)** - Component documentation and development
+- **[Changesets](https://github.com/changesets/changesets)** - Version management and changelogs
+- **[pnpm](https://pnpm.io/)** - Fast, efficient package manager
 
-Running `pnpm build` from the root of the Turborepo will run the `build` command defined in each package's `package.json` file. Turborepo runs each `build` in parallel and caches & hashes the output to speed up future builds.
+## 🏃 Getting Started
 
-For `@acme/ui`, the `build` command is equivalent to the following:
+### Prerequisites
 
-```bash
-tsup src/*.tsx --format esm,cjs --dts --external react
-```
+- Node.js >= 18
+- pnpm >= 8
 
-`tsup` compiles all of the components in the design system individually, into both ES Modules and CommonJS formats as well as their TypeScript types. The `package.json` for `@acme/ui` then instructs the consumer to select the correct format:
-
-```json:ui/package.json
-{
-  "name": "@acme/ui",
-  "version": "0.0.0",
-  "sideEffects": false,
-  "exports":{
-    "./button": {
-      "types": "./src/button.tsx",
-      "import": "./dist/button.mjs",
-      "require": "./dist/button.js"
-    }
-  }
-}
-```
-
-Run `pnpm build` to confirm compilation is working correctly. You should see a folder `ui/dist` which contains the compiled output.
-
-```bash
-ui
-└── dist
-    ├── button.d.ts  <-- Types
-    ├── button.js    <-- CommonJS version
-    ├── button.mjs   <-- ES Modules version
-    └── button.d.mts   <-- ES Modules version with Types
-```
-
-## Components
-
-Each file inside of `ui/src` is a component inside our design system. For example:
-
-```tsx:ui/src/Button.tsx
-import * as React from 'react';
-
-export interface ButtonProps {
-  children: React.ReactNode;
-}
-
-export function Button(props: ButtonProps) {
-  return <button>{props.children}</button>;
-}
-
-Button.displayName = 'Button';
-```
-
-When adding a new file, ensure that its specifier is defined in `package.json` file:
-
-```json:ui/package.json
-{
-  "name": "@acme/ui",
-  "version": "0.0.0",
-  "sideEffects": false,
-  "exports":{
-    "./button": {
-      "types": "./src/button.tsx",
-      "import": "./dist/button.mjs",
-      "require": "./dist/button.js"
-    }
-    // Add new component exports here
-  }
-}
-```
-
-## Storybook
-
-Storybook provides us with an interactive UI playground for our components. This allows us to preview our components in the browser and instantly see changes when developing locally. This example preconfigures Storybook to:
-
-- Use Vite to bundle stories instantly (in milliseconds)
-- Automatically find any stories inside the `stories/` folder
-- Support using module path aliases like `@acme/ui` for imports
-- Write MDX for component documentation pages
-
-For example, here's the included Story for our `Button` component:
-
-```js:apps/docs/stories/button.stories.mdx
-import { Button } from '@acme/ui/button';
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
-
-<Meta title="Components/Button" component={Button} />
-
-# Button
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur tempor, nisl nunc egestas nisi, euismod aliquam nisl nunc euismod.
-
-## Props
-
-<Props of={Box} />
-
-## Examples
-
-<Preview>
-  <Story name="Default">
-    <Button>Hello</Button>
-  </Story>
-</Preview>
-```
-
-This example includes a few helpful Storybook scripts:
-
-- `pnpm dev`: Starts Storybook in dev mode with hot reloading at `localhost:6006`
-- `pnpm build`: Builds the Storybook UI and generates the static HTML files
-- `pnpm preview-storybook`: Starts a local server to view the generated Storybook UI
-
-## Versioning & Publishing Packages
-
-This example uses [Changesets](https://github.com/changesets/changesets) to manage versions, create changelogs, and publish to npm. It's preconfigured so you can start publishing packages immediately.
-
-You'll need to create an `NPM_TOKEN` and `GITHUB_TOKEN` and add it to your GitHub repository settings to enable access to npm. It's also worth installing the [Changesets bot](https://github.com/apps/changeset-bot) on your repository.
-
-### Generating the Changelog
-
-To generate your changelog, run `pnpm changeset` locally:
-
-1. **Which packages would you like to include?** – This shows which packages and changed and which have remained the same. By default, no packages are included. Press `space` to select the packages you want to include in the `changeset`.
-1. **Which packages should have a major bump?** – Press `space` to select the packages you want to bump versions for.
-1. If doing the first major version, confirm you want to release.
-1. Write a summary for the changes.
-1. Confirm the changeset looks as expected.
-1. A new Markdown file will be created in the `changeset` folder with the summary and a list of the packages included.
-
-### Releasing
-
-When you push your code to GitHub, the [GitHub Action](https://github.com/changesets/action) will run the `release` script defined in the root `package.json`:
+### Installation
 
 ```bash
-turbo run build --filter=docs^... && changeset publish
+# Clone the repository
+git clone https://github.com/yourusername/prism.git
+cd prism
+
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Start Storybook in development mode
+pnpm dev
 ```
 
-Turborepo runs the `build` script for all publishable packages (excluding docs) and publishes the packages to npm. By default, this example includes `acme` as the npm organization. To change this, do the following:
+Visit `http://localhost:6006` to see the component documentation.
 
-- Rename folders in `packages/*` to replace `acme` with your desired scope
-- Search and replace `acme` with your desired scope
-- Re-run `pnpm install`
+## 📚 Development Commands
 
-To publish packages to a private npm organization scope, **remove** the following from each of the `package.json`'s
+```bash
+# Development
+pnpm dev              # Run all packages in watch mode + start Storybook
+pnpm build            # Build all packages
 
-```diff
-- "publishConfig": {
--  "access": "public"
-- },
+# Linting & Formatting
+pnpm lint             # Lint all packages
+pnpm format           # Format code with Prettier
+
+# Versioning & Publishing
+pnpm changeset        # Create a changeset for version bumping
+pnpm version-packages # Update package versions based on changesets
+pnpm release          # Build and publish packages to npm
+
+# Cleanup
+pnpm clean            # Remove all node_modules and dist folders
 ```
+
+## 🏗️ Monorepo Structure
+
+```
+prism/
+├── apps/
+│   └── docs/                 # Storybook documentation
+│       ├── stories/          # Component stories
+│       └── .storybook/       # Storybook configuration
+├── packages/
+│   ├── tokens/              # Design tokens
+│   │   └── src/
+│   │       ├── colors.ts    # Color palette
+│   │       ├── spacing.ts   # Spacing scale
+│   │       └── typography.ts # Font system
+│   ├── ui/                  # React components
+│   │   └── src/
+│   │       └── button.tsx   # Example component
+│   ├── eslint-config/       # Shared ESLint config
+│   └── typescript-config/   # Shared TypeScript config
+├── turbo.json               # Turborepo configuration
+├── package.json             # Root package configuration
+└── pnpm-workspace.yaml      # pnpm workspace configuration
+```
+
+## 🎓 Learning Path
+
+If you're new to design systems, we recommend this learning path:
+
+1. **Start with Tokens** (`packages/tokens`)
+   - Read the inline documentation
+   - Understand the color, spacing, and typography systems
+   - Try modifying token values and see how they propagate
+
+2. **Explore Components** (`packages/ui`)
+   - Study the Button component as a reference
+   - Understand the export pattern in `package.json`
+   - Learn how components consume tokens
+
+3. **Run Storybook** (`apps/docs`)
+   - See how components are documented
+   - Understand the stories structure
+   - Try creating a story for a new component
+
+4. **Build Something**
+   - Create a new component (Card, Input, Badge)
+   - Apply the patterns you've learned
+   - Document it in Storybook
+
+## 🤝 Contributing
+
+Contributions are welcome! This project is designed to be a learning resource, so:
+
+- **Add inline documentation** explaining your decisions
+- **Keep it simple** - avoid over-engineering
+- **Focus on education** - prioritize clarity over cleverness
+
+## 📖 Additional Resources
+
+- [Turborepo Documentation](https://turbo.build/repo/docs)
+- [Design Tokens Specification](https://design-tokens.github.io/community-group/format/)
+- [Storybook Documentation](https://storybook.js.org/docs)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+
+## 📄 License
+
+MIT - Feel free to use this for learning and building your own design systems!
+
+---
+
+**Built with ❤️ to help developers learn design systems**
