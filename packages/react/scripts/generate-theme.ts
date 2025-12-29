@@ -11,9 +11,9 @@
  * - Tokens remain type-safe and shareable across packages
  */
 
-import { colors, spacing, typography } from "@prism/tokens";
-import { writeFileSync } from "fs";
-import { join } from "path";
+import {colors, spacing, typography} from "@prism/tokens";
+import {writeFileSync} from "fs";
+import {join} from "path";
 
 function generateThemeCSS(): string {
   let css = `/**
@@ -27,6 +27,18 @@ function generateThemeCSS(): string {
  */
 
 @import "tailwindcss";
+
+/**
+ * @source directive tells Tailwind v4 where to scan for class names.
+ * This replaces the 'content' array from Tailwind v3 config files.
+ *
+ * Educational note:
+ * - Scans our React components for classes like 'bg-primary-500'
+ * - Scans Storybook stories for usage examples
+ * - Tailwind generates ONLY the utilities it finds in these files (tree-shaking)
+ */
+@source "../../packages/react/src/**/*.{ts,tsx}";
+@source "../../apps/docs/stories/**/*.{ts,tsx}";
 
 @theme {
 `;

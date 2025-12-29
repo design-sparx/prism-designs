@@ -4,16 +4,19 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "clean": "turbo run clean && rm -rf node_modules",
+    "clean": "turbo run clean && rimraf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo run build --filter=docs^... && changeset publish",
-    "preview-storybook": "turbo run preview-storybook"
+    "preview-storybook": "turbo run preview-storybook",
+    "generate:theme": "pnpm --filter @prism/react generate:theme",
+    "storybook:dev": "pnpm --filter docs dev"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
     "prettier": "^3.2.5",
+    "rimraf": "^6.1.2",
     "turbo": "^2.7.2"
   },
   "packageManager": "pnpm@8.15.6",

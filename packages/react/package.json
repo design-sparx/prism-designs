@@ -15,7 +15,7 @@
     "build": "pnpm generate:theme && tsup",
     "dev": "tsup --watch",
     "lint": "eslint . --max-warnings 0",
-    "clean": "rm -rf .turbo node_modules dist"
+    "clean": "rimraf .turbo node_modules dist"
   },
   "devDependencies": {
     "@prism/eslint-config": "workspace:*",
@@ -32,6 +32,7 @@
     "@prism/core": "workspace:*",
     "@prism/tokens": "workspace:*",
     "@radix-ui/react-slot": "^1.2.4",
+    "@types/node": "^25.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "react": "^18.2.0",
