@@ -18,28 +18,33 @@ Most design systems (Material-UI, Ant Design, Carbon) are production-ready but c
 By studying and contributing to Prism, you'll understand:
 
 1. **Design Tokens** - The foundation of any design system
+
    - Color systems and semantic naming
    - Spacing scales and mathematical ratios
    - Typography scales and font hierarchies
 
 2. **Component Architecture**
+
    - API design patterns
    - Composition vs configuration
    - Polymorphic components
    - Compound components
 
 3. **Theming**
+
    - CSS-in-JS vs CSS variables
    - Light/dark mode implementation
    - Custom theme creation
 
 4. **Accessibility (a11y)**
+
    - ARIA patterns
    - Keyboard navigation
    - Screen reader support
    - Focus management
 
 5. **Build & Distribution**
+
    - Monorepo management with Turborepo
    - Package bundling with tsup
    - Tree-shaking and code-splitting
@@ -155,21 +160,25 @@ prism/
 If you're new to design systems, we recommend this learning path:
 
 1. **Start with Tokens** (`packages/tokens`)
+
    - Read the inline documentation
    - Understand the color, spacing, and typography systems
    - Try modifying token values and see how they propagate
 
 2. **Explore Core** (`packages/core`)
+
    - See framework-agnostic utilities
    - Understand shared TypeScript types
    - Learn when to extract to core vs keep in components
 
 3. **Explore Components** (`packages/react`)
+
    - Study the Button component as a reference
    - Understand the export pattern in `package.json`
    - Learn how components consume tokens and core utilities
 
 4. **Run Storybook** (`apps/docs`)
+
    - See how components are documented
    - Understand the stories structure
    - Try creating a story for a new component

@@ -30,7 +30,10 @@ const config = {
         alias: [
           {
             find: "@prism/react/button",
-            replacement: resolve(__dirname, "../../../packages/react/src/button.tsx"),
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/button.tsx",
+            ),
           },
           {
             find: "@prism/react",

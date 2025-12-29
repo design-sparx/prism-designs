@@ -46,7 +46,7 @@ function generateThemeCSS(sourcePaths: string[]): string {
 `;
 
   // Add @source directives
-  sourcePaths.forEach(path => {
+  sourcePaths.forEach((path) => {
     css += `@source "${path}";\n`;
   });
 
@@ -117,15 +117,24 @@ const outputs = [
   {
     path: join(__dirname, "..", "src", "styles", "theme.css"),
     sourcePaths: [
-      "../**/*.{ts,tsx}",  // Scan packages/react/src from packages/react/src/styles/
-      "../../../../apps/docs/stories/**/*.{ts,tsx}",  // Scan Storybook stories
+      "../**/*.{ts,tsx}", // Scan packages/react/src from packages/react/src/styles/
+      "../../../../apps/docs/stories/**/*.{ts,tsx}", // Scan Storybook stories
     ],
   },
   {
-    path: join(__dirname, "..", "..", "..", "apps", "docs", ".storybook", "prism.css"),
+    path: join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "apps",
+      "docs",
+      ".storybook",
+      "prism.css",
+    ),
     sourcePaths: [
-      "../../../packages/react/src/**/*.{ts,tsx}",  // Scan React components from apps/docs/.storybook/
-      "../stories/**/*.{ts,tsx}",  // Scan Storybook stories
+      "../../../packages/react/src/**/*.{ts,tsx}", // Scan React components from apps/docs/.storybook/
+      "../stories/**/*.{ts,tsx}", // Scan Storybook stories
     ],
   },
 ];

@@ -139,7 +139,11 @@ export const Disabled: Story = {
 export const AsLink: Story = {
   render: () => (
     <Button asChild>
-      <a href="https://github.com/yourusername/prism" rel="noopener noreferrer" target="_blank">
+      <a
+        href="https://github.com/yourusername/prism"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         Visit GitHub
       </a>
     </Button>
