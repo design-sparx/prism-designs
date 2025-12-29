@@ -12,11 +12,16 @@
     "release": "turbo run build --filter=docs^... && changeset publish",
     "preview-storybook": "turbo run preview-storybook",
     "generate:theme": "pnpm --filter @prism/react generate:theme",
-    "storybook:dev": "pnpm --filter docs dev"
+    "storybook:dev": "pnpm --filter docs dev",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "rimraf": "^6.1.2",
