@@ -19,8 +19,8 @@
  * - Scans Storybook stories for usage examples
  * - Tailwind generates ONLY the utilities it finds in these files (tree-shaking)
  */
-@source "../../packages/react/src/**/*.{ts,tsx}";
-@source "../../apps/docs/stories/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+@source "../../../../apps/docs/stories/**/*.{ts,tsx}";
 
 @theme {
   /* Primary Colors */

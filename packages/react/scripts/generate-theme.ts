@@ -15,7 +15,12 @@ import {colors, spacing, typography} from "@prism/tokens";
 import {writeFileSync} from "fs";
 import {join} from "path";
 
-function generateThemeCSS(): string {
+/**
+ * Generate theme CSS with custom @source paths
+ *
+ * @param sourcePaths - Array of relative paths for @source directive
+ */
+function generateThemeCSS(sourcePaths: string[]): string {
   let css = `/**
  * Prism Design System - Tailwind Theme
  *
@@ -37,11 +42,14 @@ function generateThemeCSS(): string {
  * - Scans Storybook stories for usage examples
  * - Tailwind generates ONLY the utilities it finds in these files (tree-shaking)
  */
-@source "../../packages/react/src/**/*.{ts,tsx}";
-@source "../../apps/docs/stories/**/*.{ts,tsx}";
-
-@theme {
 `;
+
+  // Add @source directives
+  sourcePaths.forEach(path => {
+    css += `@source "${path}";\n`;
+  });
+
+  css += `\n@theme {\n`;
 
   // Generate color variables
   css += `  /* Primary Colors */\n`;
@@ -103,11 +111,28 @@ function generateThemeCSS(): string {
   return css;
 }
 
-// Generate and write the theme file
-const themeCSS = generateThemeCSS();
-const outputPath = join(__dirname, "..", "src", "styles", "theme.css");
+// Generate and write theme files to multiple locations
+const outputs = [
+  {
+    path: join(__dirname, "..", "src", "styles", "theme.css"),
+    sourcePaths: [
+      "../**/*.{ts,tsx}",  // Scan packages/react/src from packages/react/src/styles/
+      "../../../../apps/docs/stories/**/*.{ts,tsx}",  // Scan Storybook stories
+    ],
+  },
+  {
+    path: join(__dirname, "..", "..", "..", "apps", "docs", ".storybook", "prism.css"),
+    sourcePaths: [
+      "../../../packages/react/src/**/*.{ts,tsx}",  // Scan React components from apps/docs/.storybook/
+      "../stories/**/*.{ts,tsx}",  // Scan Storybook stories
+    ],
+  },
+];
 
-writeFileSync(outputPath, themeCSS, "utf-8");
+outputs.forEach(({ path, sourcePaths }) => {
+  const themeCSS = generateThemeCSS(sourcePaths);
+  writeFileSync(path, themeCSS, "utf-8");
+  console.log(`✅ Generated: ${path}`);
+});
 
-console.log("✅ Generated theme.css from @prism/tokens");
-console.log(`📝 Output: ${outputPath}`);
+console.log("\n🎨 Theme generation complete from @prism/tokens");

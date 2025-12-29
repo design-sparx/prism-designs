@@ -10,6 +10,18 @@
 
 @import "tailwindcss";
 
+/**
+ * @source directive tells Tailwind v4 where to scan for class names.
+ * This replaces the 'content' array from Tailwind v3 config files.
+ *
+ * Educational note:
+ * - Scans our React components for classes like 'bg-primary-500'
+ * - Scans Storybook stories for usage examples
+ * - Tailwind generates ONLY the utilities it finds in these files (tree-shaking)
+ */
+@source "../../../packages/react/src/**/*.{ts,tsx}";
+@source "../stories/**/*.{ts,tsx}";
+
 @theme {
   /* Primary Colors */
   --color-primary-50: #f0f9ff;
