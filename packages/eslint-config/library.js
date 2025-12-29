@@ -4,7 +4,7 @@ const project = resolve(process.cwd(), "tsconfig.json");
 
 /*
  * This is a custom ESLint configuration for use with
- * typescript packages.
+ * TypeScript packages.
  *
  * This config extends the Vercel Engineering Style Guide.
  * For more information, see https://github.com/vercel/style-guide
@@ -19,7 +19,7 @@ module.exports = {
   parserOptions: {
     project,
   },
-  plugins: ["only-warn"],
+  plugins: ["only-warn", "simple-import-sort"],
   globals: {
     React: true,
     JSX: true,
@@ -31,5 +31,38 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ["node_modules/", "dist/"],
+  ignorePatterns: [
+    "node_modules/",
+    "dist/",
+    "*.config.js",
+    "*.config.ts",
+    ".eslintrc.js",
+  ],
+  rules: {
+    "import/order": "off", // Disabled in favor of simple-import-sort
+    // Import sorting rules
+    "simple-import-sort/imports": [
+      "error",
+      {
+        groups: [
+          // Node.js built-ins
+          ["^node:"],
+          // React and external packages
+          ["^react$", "^@?\\w"],
+          // Internal packages (@prism/*)
+          ["^@prism/"],
+          // Parent imports (../)
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Relative imports (./)
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          // Style imports
+          ["^.+\\.s?css$"],
+        ],
+      },
+    ],
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+  },
 };

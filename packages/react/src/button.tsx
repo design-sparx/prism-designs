@@ -15,6 +15,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+
 import { cn } from "@prism/core";
 
 /**
@@ -43,8 +44,8 @@ const buttonVariants = cva(
       /**
        * Visual variants
        *
-       * These use our design tokens from @prism/tokens
-       * mapped through Tailwind's @theme directive
+       * These use our design tokens from \@prism/tokens
+       * mapped through Tailwind's \@theme directive
        */
       variant: {
         primary: [
@@ -77,7 +78,7 @@ const buttonVariants = cva(
       /**
        * Size variants
        *
-       * Use spacing tokens from @prism/tokens
+       * Use spacing tokens from \@prism/tokens
        */
       size: {
         sm: "h-8 px-3 text-sm",
@@ -96,7 +97,7 @@ const buttonVariants = cva(
       variant: "primary",
       size: "md",
     },
-  }
+  },
 );
 
 /**
@@ -114,9 +115,9 @@ export interface ButtonProps
    * Useful for links that should look like buttons.
    *
    * @example
-   * <Button asChild>
-   *   <a href="/home">Go Home</a>
-   * </Button>
+   * \<Button asChild\>
+   *   \<a href="/home"\>Go Home\</a\>
+   * \</Button\>
    */
   asChild?: boolean;
 }
@@ -125,18 +126,18 @@ export interface ButtonProps
  * Button Component
  *
  * @example Basic usage
- * <Button>Click me</Button>
+ * \<Button\>Click me\</Button\>
  *
  * @example With variants
- * <Button variant="secondary" size="lg">Large Secondary</Button>
+ * \<Button variant="secondary" size="lg"\>Large Secondary\</Button\>
  *
  * @example As a link
- * <Button asChild>
- *   <a href="/about">About</a>
- * </Button>
+ * \<Button asChild\>
+ *   \<a href="/about"\>About\</a\>
+ * \</Button\>
  *
  * @example Disabled
- * <Button disabled>Can't click</Button>
+ * \<Button disabled\>Can't click\</Button\>
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
@@ -149,7 +150,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

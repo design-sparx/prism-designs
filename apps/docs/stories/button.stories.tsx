@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+
 import { Button } from "@prism/react/button";
 
 /**
@@ -138,7 +139,7 @@ export const Disabled: Story = {
 export const AsLink: Story = {
   render: () => (
     <Button asChild>
-      <a href="https://github.com/yourusername/prism" target="_blank" rel="noopener noreferrer">
+      <a href="https://github.com/yourusername/prism" rel="noopener noreferrer" target="_blank">
         Visit GitHub
       </a>
     </Button>

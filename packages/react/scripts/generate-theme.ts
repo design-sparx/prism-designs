@@ -1,24 +1,25 @@
 /**
- * Generate Tailwind v4 Theme from @prism/tokens
+ * Generate Tailwind v4 Theme from \@prism/tokens
  *
  * This script converts our TypeScript design tokens into CSS custom properties
- * that Tailwind v4 can consume via the @theme directive.
+ * that Tailwind v4 can consume via the \@theme directive.
  *
  * Why this approach?
- * - Single source of truth: @prism/tokens (TypeScript)
+ * - Single source of truth: \@prism/tokens (TypeScript)
  * - Tailwind v4 uses CSS-first configuration
  * - This script bridges the two systems
  * - Tokens remain type-safe and shareable across packages
  */
 
-import {colors, spacing, typography} from "@prism/tokens";
-import {writeFileSync} from "fs";
-import {join} from "path";
+import { writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+import { colors, spacing, typography } from "@prism/tokens";
 
 /**
- * Generate theme CSS with custom @source paths
+ * Generate theme CSS with custom \@source paths
  *
- * @param sourcePaths - Array of relative paths for @source directive
+ * @param sourcePaths - Array of relative paths for \@source directive
  */
 function generateThemeCSS(sourcePaths: string[]): string {
   let css = `/**
@@ -132,7 +133,9 @@ const outputs = [
 outputs.forEach(({ path, sourcePaths }) => {
   const themeCSS = generateThemeCSS(sourcePaths);
   writeFileSync(path, themeCSS, "utf-8");
+  // eslint-disable-next-line no-console -- CLI output for build script
   console.log(`✅ Generated: ${path}`);
 });
 
+// eslint-disable-next-line no-console -- CLI output for build script
 console.log("\n🎨 Theme generation complete from @prism/tokens");

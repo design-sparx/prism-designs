@@ -14,8 +14,8 @@ import { twMerge } from "tailwind-merge";
  * (to properly merge Tailwind utility classes and avoid conflicts).
  *
  * @example
- * cn('px-2 py-1', 'px-4') // => 'py-1 px-4' (px-4 overrides px-2)
- * cn('btn', isActive && 'btn-active') // => 'btn btn-active'
+ * cn('px-2 py-1', 'px-4') // =\> 'py-1 px-4' (px-4 overrides px-2)
+ * cn('btn', isActive && 'btn-active') // =\> 'btn btn-active'
  *
  * Why tailwind-merge?
  * - Prevents class conflicts (e.g., 'text-sm text-lg' → 'text-lg')

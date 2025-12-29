@@ -1,4 +1,4 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  extends: ["@prism/eslint-config/storybook.js"],
+  extends: ["@prism/eslint-config/library.js"],
 };

@@ -17,5 +17,5 @@
  * - Styling or CSS
  */
 
-export * from "./utils";
 export * from "./types";
+export * from "./utils";
