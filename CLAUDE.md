@@ -228,6 +228,27 @@ Turborepo orchestrates builds across the monorepo with intelligent caching.
   4. Finally builds `apps/docs` (depends on react)
 - Outputs are cached - unchanged packages skip rebuilding
 
+## Tailwind v4 Theme Generation
+
+Design tokens from `@prism/tokens` are automatically converted to Tailwind v4 CSS custom properties.
+
+**How it works:**
+1. Run `pnpm --filter @prism/react generate:theme` (or runs automatically during build)
+2. Script reads TypeScript tokens from `@prism/tokens`
+3. Generates two CSS files with identical themes but different `@source` paths:
+   - `packages/react/src/styles/theme.css` - for React package builds
+   - `apps/docs/.storybook/prism.css` - for Storybook dev server
+
+**Why two files?**
+- Each file needs different relative `@source` paths (Tailwind v4 requirement)
+- `@source` directive tells Tailwind where to scan for utility classes
+- Keeps both locations in sync from a single source of truth
+
+**Critical for Storybook:**
+- Storybook imports `apps/docs/.storybook/prism.css` in `preview.ts`
+- Without correct `@source` paths, Tailwind won't generate utility classes
+- Components will render but appear unstyled (native HTML only)
+
 ## Package Bundling (tsup)
 
 Components and tokens are bundled with `tsup` (esbuild-powered).
