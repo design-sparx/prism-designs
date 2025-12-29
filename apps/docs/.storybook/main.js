@@ -18,15 +18,23 @@ const config = {
   core: {},
 
   async viteFinal(config, { configType }) {
-    // customize the Vite config here
+    // Import the Tailwind Vite plugin
+    const tailwindcss = (await import("@tailwindcss/vite")).default;
+
+    // Merge Tailwind plugin with Storybook's Vite config
     return {
       ...config,
       define: { "process.env": {} },
+      plugins: [...(config.plugins || []), tailwindcss()],
       resolve: {
         alias: [
           {
-            find: "ui",
-            replacement: resolve(__dirname, "../../../packages/ui/"),
+            find: "@prism/react/button",
+            replacement: resolve(__dirname, "../../../packages/react/src/button.tsx"),
+          },
+          {
+            find: "@prism/react",
+            replacement: resolve(__dirname, "../../../packages/react/src"),
           },
         ],
       },
