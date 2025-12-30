@@ -1,0 +1,9 @@
+{
+  "extends": "@prism/typescript-config/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  },
+  "include": ["."],
+  "exclude": ["node_modules"]
+}

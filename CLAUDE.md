@@ -134,35 +134,103 @@ core/src/
 
 Components are built with React and TypeScript, consuming tokens from `@prism/tokens` and utilities from `@prism/core`.
 
+**Folder Structure:**
+
+```
+packages/react/src/
+├── components/          # Component folders
+│   ├── button/
+│   │   ├── button.tsx       # Component implementation
+│   │   ├── button.spec.tsx  # Tests (required)
+│   │   └── index.ts         # Public exports
+│   └── [component-name]/
+├── test/                # Shared test utilities
+│   ├── setup.ts
+│   └── utils.tsx
+└── styles/              # Global styles
+    └── theme.css
+```
+
 **Key Patterns:**
 
-- Each component is a separate file in `src/` (e.g., `button.tsx`, `card.tsx`)
-- Components must be explicitly exported in `package.json` exports map
+- Each component lives in its own folder under `src/components/`
+- **Tests are required** - Every component must have a `.spec.tsx` file
+- Components are auto-discovered by the build system (no manual config!)
 - Use TypeScript interfaces for props (exported for documentation)
 - Extend native HTML element props when possible (e.g., `ButtonHTMLAttributes`)
 
-**Component Export Pattern:**
-
-```json
-// packages/react/package.json
-{
-  "exports": {
-    "./button": {
-      "types": "./src/button.tsx",
-      "import": "./dist/button.mjs",
-      "require": "./dist/button.js"
-    }
-  }
-}
-```
-
 **When adding a new component:**
 
-1. Create `src/component-name.tsx`
-2. Add the component to `tsup.config.ts` entryPoints array
-3. Add export to `package.json` exports field
-4. Create Storybook story in `apps/docs/stories/`
-5. Add inline documentation explaining architectural decisions
+1. **Create component folder:**
+
+   ```bash
+   mkdir src/components/card
+   ```
+
+2. **Create component files:**
+
+   - `card.tsx` - Component implementation
+   - `card.spec.tsx` - Tests (see `TESTING.md`)
+   - `index.ts` - Public API exports
+
+3. **Component file structure** (`card.tsx`):
+
+   ```typescript
+   import * as React from 'react';
+   import { cva, type VariantProps } from 'class-variance-authority';
+   import { cn } from '@prism/core';
+
+   const cardVariants = cva(/* ... */);
+
+   export interface CardProps extends React.HTMLAttributes<HTMLDivElement>,
+     VariantProps<typeof cardVariants> {}
+
+   const Card = React.forwardRef<HTMLDivElement, CardProps>(
+     ({ className, variant, ...props }, ref) => {
+       return <div className={cn(cardVariants({ variant, className }))} ref={ref} {...props} />;
+     }
+   );
+
+   Card.displayName = 'Card';
+
+   export { Card, cardVariants };
+   ```
+
+4. **Index file** (`index.ts`):
+
+   ```typescript
+   export { Card, cardVariants } from "./card";
+   export type { CardProps } from "./card";
+   ```
+
+5. **Build automatically discovers the component!**
+
+   ```bash
+   pnpm build  # Auto-generates exports, runs tests, builds component
+   ```
+
+6. **Create Storybook story:**
+   ```bash
+   # apps/docs/stories/card.stories.tsx
+   ```
+
+**Testing Requirements:**
+
+- All components must have tests (`.spec.tsx`)
+- Target: 80% coverage (lines, functions, branches, statements)
+- See `packages/react/TESTING.md` for detailed testing guide
+- Tests run automatically during build
+
+**Auto-Discovery:**
+
+The build system automatically:
+
+- Scans `src/components/` for component folders
+- Generates `package.json` exports
+- Configures build entry points
+- **No manual configuration needed!**
+
+Import path: `import { Card } from '@prism/react/card'`
 
 ### Documentation (`apps/docs`)
 

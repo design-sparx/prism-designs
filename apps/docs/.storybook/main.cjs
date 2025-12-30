@@ -38,7 +38,7 @@ const config = {
             find: "@prism/react/button",
             replacement: resolve(
               __dirname,
-              "../../../packages/react/src/button.tsx",
+              "../../../packages/react/src/components/button/index.ts",
             ),
           },
           {

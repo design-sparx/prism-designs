@@ -1,0 +1,9 @@
+# Test coverage output (generated files)
+coverage/
+
+# Build outputs
+dist/
+*.d.ts
+
+# Dependencies
+node_modules/

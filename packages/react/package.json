@@ -5,19 +5,19 @@
   "license": "MIT",
   "exports": {
     "./button": {
-      "types": "./src/button.tsx",
+      "types": "./src/components/button/index.ts",
       "import": "./dist/button.mjs",
       "require": "./dist/button.js"
-    },
-    "./text-input": {
-      "types": "./src/text-input.tsx",
-      "import": "./dist/text-input.mjs",
-      "require": "./dist/text-input.js"
     }
   },
   "scripts": {
     "generate:theme": "tsx scripts/generate-theme.ts",
-    "build": "pnpm generate:theme && tsup",
+    "generate:exports": "tsx scripts/generate-exports.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "build": "pnpm generate:theme && pnpm generate:exports && pnpm test && tsup",
     "dev": "tsup --watch",
     "lint": "eslint . --max-warnings 0",
     "clean": "rimraf .turbo node_modules dist"
@@ -25,13 +25,22 @@
   "devDependencies": {
     "@prism/eslint-config": "workspace:*",
     "@prism/typescript-config": "workspace:*",
+    "@prism/vitest-config": "workspace:^",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
     "eslint": "^8.57.0",
+    "happy-dom": "^20.0.11",
     "tailwindcss": "^4.1.18",
     "tsup": "^8.0.2",
     "tsx": "^4.21.0",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "@prism/core": "workspace:*",

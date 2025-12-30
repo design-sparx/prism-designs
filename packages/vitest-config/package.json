@@ -1,0 +1,21 @@
+{
+  "name": "@prism/vitest-config",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "license": "MIT",
+  "exports": {
+    "./base": "./base.ts",
+    "./react": "./react.ts"
+  },
+  "scripts": {
+    "clean": "rimraf .turbo node_modules"
+  },
+  "devDependencies": {
+    "@prism/typescript-config": "workspace:*",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vitest": "^4.0.16"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
