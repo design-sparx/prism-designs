@@ -42,6 +42,20 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/input",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/input/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/select",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/select/index.ts",
+            ),
+          },
+          {
             find: "@prism/react",
             replacement: resolve(__dirname, "../../../packages/react/src"),
           },

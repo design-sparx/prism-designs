@@ -8,6 +8,16 @@
       "types": "./src/components/button/index.ts",
       "import": "./dist/button.mjs",
       "require": "./dist/button.js"
+    },
+    "./input": {
+      "types": "./src/components/input/index.ts",
+      "import": "./dist/input.mjs",
+      "require": "./dist/input.js"
+    },
+    "./select": {
+      "types": "./src/components/select/index.ts",
+      "import": "./dist/select.mjs",
+      "require": "./dist/select.js"
     }
   },
   "scripts": {
@@ -45,10 +55,12 @@
   "dependencies": {
     "@prism/core": "workspace:*",
     "@prism/tokens": "workspace:*",
+    "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.4",
     "@types/node": "^25.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.562.0",
     "react": "^18.2.0",
     "tailwind-merge": "^3.4.0"
   },
