@@ -12,7 +12,8 @@
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
-import baseConfig from "./base.ts";
+
+import baseConfig from "./base";
 
 export default mergeConfig(
   baseConfig,
