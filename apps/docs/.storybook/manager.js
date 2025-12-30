@@ -10,9 +10,9 @@ const prismTheme = create({
   brandUrl: "https://github.com/design-sparx/prism",
   brandTarget: "_blank",
 
-  // Colors - Using a purple gradient theme to match educational/creative vibe
-  colorPrimary: "#667eea",
-  colorSecondary: "#764ba2",
+  // Colors - Using a cyan/teal theme to match educational/creative vibe
+  colorPrimary: "#06b6d4",
+  colorSecondary: "#14b8a6",
 
   // UI
   appBg: "#f8f9fa",
@@ -32,7 +32,7 @@ const prismTheme = create({
 
   // Toolbar default and active colors
   barTextColor: "#6b7280",
-  barSelectedColor: "#667eea",
+  barSelectedColor: "#06b6d4",
   barBg: "#ffffff",
 
   // Form colors

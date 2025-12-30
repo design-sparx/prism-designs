@@ -30,7 +30,7 @@ const preview: Preview = {
         },
         {
           name: "prism-gradient",
-          value: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          value: "linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%)",
         },
       ],
     },
