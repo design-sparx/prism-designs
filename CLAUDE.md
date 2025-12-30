@@ -18,14 +18,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 prism/
 ├── packages/
-│   ├── tokens/       # Design tokens (colors, spacing, typography)
-│   ├── core/         # Core utilities and types
-│   ├── react/        # React component library
-│   ├── eslint-config/
-│   └── typescript-config/
+│   ├── tokens/            # Design tokens (colors, spacing, typography)
+│   ├── core/              # Core utilities and types
+│   ├── react/             # React component library
+│   ├── eslint-config/     # Shared ESLint configuration
+│   ├── typescript-config/ # Shared TypeScript configuration
+│   └── vitest-config/     # Shared Vitest testing configuration
 └── apps/
-    ├── docs/         # Storybook documentation
-    └── examples/     # Real-world usage examples (to be added)
+    ├── docs/              # Storybook documentation
+    └── examples/          # Real-world usage examples (to be added)
 ```
 
 ### Package Dependencies
@@ -33,7 +34,7 @@ prism/
 - `@prism/core` depends on `@prism/tokens`
 - `@prism/react` depends on `@prism/core` and `@prism/tokens`
 - `apps/docs` depends on `@prism/react`
-- All packages share `@prism/typescript-config` and `@prism/eslint-config`
+- All packages share `@prism/typescript-config`, `@prism/eslint-config`, and `@prism/vitest-config`
 
 ## Development Commands
 
@@ -48,6 +49,7 @@ pnpm build            # Build all packages (respects dependency order)
 # Testing & Quality
 pnpm lint             # Lint all packages
 pnpm format           # Format code with Prettier
+pnpm format:check     # Check code formatting without modifying
 
 # Package Management
 pnpm changeset        # Create a changeset for versioning
@@ -59,6 +61,9 @@ pnpm clean            # Remove node_modules and dist folders
 
 # Preview
 pnpm preview-storybook # Serve built Storybook (after running build)
+
+# Theme Generation
+pnpm generate:theme    # Regenerate Tailwind theme CSS from design tokens
 ```
 
 ### Running Single Package Commands
@@ -72,6 +77,13 @@ pnpm --filter docs dev
 
 # Lint only the React package
 pnpm --filter @prism/react lint
+
+# Test commands (React package)
+pnpm --filter @prism/react test              # Run all tests once
+pnpm --filter @prism/react test:watch        # Watch mode (re-runs on changes)
+pnpm --filter @prism/react test:ui           # Visual UI (browser-based)
+pnpm --filter @prism/react test:coverage     # Generate coverage report
+pnpm --filter @prism/react test button       # Test specific component
 ```
 
 ## Architecture Guidelines
@@ -226,9 +238,14 @@ packages/react/src/
 The build system automatically:
 
 - Scans `src/components/` for component folders
-- Generates `package.json` exports
-- Configures build entry points
+- Generates `package.json` exports via `generate:exports` script
+- Configures build entry points in `tsup.config.ts`
 - **No manual configuration needed!**
+
+Scripts involved:
+
+- `scripts/generate-exports.ts` - Auto-generates package.json exports
+- `tsup.config.ts` - Auto-discovers component entry points for building
 
 Import path: `import { Card } from '@prism/react/card'`
 
@@ -374,58 +391,93 @@ export default defineConfig((options) => ({
 
 ### Adding a New Component
 
-1. Create component file in `packages/react/src/`:
+The build system **automatically discovers components** - no manual configuration needed!
 
-```tsx
-// packages/react/src/card.tsx
-import * as React from "react";
-
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "outlined" | "filled";
-  children: React.ReactNode;
-}
-
-export function Card({ variant = "outlined", children, ...props }: CardProps) {
-  return <div {...props}>{children}</div>;
-}
-
-Card.displayName = "Card";
-```
-
-2. Add component to `packages/react/tsup.config.ts`:
-
-```typescript
-export default defineConfig((options) => ({
-  entryPoints: ["src/button.tsx", "src/card.tsx"], // Add card.tsx
-  format: ["cjs", "esm"],
-  dts: true,
-  external: ["react"],
-  ...options,
-}));
-```
-
-3. Add export to `packages/react/package.json`:
-
-```json
-{
-  "exports": {
-    "./card": {
-      "types": "./src/card.tsx",
-      "import": "./dist/card.mjs",
-      "require": "./dist/card.js"
-    }
-  }
-}
-```
-
-4. Create story in `apps/docs/stories/card.stories.tsx`
-
-5. Build and test:
+1. **Create component folder** in `packages/react/src/components/`:
 
 ```bash
-pnpm build
-pnpm dev  # View in Storybook
+mkdir packages/react/src/components/card
 ```
+
+2. **Create component files:**
+
+- `card.tsx` - Component implementation
+- `card.spec.tsx` - Tests (required)
+- `index.ts` - Public exports
+
+3. **Component implementation** (`card.tsx`):
+
+```tsx
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@prism/core";
+
+const cardVariants = cva(
+  "rounded-lg border", // base styles
+  {
+    variants: {
+      variant: {
+        outlined: "bg-white border-gray-300",
+        filled: "bg-gray-100 border-transparent",
+      },
+    },
+    defaultVariants: {
+      variant: "outlined",
+    },
+  },
+);
+
+export interface CardProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof cardVariants> {}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, variant, ...props }, ref) => {
+    return (
+      <div
+        className={cn(cardVariants({ variant, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+
+Card.displayName = "Card";
+
+export { Card, cardVariants };
+```
+
+4. **Export file** (`index.ts`):
+
+```typescript
+export { Card, cardVariants } from "./card";
+export type { CardProps } from "./card";
+```
+
+5. **Write tests** (`card.spec.tsx`) - See `packages/react/TESTING.md`
+
+6. **Build** - Auto-discovery happens automatically:
+
+```bash
+pnpm build  # Scripts auto-generate exports and build config
+```
+
+The build process:
+
+- `generate:exports` script scans `src/components/` and updates `package.json` exports
+- `tsup.config.ts` auto-discovers component entry points
+- No manual configuration needed!
+
+7. **Create Storybook story** in `apps/docs/stories/card.stories.tsx`
+
+8. **View in Storybook:**
+
+```bash
+pnpm dev
+```
+
+Import path: `import { Card } from '@prism/react/card'`
 
 ### Adding New Design Tokens
 
@@ -471,6 +523,43 @@ pnpm build
 pnpm --filter docs dev
 ```
 
+## Git Hooks & Commit Conventions
+
+This project uses Husky for Git hooks to maintain code quality:
+
+### Pre-commit Hook
+
+Runs automatically before each commit:
+
+- `lint-staged` - Formats staged files with Prettier
+- `pnpm lint` - Lints all packages
+
+### Commit Message Convention
+
+Commits must follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```bash
+<type>(<scope>): <subject>
+
+# Examples:
+feat(button): add loading state
+fix(tokens): correct spacing scale values
+docs(readme): update installation instructions
+chore(deps): update typescript to 5.5.4
+```
+
+**Types:**
+
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, no logic change)
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks (deps, config, etc.)
+
+The `commit-msg` hook validates your commit message format automatically.
+
 ## Important Notes
 
 - **Never skip the build step** - Turborepo depends on dist/ outputs
@@ -478,6 +567,7 @@ pnpm --filter docs dev
 - **Keep it simple** - avoid premature optimization or abstraction
 - **Test accessibility** - use keyboard navigation, check ARIA attributes
 - **Maintain the monorepo structure** - don't flatten or reorganize without discussion
+- **Follow commit conventions** - Conventional Commits are enforced via commitlint
 
 ## Versioning & Publishing
 
