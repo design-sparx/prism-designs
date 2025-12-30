@@ -15,3 +15,4 @@ storybook-static/
 .idea
 .vscode
 nul
+packages/react/coverage

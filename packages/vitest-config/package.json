@@ -1,6 +1,7 @@
 {
   "name": "@prism/vitest-config",
   "version": "0.0.0",
+  "type": "module",
   "sideEffects": false,
   "license": "MIT",
   "exports": {
