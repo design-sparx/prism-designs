@@ -8,6 +8,11 @@
       "types": "./src/button.tsx",
       "import": "./dist/button.mjs",
       "require": "./dist/button.js"
+    },
+    "./text-input": {
+      "types": "./src/text-input.tsx",
+      "import": "./dist/text-input.mjs",
+      "require": "./dist/text-input.js"
     }
   },
   "scripts": {
