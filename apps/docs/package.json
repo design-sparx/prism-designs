@@ -18,8 +18,10 @@
   "devDependencies": {
     "@prism/eslint-config": "workspace:*",
     "@prism/typescript-config": "workspace:*",
+    "@storybook/addon-a11y": "^8.2.6",
     "@storybook/addon-actions": "^8.2.6",
     "@storybook/addon-essentials": "^8.2.6",
+    "@storybook/addon-interactions": "^8.2.6",
     "@storybook/addon-links": "^8.2.6",
     "@storybook/react": "^8.2.6",
     "@storybook/react-vite": "^8.2.6",

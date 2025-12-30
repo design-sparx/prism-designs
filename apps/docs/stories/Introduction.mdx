@@ -1,0 +1,164 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Introduction" />
+
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # Welcome to Prism Design System
+
+    **An educational design system built to teach developers how to create their own.**
+  </div>
+
+  <div className="sb-section">
+    ## What is Prism?
+
+    Unlike production-ready design systems like Material-UI or Ant Design, Prism prioritizes **clarity and learning** over features. Every architectural decision is documented with inline comments explaining the "why" behind the implementation.
+
+    ### Core Philosophy
+
+    - **Education First** - Every decision is documented to teach design system concepts
+    - **Simple Architecture** - Clear patterns over clever abstractions
+    - **Progressive Complexity** - Start simple, add complexity only when teaching a concept
+    - **Real-World Patterns** - Industry-standard practices from established design systems
+  </div>
+
+  <div className="sb-section">
+    ## What You'll Learn
+
+    <div className="sb-features-grid">
+      <div className="sb-feature">
+        ### Design Tokens
+        Learn how to create a scalable token system for colors, typography, spacing, and more.
+      </div>
+
+      <div className="sb-feature">
+        ### Component Architecture
+        Understand how to build accessible, composable React components with TypeScript.
+      </div>
+
+      <div className="sb-feature">
+        ### Monorepo Structure
+        Explore a real-world monorepo setup with Turborepo, managing multiple packages and apps.
+      </div>
+
+      <div className="sb-feature">
+        ### Build Systems
+        See how modern build tools (tsup, Turborepo) work together to create efficient builds.
+      </div>
+
+      <div className="sb-feature">
+        ### Documentation
+        Learn best practices for documenting components with Storybook and MDX.
+      </div>
+
+      <div className="sb-feature">
+        ### Theming
+        Discover how to integrate design tokens with Tailwind v4 for a complete theming solution.
+      </div>
+    </div>
+  </div>
+
+  <div className="sb-section">
+    ## Project Structure
+
+    ```
+    prism/
+    ├── packages/
+    │   ├── tokens/       # Design tokens (colors, spacing, typography)
+    │   ├── core/         # Core utilities and types
+    │   └── react/        # React component library
+    └── apps/
+        └── docs/         # This Storybook documentation
+    ```
+
+    ### Package Dependencies
+    - `@prism/core` depends on `@prism/tokens`
+    - `@prism/react` depends on both `@prism/core` and `@prism/tokens`
+    - All packages share configuration for TypeScript and ESLint
+  </div>
+
+  <div className="sb-section">
+    ## Getting Started
+
+    Navigate through the sidebar to explore:
+
+    1. **Foundation** - Design tokens and core utilities
+    2. **Components** - Interactive component examples with variants
+    3. **Patterns** - Common design patterns and best practices
+
+    Each component includes:
+    - 📖 **Documentation** - Props, usage guidelines, and accessibility notes
+    - 🎨 **Interactive Examples** - Play with different props and states
+    - 💻 **Code Examples** - Copy-paste ready code snippets
+    - 🧠 **Learning Notes** - Inline comments explaining architectural decisions
+  </div>
+
+  <div className="sb-section sb-socials">
+    ## Resources
+
+    <div className="sb-section-item">
+      - [GitHub Repository](https://github.com/yourusername/prism)
+      - [NPM Packages](https://www.npmjs.com/search?q=%40prism)
+      - [Contributing Guide](https://github.com/yourusername/prism/blob/main/CONTRIBUTING.md)
+    </div>
+  </div>
+</div>
+
+<style>
+  {`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section {
+    margin-bottom: 3rem;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section-title h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sb-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .sb-feature {
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fafafa;
+  }
+
+  .sb-feature h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #667eea;
+    font-size: 1.125rem;
+  }
+
+  .sb-socials {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 2rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sb-feature {
+{/*       background: #1a1a1a; */}
+{/*       border-color: #2d2d2d; */}
+    }
+  }
+  `}
+</style>

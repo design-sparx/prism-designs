@@ -1,14 +1,20 @@
-import { dirname, join, resolve } from "path";
+const { dirname, join, resolve } = require("path");
 
 function getAbsolutePath(value) {
   return dirname(require.resolve(join(value, "package.json")));
 }
 
 const config = {
-  stories: ["../stories/*.stories.tsx", "../stories/**/*.stories.tsx"],
+  stories: [
+    "../stories/Introduction.mdx",
+    "../stories/*.stories.tsx",
+    "../stories/**/*.stories.tsx",
+  ],
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
+    getAbsolutePath("@storybook/addon-a11y"), // Accessibility testing addon
+    getAbsolutePath("@storybook/addon-interactions"), // Interaction testing
   ],
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),
@@ -49,4 +55,4 @@ const config = {
   },
 };
 
-export default config;
+module.exports = config;
