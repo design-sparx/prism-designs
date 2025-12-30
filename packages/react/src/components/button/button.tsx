@@ -46,21 +46,31 @@ const buttonVariants = cva(
        *
        * These use our design tokens from \@prism/tokens
        * mapped through Tailwind's \@theme directive
+       *
+       * Educational Note:
+       * - 'default' is the primary action style (instead of 'primary')
+       * - 'link' renders as text with underline, useful for in-text actions
+       * - shadcn/ui uses this naming convention for better semantic clarity
        */
       variant: {
-        primary: [
+        default: [
           "bg-primary-500 text-white",
           "hover:bg-primary-600",
           "focus-visible:ring-primary-500",
         ].join(" "),
-        secondary: [
-          "bg-neutral-200 text-neutral-900",
-          "hover:bg-neutral-300",
-          "focus-visible:ring-neutral-500",
+        destructive: [
+          "bg-error-main text-white",
+          "hover:bg-error-dark",
+          "focus-visible:ring-error-main",
         ].join(" "),
         outline: [
           "border-2 border-neutral-300 bg-transparent",
           "hover:bg-neutral-100",
+          "focus-visible:ring-neutral-500",
+        ].join(" "),
+        secondary: [
+          "bg-neutral-200 text-neutral-900",
+          "hover:bg-neutral-300",
           "focus-visible:ring-neutral-500",
         ].join(" "),
         ghost: [
@@ -68,10 +78,10 @@ const buttonVariants = cva(
           "hover:bg-neutral-100",
           "focus-visible:ring-neutral-500",
         ].join(" "),
-        destructive: [
-          "bg-error-main text-white",
-          "hover:bg-error-dark",
-          "focus-visible:ring-error-main",
+        link: [
+          "text-primary-500 underline-offset-4",
+          "hover:underline",
+          "focus-visible:ring-0", // Links don't need ring focus, underline is enough
         ].join(" "),
       },
 
@@ -79,12 +89,19 @@ const buttonVariants = cva(
        * Size variants
        *
        * Use spacing tokens from \@prism/tokens
+       *
+       * Educational Note:
+       * - Icon buttons are square (equal width/height)
+       * - Icon sizes (sm, md, lg) match their text button counterparts
+       * - This creates visual consistency across your UI
        */
       size: {
+        default: "h-10 px-4 text-base",
         sm: "h-8 px-3 text-sm",
-        md: "h-10 px-4 text-base",
         lg: "h-12 px-6 text-lg",
-        icon: "h-10 w-10", // Square button for icons
+        icon: "h-10 w-10", // Default icon size
+        "icon-sm": "h-8 w-8", // Small icon button
+        "icon-lg": "h-12 w-12", // Large icon button
       },
     },
 
@@ -94,8 +111,8 @@ const buttonVariants = cva(
      * Applied when no variant props are specified
      */
     defaultVariants: {
-      variant: "primary",
-      size: "md",
+      variant: "default",
+      size: "default",
     },
   },
 );

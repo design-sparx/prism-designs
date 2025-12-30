@@ -18,12 +18,19 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "outline", "ghost", "destructive"],
+      options: [
+        "default",
+        "destructive",
+        "outline",
+        "secondary",
+        "ghost",
+        "link",
+      ],
       description: "The visual style variant of the button",
     },
     size: {
       control: "select",
-      options: ["sm", "md", "lg", "icon"],
+      options: ["default", "sm", "lg", "icon", "icon-sm", "icon-lg"],
       description: "The size of the button",
     },
     asChild: {
@@ -41,13 +48,13 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 /**
- * Default Primary Button
+ * Default Button
  */
-export const Primary: Story = {
+export const Default: Story = {
   args: {
-    children: "Primary Button",
-    variant: "primary",
-    size: "md",
+    children: "Button",
+    variant: "default",
+    size: "default",
   },
 };
 
@@ -112,12 +119,44 @@ export const Large: Story = {
 };
 
 /**
+ * Link Variant
+ *
+ * Renders as a text link with underline on hover
+ */
+export const Link: Story = {
+  args: {
+    children: "Link Button",
+    variant: "link",
+  },
+};
+
+/**
  * Icon Button (Square)
  */
 export const Icon: Story = {
   args: {
     children: "→",
     size: "icon",
+  },
+};
+
+/**
+ * Small Icon Button
+ */
+export const IconSmall: Story = {
+  args: {
+    children: "×",
+    size: "icon-sm",
+  },
+};
+
+/**
+ * Large Icon Button
+ */
+export const IconLarge: Story = {
+  args: {
+    children: "☰",
+    size: "icon-lg",
   },
 };
 
@@ -158,11 +197,12 @@ export const AsLink: Story = {
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-      <Button variant="primary">Primary</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
+      <Button variant="default">Default</Button>
       <Button variant="destructive">Destructive</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="link">Link</Button>
     </div>
   ),
 };
@@ -174,11 +214,32 @@ export const AllVariants: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "1rem",
+        alignItems: "center",
+        flexWrap: "wrap",
+      }}
+    >
       <Button size="sm">Small</Button>
-      <Button size="md">Medium</Button>
+      <Button size="default">Default</Button>
       <Button size="lg">Large</Button>
+    </div>
+  ),
+};
+
+/**
+ * All Icon Sizes Showcase
+ *
+ * Shows all icon button sizes side by side
+ */
+export const AllIconSizes: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+      <Button size="icon-sm">×</Button>
       <Button size="icon">→</Button>
+      <Button size="icon-lg">☰</Button>
     </div>
   ),
 };

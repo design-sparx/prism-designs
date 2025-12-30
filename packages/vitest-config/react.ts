@@ -13,7 +13,7 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
-import baseConfig from "./base";
+import baseConfig from "@prism/vitest-config/base";
 
 export default mergeConfig(
   baseConfig,
@@ -21,7 +21,7 @@ export default mergeConfig(
     plugins: [react()],
 
     test: {
-      // Use happy-dom for React component testing
+      // Use happy-dom for React component testing/
       // Faster and lighter than jsdom
       environment: "happy-dom",
 

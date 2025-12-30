@@ -35,11 +35,12 @@ describe("Button", () => {
 
     it("renders all variant options", () => {
       const variants = [
-        "primary",
-        "secondary",
-        "outline",
-        "ghost",
+        "default",
         "destructive",
+        "outline",
+        "secondary",
+        "ghost",
+        "link",
       ] as const;
 
       variants.forEach((variant) => {
@@ -51,7 +52,14 @@ describe("Button", () => {
     });
 
     it("renders all size options", () => {
-      const sizes = ["sm", "md", "lg", "icon"] as const;
+      const sizes = [
+        "default",
+        "sm",
+        "lg",
+        "icon",
+        "icon-sm",
+        "icon-lg",
+      ] as const;
 
       sizes.forEach((size) => {
         const { container } = render(<Button size={size}>Button</Button>);
@@ -162,6 +170,27 @@ describe("Button", () => {
     });
   });
 
+  describe("Link Variant", () => {
+    it("renders link variant with underline styles", () => {
+      const { container } = render(<Button variant="link">Link Button</Button>);
+      const button = container.firstChild as HTMLElement;
+      expect(button).toHaveClass("text-primary-500");
+      expect(button).toHaveClass("underline-offset-4");
+    });
+
+    it("link variant can be used with asChild for actual links", () => {
+      render(
+        <Button asChild variant="link">
+          <a href="/docs">Read Docs</a>
+        </Button>,
+      );
+
+      const link = screen.getByRole("link", { name: /read docs/i });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute("href", "/docs");
+    });
+  });
+
   describe("Polymorphism (asChild)", () => {
     it("renders as a link when asChild is true", () => {
       render(
@@ -177,7 +206,7 @@ describe("Button", () => {
 
     it("applies button styles to child element", () => {
       const { container } = render(
-        <Button asChild variant="primary">
+        <Button asChild variant="default">
           <a href="/home">Link</a>
         </Button>,
       );
