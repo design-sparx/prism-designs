@@ -35,6 +35,20 @@ const config = {
       resolve: {
         alias: [
           {
+            find: "@prism/tokens",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/tokens/src/index.ts",
+            ),
+          },
+          {
+            find: "@prism/core",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/core/src/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/badge",
             replacement: resolve(
               __dirname,
