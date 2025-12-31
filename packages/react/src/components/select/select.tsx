@@ -1,23 +1,28 @@
 /**
  * Select Component
  *
- * A dropdown selection component built with Radix UI primitives.
+ * A simple dropdown selection component built with Radix UI primitives.
  *
  * Educational Notes:
  * - Built on `@radix-ui/react-select` for accessibility and behavior
- * - Exports multiple subcomponents for composition (Trigger, Content, Item, etc.)
+ * - Exports 5 core subcomponents: Select, SelectTrigger, SelectValue, SelectContent, SelectItem
  * - Radix UI handles keyboard navigation, ARIA attributes, and focus management
  * - We only style the components - behavior comes from Radix UI
  *
  * Why Radix UI?
  * - Complex components like Select require extensive accessibility work
- * - Radix provides unstyled, accessible primitives
+ * - Radix provides unstyled, accessible primitives (headless UI)
  * - We can focus on design while Radix handles WCAG compliance
+ *
+ * Learning Focus:
+ * - This is a simpler version focusing on core Select functionality
+ * - Advanced features like grouping, separators, and scroll buttons are omitted
+ * - Perfect for understanding the basics of compound components and Radix UI
  */
 
 import * as React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 
 import { cn } from "@prism/core";
 
@@ -26,22 +31,23 @@ import { cn } from "@prism/core";
  *
  * The main Select component that wraps everything.
  * Radix UI provides the state management and accessibility.
+ *
+ * Props from Radix:
+ * - value: Controlled value
+ * - onValueChange: Callback when selection changes
+ * - defaultValue: Uncontrolled default value
+ * - disabled: Disable the entire select
  */
 const Select = SelectPrimitive.Root;
-
-/**
- * SelectGroup
- *
- * Groups related options together with an optional label.
- * Useful for categorizing options (e.g., "Fruits" vs "Vegetables").
- */
-const SelectGroup = SelectPrimitive.Group;
 
 /**
  * SelectValue
  *
  * Displays the selected value or placeholder text.
- * Used inside SelectTrigger.
+ * Must be used inside SelectTrigger.
+ *
+ * Props:
+ * - placeholder: Text shown when no value is selected
  */
 const SelectValue = SelectPrimitive.Value;
 
@@ -52,8 +58,14 @@ const SelectValue = SelectPrimitive.Value;
  *
  * Educational Notes:
  * - forwardRef allows parent components to access the button element
- * - Radix handles the aria-* attributes and keyboard events
- * - We style it to look like our Input component for consistency
+ * - Radix handles the aria-* attributes and keyboard events automatically
+ * - We style it to match our Input component for visual consistency
+ * - The ChevronDown icon is automatically added by Radix's Icon component
+ *
+ * Pattern Note:
+ * - React.ElementRef extracts the ref type from the Radix component
+ * - React.ComponentPropsWithoutRef extracts all props except ref
+ * - This is a common pattern when wrapping third-party components
  */
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
@@ -61,21 +73,18 @@ const SelectTrigger = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     className={cn(
-      // Match Input component styling
       [
+        // Layout - match Input component
         "flex h-10 w-full items-center justify-between",
         "rounded-md border border-neutral-300 bg-white",
         "px-3 py-2",
         "text-base text-neutral-900",
-        "ring-offset-white",
-        // Placeholder styling
-        "placeholder:text-neutral-500",
         // Focus styles
         "focus:ring-2 focus:outline-none",
         "focus:ring-primary-500 focus:ring-offset-2",
         // Disabled styles
         "disabled:cursor-not-allowed disabled:opacity-50",
-        // Remove default select appearance
+        // Truncate long text
         "[&>span]:line-clamp-1",
       ].join(" "),
       className,
@@ -84,6 +93,7 @@ const SelectTrigger = React.forwardRef<
     {...props}
   >
     {children}
+    {/* Icon component automatically rotates when open */}
     <SelectPrimitive.Icon asChild>
       <ChevronDown className="h-4 w-4 opacity-50" />
     </SelectPrimitive.Icon>
@@ -92,60 +102,20 @@ const SelectTrigger = React.forwardRef<
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 /**
- * SelectScrollUpButton
- *
- * Button shown when there are items above the viewport.
- * Radix UI shows/hides this automatically.
- */
-const SelectScrollUpButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollUpButton
-    className={cn(
-      "flex cursor-default items-center justify-center py-1",
-      className,
-    )}
-    ref={ref}
-    {...props}
-  >
-    <ChevronUp className="h-4 w-4" />
-  </SelectPrimitive.ScrollUpButton>
-));
-SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
-
-/**
- * SelectScrollDownButton
- *
- * Button shown when there are items below the viewport.
- */
-const SelectScrollDownButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollDownButton
-    className={cn(
-      "flex cursor-default items-center justify-center py-1",
-      className,
-    )}
-    ref={ref}
-    {...props}
-  >
-    <ChevronDown className="h-4 w-4" />
-  </SelectPrimitive.ScrollDownButton>
-));
-SelectScrollDownButton.displayName =
-  SelectPrimitive.ScrollDownButton.displayName;
-
-/**
  * SelectContent
  *
  * The dropdown panel that contains the options.
  *
  * Educational Notes:
  * - Portal renders outside the DOM hierarchy to avoid z-index issues
- * - Position="popper" aligns with the trigger button
- * - Radix handles focus trap and keyboard navigation
+ * - This is important when Select is inside a container with overflow: hidden
+ * - Position="popper" positions the dropdown relative to the trigger
+ * - Radix handles focus trap and keyboard navigation automatically
+ *
+ * Why Portal?
+ * - Renders in a separate DOM tree (appended to document.body)
+ * - Prevents parent containers from clipping the dropdown
+ * - Ensures dropdown appears above other content
  */
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
@@ -155,60 +125,34 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       className={cn(
         [
-          "relative z-50",
-          "max-h-96 min-w-[8rem] overflow-hidden",
-          "rounded-md border border-neutral-200 bg-white text-neutral-900",
-          "shadow-md",
-          // Animation
-          "data-[state=open]:animate-in data-[state=closed]:animate-out",
-          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          "data-[side=bottom]:slide-in-from-top-2",
-          "data-[side=left]:slide-in-from-right-2",
-          "data-[side=right]:slide-in-from-left-2",
-          "data-[side=top]:slide-in-from-bottom-2",
+          // Positioning and size
+          "relative z-50 min-w-[8rem]",
+          "max-h-96 overflow-hidden",
+          // Styling
+          "rounded-md border border-neutral-200",
+          "bg-white text-neutral-900 shadow-md",
         ].join(" "),
-        position === "popper" &&
-          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
         className,
       )}
       position={position}
       ref={ref}
       {...props}
     >
-      <SelectScrollUpButton />
+      {/* Viewport contains the actual items */}
       <SelectPrimitive.Viewport
         className={cn(
           "p-1",
+          // Match trigger width when using popper positioning
           position === "popper" &&
             "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
         )}
       >
         {children}
       </SelectPrimitive.Viewport>
-      <SelectScrollDownButton />
     </SelectPrimitive.Content>
   </SelectPrimitive.Portal>
 ));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
-
-/**
- * SelectLabel
- *
- * Labels a group of options.
- * Used inside SelectGroup.
- */
-const SelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Label
-    className={cn("py-1.5 pr-2 pl-8 text-sm font-semibold", className)}
-    ref={ref}
-    {...props}
-  />
-));
-SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 /**
  * SelectItem
@@ -216,9 +160,15 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName;
  * An individual selectable option.
  *
  * Educational Notes:
- * - Radix handles selection state and ARIA attributes
- * - Shows a check icon when selected
- * - Keyboard navigation (arrows, Enter, etc.) is automatic
+ * - Radix handles selection state and ARIA attributes automatically
+ * - Shows a check icon when this item is selected
+ * - Keyboard navigation (arrow keys, Enter, Space, etc.) works out of the box
+ * - The `value` prop is required and determines what gets selected
+ *
+ * Compound Component Pattern:
+ * - SelectItem uses child components (ItemIndicator, ItemText)
+ * - This gives Radix control over rendering and accessibility
+ * - We provide the styling, Radix provides the behavior
  */
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
@@ -227,9 +177,13 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     className={cn(
       [
+        // Layout
         "relative flex w-full cursor-default items-center select-none",
-        "rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none",
+        "rounded-sm py-1.5 pr-2 pl-8 text-sm",
+        // Interactive states
+        "outline-none",
         "focus:bg-neutral-100 focus:text-neutral-900",
+        // Disabled state
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       ].join(" "),
       className,
@@ -237,43 +191,27 @@ const SelectItem = React.forwardRef<
     ref={ref}
     {...props}
   >
+    {/* Check icon - only visible when selected */}
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
         <Check className="h-4 w-4" />
       </SelectPrimitive.ItemIndicator>
     </span>
 
+    {/* The actual text content */}
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
   </SelectPrimitive.Item>
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
 /**
- * SelectSeparator
+ * Exports
  *
- * A visual separator between groups of options.
+ * Only the 5 core components needed for a basic Select:
+ * 1. Select - Root wrapper
+ * 2. SelectTrigger - The button that opens the dropdown
+ * 3. SelectValue - Displays selected value
+ * 4. SelectContent - The dropdown panel
+ * 5. SelectItem - Individual options
  */
-const SelectSeparator = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Separator
-    className={cn("-mx-1 my-1 h-px bg-neutral-200", className)}
-    ref={ref}
-    {...props}
-  />
-));
-SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
-
-export {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-};
+export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue };

@@ -3,9 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@prism/react/select";
@@ -13,7 +11,12 @@ import {
 /**
  * Select Component Stories
  *
- * Showcases the Select component built with Radix UI primitives.
+ * Showcases the simplified Select component built with Radix UI primitives.
+ *
+ * Educational Focus:
+ * - Core Select functionality without advanced features (groups, separators)
+ * - Perfect for learning compound components and Radix UI basics
+ * - Demonstrates controlled/uncontrolled patterns, disabled states, and forms
  */
 
 const meta: Meta<typeof Select> = {
@@ -78,33 +81,6 @@ export const Disabled: Story = {
       <SelectContent>
         <SelectItem value="apple">Apple</SelectItem>
         <SelectItem value="banana">Banana</SelectItem>
-      </SelectContent>
-    </Select>
-  ),
-};
-
-/**
- * Grouped Options
- */
-export const GroupedOptions: Story = {
-  render: () => (
-    <Select>
-      <SelectTrigger className="w-[200px]">
-        <SelectValue placeholder="Select a food" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="orange">Orange</SelectItem>
-        </SelectGroup>
-        <SelectGroup>
-          <SelectLabel>Vegetables</SelectLabel>
-          <SelectItem value="carrot">Carrot</SelectItem>
-          <SelectItem value="broccoli">Broccoli</SelectItem>
-          <SelectItem value="spinach">Spinach</SelectItem>
-        </SelectGroup>
       </SelectContent>
     </Select>
   ),

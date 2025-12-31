@@ -3,17 +3,18 @@
  *
  * Test coverage:
  * - Rendering and basic functionality
- * - User interactions (clicking, keyboard navigation)
+ * - User interactions (focus management)
  * - Accessibility (ARIA attributes, roles)
- * - Selection state
- * - Grouped options
+ * - Controlled and uncontrolled behavior
  * - Disabled states
+ * - Edge cases
  *
  * Educational Notes:
  * - Radix UI components have complex DOM structures
  * - We test user-facing behavior, not internal implementation
  * - Use getByRole for better accessibility testing
- * - Radix handles most ARIA automatically
+ * - Radix handles most ARIA attributes automatically
+ * - These tests focus on the simplified Select (no groups, separators, etc.)
  */
 
 import * as React from "react";
@@ -24,9 +25,7 @@ import { render, screen } from "../../test/utils";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "./select";
@@ -59,25 +58,6 @@ describe("Select", () => {
             <SelectItem value="apple">Apple</SelectItem>
             <SelectItem value="banana">Banana</SelectItem>
             <SelectItem value="orange">Orange</SelectItem>
-          </SelectContent>
-        </Select>,
-      );
-
-      expect(screen.getByRole("combobox")).toBeInTheDocument();
-    });
-
-    it("renders grouped options", () => {
-      render(
-        <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="Select fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-            </SelectGroup>
           </SelectContent>
         </Select>,
       );
