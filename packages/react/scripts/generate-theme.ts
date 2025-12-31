@@ -14,7 +14,16 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { colors, spacing, typography } from "@prism/tokens";
+import {
+  borderRadius,
+  borderWidth,
+  colors,
+  shadows,
+  sizes,
+  spacing,
+  transitions,
+  typography,
+} from "@prism/tokens";
 
 /**
  * Generate theme CSS with custom \@source paths
@@ -105,6 +114,43 @@ function generateThemeCSS(sourcePaths: string[]): string {
   css += `\n  /* Line Heights */\n`;
   Object.entries(typography.lineHeight).forEach(([key, value]) => {
     css += `  --line-height-${key}: ${value};\n`;
+  });
+
+  // Generate border radius variables
+  css += `\n  /* Border Radius */\n`;
+  Object.entries(borderRadius).forEach(([key, value]) => {
+    css += `  --radius-${key}: ${value};\n`;
+  });
+
+  // Generate shadow variables
+  css += `\n  /* Shadows */\n`;
+  Object.entries(shadows).forEach(([key, value]) => {
+    css += `  --shadow-${key}: ${value};\n`;
+  });
+
+  // Generate size variables
+  css += `\n  /* Sizes */\n`;
+  Object.entries(sizes).forEach(([key, value]) => {
+    css += `  --size-${key}: ${value};\n`;
+  });
+
+  // Generate border width variables
+  css += `\n  /* Border Widths */\n`;
+  Object.entries(borderWidth).forEach(([key, value]) => {
+    const cssKey = key === "DEFAULT" ? "default" : key;
+    css += `  --border-width-${cssKey}: ${value};\n`;
+  });
+
+  // Generate transition duration variables
+  css += `\n  /* Transition Durations */\n`;
+  Object.entries(transitions.duration).forEach(([key, value]) => {
+    css += `  --duration-${key}: ${value};\n`;
+  });
+
+  // Generate transition timing function variables
+  css += `\n  /* Transition Timing Functions */\n`;
+  Object.entries(transitions.timing).forEach(([key, value]) => {
+    css += `  --ease-${key}: ${value};\n`;
   });
 
   css += `}\n`;
