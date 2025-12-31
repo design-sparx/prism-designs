@@ -49,6 +49,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/card",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/card/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/input",
             replacement: resolve(
               __dirname,
