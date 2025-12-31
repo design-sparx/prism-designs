@@ -4,6 +4,11 @@
   "sideEffects": false,
   "license": "MIT",
   "exports": {
+    "./badge": {
+      "types": "./src/components/badge/index.ts",
+      "import": "./dist/badge.mjs",
+      "require": "./dist/badge.js"
+    },
     "./button": {
       "types": "./src/components/button/index.ts",
       "import": "./dist/button.mjs",

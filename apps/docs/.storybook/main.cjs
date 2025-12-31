@@ -35,6 +35,13 @@ const config = {
       resolve: {
         alias: [
           {
+            find: "@prism/react/badge",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/badge/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/button",
             replacement: resolve(
               __dirname,
