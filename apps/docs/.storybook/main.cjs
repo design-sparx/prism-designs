@@ -106,6 +106,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/textarea",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/textarea/index.ts",
+            ),
+          },
+          {
             find: "@prism/react",
             replacement: resolve(__dirname, "../../../packages/react/src"),
           },

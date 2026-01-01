@@ -43,6 +43,11 @@
       "types": "./src/components/select/index.ts",
       "import": "./dist/select.mjs",
       "require": "./dist/select.js"
+    },
+    "./textarea": {
+      "types": "./src/components/textarea/index.ts",
+      "import": "./dist/textarea.mjs",
+      "require": "./dist/textarea.js"
     }
   },
   "scripts": {
