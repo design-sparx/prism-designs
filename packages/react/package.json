@@ -34,6 +34,11 @@
       "import": "./dist/label.mjs",
       "require": "./dist/label.js"
     },
+    "./radio-group": {
+      "types": "./src/components/radio-group/index.ts",
+      "import": "./dist/radio-group.mjs",
+      "require": "./dist/radio-group.js"
+    },
     "./select": {
       "types": "./src/components/select/index.ts",
       "import": "./dist/select.mjs",
@@ -76,6 +81,7 @@
     "@prism/core": "workspace:*",
     "@prism/tokens": "workspace:*",
     "@radix-ui/react-checkbox": "^1.3.3",
+    "@radix-ui/react-radio-group": "^1.3.8",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.4",
     "@types/node": "^25.0.3",

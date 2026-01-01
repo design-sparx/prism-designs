@@ -92,6 +92,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/radio-group",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/radio-group/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/select",
             replacement: resolve(
               __dirname,
