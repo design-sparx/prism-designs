@@ -1,8 +1,19 @@
 import type { Preview } from "@storybook/react";
+import { themes } from "@storybook/theming";
+import { useDarkMode } from "storybook-dark-mode";
 import "./prism.css";
 
 const preview: Preview = {
   parameters: {
+    // Dark mode configuration
+    darkMode: {
+      dark: { ...themes.dark },
+      light: { ...themes.light },
+      stylePreview: true, // Apply dark class to preview iframe
+      darkClass: "dark",
+      lightClass: "light",
+      classTarget: "html",
+    },
     // Enhanced control matchers for better prop inference
     controls: {
       matchers: {
@@ -101,11 +112,23 @@ const preview: Preview = {
 
   // Global decorators
   decorators: [
-    (Story) => (
-      <div style={{ fontFamily: "Inter, sans-serif" }}>
-        <Story />
-      </div>
-    ),
+    (Story) => {
+      const isDark = useDarkMode();
+      return (
+        <div
+          style={{
+            fontFamily: "Inter, sans-serif",
+            backgroundColor: isDark ? "#111827" : "#ffffff",
+            color: isDark ? "#fff" : "#000",
+            minHeight: "100%",
+            width: "100%",
+            padding: "1rem",
+          }}
+        >
+          <Story />
+        </div>
+      );
+    },
   ],
 
   // Global tags

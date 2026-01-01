@@ -13,6 +13,7 @@ const config = {
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
+    "storybook-dark-mode", // Dark/light mode for entire Storybook UI
     getAbsolutePath("@storybook/addon-a11y"), // Accessibility testing addon
     getAbsolutePath("@storybook/addon-interactions"), // Interaction testing
   ],
