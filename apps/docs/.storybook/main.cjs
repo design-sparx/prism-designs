@@ -92,10 +92,38 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/popover",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/popover/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/progress",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/progress/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/radio-group",
             replacement: resolve(
               __dirname,
               "../../../packages/react/src/components/radio-group/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/slider",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/slider/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/spinner",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/spinner/index.ts",
             ),
           },
           {
@@ -117,6 +145,13 @@ const config = {
             replacement: resolve(
               __dirname,
               "../../../packages/react/src/components/textarea/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/toggle",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/toggle/index.ts",
             ),
           },
           {
