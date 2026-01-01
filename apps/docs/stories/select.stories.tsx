@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Button } from "@prism/react/button";
+import { Label } from "@prism/react/label";
 import {
   Select,
   SelectContent,
@@ -150,12 +152,7 @@ export const FormExample: Story = {
       style={{ display: "grid", gap: "1rem", maxWidth: "20rem" }}
     >
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="fruit-select"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Favorite Fruit
-        </label>
+        <Label htmlFor="fruit-select">Favorite Fruit</Label>
         <Select>
           <SelectTrigger id="fruit-select">
             <SelectValue placeholder="Select a fruit" />
@@ -171,20 +168,7 @@ export const FormExample: Story = {
         </p>
       </div>
 
-      <button
-        style={{
-          padding: "0.5rem 1rem",
-          backgroundColor: "#0ea5e9",
-          color: "white",
-          borderRadius: "0.375rem",
-          border: "none",
-          cursor: "pointer",
-          fontWeight: 500,
-        }}
-        type="submit"
-      >
-        Submit
-      </button>
+      <Button type="submit">Submit</Button>
     </form>
   ),
 };

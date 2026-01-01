@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@prism/react/card";
+import { Input } from "@prism/react/input";
+import { Label } from "@prism/react/label";
 
 /**
  * Card Component Stories
@@ -137,25 +139,12 @@ export const LoginForm: Story = {
       <CardContent>
         <form className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="email">
-              Email
-            </label>
-            <input
-              className="w-full rounded border border-neutral-300 px-3 py-2"
-              id="email"
-              placeholder="you@example.com"
-              type="email"
-            />
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" placeholder="you@example.com" type="email" />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="w-full rounded border border-neutral-300 px-3 py-2"
-              id="password"
-              type="password"
-            />
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" type="password" />
           </div>
         </form>
       </CardContent>

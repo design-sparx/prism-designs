@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Button } from "@prism/react/button";
+import { Checkbox } from "@prism/react/checkbox";
 import { Input } from "@prism/react/input";
 import { Label } from "@prism/react/label";
 
@@ -230,24 +232,12 @@ export const FormExample: Story = {
 
       {/* Checkbox */}
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <input id="form-newsletter" type="checkbox" />
+        <Checkbox id="form-newsletter" />
         <Label htmlFor="form-newsletter">Subscribe to newsletter</Label>
       </div>
 
       {/* Submit button */}
-      <button
-        style={{
-          padding: "0.5rem 1rem",
-          backgroundColor: "#3b82f6",
-          color: "white",
-          borderRadius: "0.375rem",
-          border: "none",
-          cursor: "pointer",
-        }}
-        type="submit"
-      >
-        Submit
-      </button>
+      <Button type="submit">Submit</Button>
     </form>
   ),
 };

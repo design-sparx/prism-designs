@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Button } from "@prism/react/button";
 import { Input } from "@prism/react/input";
+import { Label } from "@prism/react/label";
 
 /**
  * Input Component Stories
@@ -139,12 +141,7 @@ export const WithDefaultValue: Story = {
 export const File: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "0.75rem", maxWidth: "20rem" }}>
-      <label
-        htmlFor="file-input"
-        style={{ fontSize: "0.875rem", fontWeight: 500 }}
-      >
-        Upload file
-      </label>
+      <Label htmlFor="file-input">Upload file</Label>
       <Input id="file-input" type="file" />
     </div>
   ),
@@ -158,12 +155,7 @@ export const File: Story = {
 export const WithLabel: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "0.75rem", maxWidth: "20rem" }}>
-      <label
-        htmlFor="email-input"
-        style={{ fontSize: "0.875rem", fontWeight: 500 }}
-      >
-        Email
-      </label>
+      <Label htmlFor="email-input">Email</Label>
       <Input id="email-input" placeholder="m@example.com" type="email" />
     </div>
   ),
@@ -178,20 +170,7 @@ export const WithButton: Story = {
   render: () => (
     <div style={{ display: "flex", gap: "0.5rem", maxWidth: "24rem" }}>
       <Input placeholder="Email" style={{ flex: 1 }} type="email" />
-      <button
-        style={{
-          padding: "0 1rem",
-          backgroundColor: "#0ea5e9",
-          color: "white",
-          borderRadius: "0.375rem",
-          border: "none",
-          cursor: "pointer",
-          fontWeight: 500,
-        }}
-        type="button"
-      >
-        Subscribe
-      </button>
+      <Button type="button">Subscribe</Button>
     </div>
   ),
 };
@@ -212,19 +191,12 @@ export const FormExample: Story = {
       style={{ display: "grid", gap: "1rem", maxWidth: "20rem" }}
     >
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label htmlFor="name" style={{ fontSize: "0.875rem", fontWeight: 500 }}>
-          Name
-        </label>
+        <Label htmlFor="name">Name</Label>
         <Input id="name" placeholder="John Doe" required />
       </div>
 
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="email-form"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Email
-        </label>
+        <Label htmlFor="email-form">Email</Label>
         <Input
           id="email-form"
           placeholder="m@example.com"
@@ -236,20 +208,7 @@ export const FormExample: Story = {
         </p>
       </div>
 
-      <button
-        style={{
-          padding: "0.5rem 1rem",
-          backgroundColor: "#0ea5e9",
-          color: "white",
-          borderRadius: "0.375rem",
-          border: "none",
-          cursor: "pointer",
-          fontWeight: 500,
-        }}
-        type="submit"
-      >
-        Submit
-      </button>
+      <Button type="submit">Submit</Button>
     </form>
   ),
 };
@@ -263,62 +222,32 @@ export const InputTypes: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "1rem", maxWidth: "20rem" }}>
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="input-text"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Text
-        </label>
+        <Label htmlFor="input-text">Text</Label>
         <Input id="input-text" placeholder="Text input" type="text" />
       </div>
 
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="input-email"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Email
-        </label>
+        <Label htmlFor="input-email">Email</Label>
         <Input id="input-email" placeholder="email@example.com" type="email" />
       </div>
 
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="input-password"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Password
-        </label>
+        <Label htmlFor="input-password">Password</Label>
         <Input id="input-password" placeholder="••••••••" type="password" />
       </div>
 
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="input-number"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Number
-        </label>
+        <Label htmlFor="input-number">Number</Label>
         <Input id="input-number" placeholder="123" type="number" />
       </div>
 
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="input-date"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Date
-        </label>
+        <Label htmlFor="input-date">Date</Label>
         <Input id="input-date" type="date" />
       </div>
 
       <div style={{ display: "grid", gap: "0.5rem" }}>
-        <label
-          htmlFor="input-time"
-          style={{ fontSize: "0.875rem", fontWeight: 500 }}
-        >
-          Time
-        </label>
+        <Label htmlFor="input-time">Time</Label>
         <Input id="input-time" type="time" />
       </div>
     </div>

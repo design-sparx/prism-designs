@@ -5,6 +5,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Button } from "@prism/react/button";
 import { Label } from "@prism/react/label";
 import { Switch } from "@prism/react/switch";
 
@@ -321,12 +322,9 @@ function FormExample(): JSX.Element {
         </div>
       </div>
 
-      <button
-        className="bg-primary-500 hover:bg-primary-600 w-full rounded-md px-4 py-2 text-white"
-        type="submit"
-      >
+      <Button className="w-full" type="submit">
         Save Preferences
-      </button>
+      </Button>
     </form>
   );
 }

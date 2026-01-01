@@ -5,6 +5,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Button } from "@prism/react/button";
 import { Label } from "@prism/react/label";
 import { RadioGroup, RadioGroupItem } from "@prism/react/radio-group";
 
@@ -351,12 +352,9 @@ function RadioFormExample(): JSX.Element {
         </div>
       </div>
 
-      <button
-        className="bg-primary-500 hover:bg-primary-600 w-full rounded-md px-4 py-2 text-white disabled:opacity-50"
-        type="submit"
-      >
+      <Button className="w-full" type="submit">
         Continue to Payment
-      </button>
+      </Button>
 
       <div className="text-xs text-neutral-500">
         <p>Selected plan: {formState.plan}</p>

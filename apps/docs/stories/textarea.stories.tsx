@@ -7,6 +7,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Button } from "@prism/react/button";
 import { Label } from "@prism/react/label";
 import { Textarea } from "@prism/react/textarea";
 
@@ -288,12 +289,9 @@ function FeedbackFormExample(): JSX.Element {
         </p>
       </div>
 
-      <button
-        className="bg-primary-500 hover:bg-primary-600 w-full rounded-md px-4 py-2 text-white disabled:opacity-50"
-        type="submit"
-      >
+      <Button className="w-full" type="submit">
         Submit Feedback
-      </button>
+      </Button>
     </form>
   );
 }

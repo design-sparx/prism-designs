@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- Storybook demo code uses setState callbacks which TypeScript marks as 'any' */
 /* eslint-disable @typescript-eslint/no-unsafe-return -- Storybook demo code with callbacks */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- Storybook demo code with state values */
-/* eslint-disable react/button-has-type -- Demo buttons don't need explicit types */
 import { useEffect, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Button } from "@prism/react/button";
 import { Progress } from "@prism/react/progress";
 
 /**
@@ -347,39 +347,21 @@ export const FormCompletion: Story = {
             marginTop: "1.5rem",
           }}
         >
-          <button
+          <Button
             disabled={currentStep === 1}
             onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
-            style={{
-              padding: "0.5rem 1rem",
-              fontSize: "0.875rem",
-              border: "1px solid #e5e7eb",
-              borderRadius: "0.375rem",
-              cursor: currentStep === 1 ? "not-allowed" : "pointer",
-              opacity: currentStep === 1 ? 0.5 : 1,
-            }}
+            variant="outline"
           >
             Previous
-          </button>
-          <button
+          </Button>
+          <Button
             disabled={currentStep === totalSteps}
             onClick={() =>
               setCurrentStep(Math.min(totalSteps, currentStep + 1))
             }
-            style={{
-              padding: "0.5rem 1rem",
-              fontSize: "0.875rem",
-              backgroundColor:
-                currentStep === totalSteps ? "#10b981" : "#3b82f6",
-              color: "white",
-              border: "none",
-              borderRadius: "0.375rem",
-              cursor: currentStep === totalSteps ? "not-allowed" : "pointer",
-              opacity: currentStep === totalSteps ? 0.5 : 1,
-            }}
           >
             {currentStep === totalSteps ? "Completed" : "Next"}
-          </button>
+          </Button>
         </div>
       </div>
     );
