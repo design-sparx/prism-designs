@@ -71,6 +71,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/checkbox",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/checkbox/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/input",
             replacement: resolve(
               __dirname,
