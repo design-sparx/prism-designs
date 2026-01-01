@@ -155,6 +155,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/toggle-group",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/toggle-group/index.ts",
+            ),
+          },
+          {
             find: "@prism/react",
             replacement: resolve(__dirname, "../../../packages/react/src"),
           },
