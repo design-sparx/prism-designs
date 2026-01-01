@@ -78,6 +78,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/label",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/label/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/select",
             replacement: resolve(
               __dirname,

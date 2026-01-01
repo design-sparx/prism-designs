@@ -22,29 +22,6 @@
 @source "../../../packages/react/src/**/*.{ts,tsx}";
 @source "../stories/**/*.{ts,tsx}";
 
-/**
- * Enable dark mode using the 'dark' class strategy.
- * When .dark class is applied to html/body, dark mode styles activate.
- */
-@variant dark (&:where(.dark, .dark *));
-
-/**
- * Base styles for light and dark modes
- */
-@layer base {
-  :root,
-  body {
-    background-color: white;
-    color: #1f2937;
-  }
-
-  .dark,
-  .dark body {
-    background-color: #111827;
-    color: #f9fafb;
-  }
-}
-
 @theme {
   /* Primary Colors */
   --color-primary-50: #f0f9ff;

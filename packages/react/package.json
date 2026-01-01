@@ -24,6 +24,11 @@
       "import": "./dist/input.mjs",
       "require": "./dist/input.js"
     },
+    "./label": {
+      "types": "./src/components/label/index.ts",
+      "import": "./dist/label.mjs",
+      "require": "./dist/label.js"
+    },
     "./select": {
       "types": "./src/components/select/index.ts",
       "import": "./dist/select.mjs",
