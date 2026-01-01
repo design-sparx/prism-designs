@@ -106,6 +106,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/switch",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/switch/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/textarea",
             replacement: resolve(
               __dirname,
