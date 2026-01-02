@@ -4,6 +4,16 @@
   "sideEffects": false,
   "license": "MIT",
   "exports": {
+    "./alert": {
+      "types": "./src/components/alert/index.ts",
+      "import": "./dist/alert.mjs",
+      "require": "./dist/alert.js"
+    },
+    "./avatar": {
+      "types": "./src/components/avatar/index.ts",
+      "import": "./dist/avatar.mjs",
+      "require": "./dist/avatar.js"
+    },
     "./badge": {
       "types": "./src/components/badge/index.ts",
       "import": "./dist/badge.mjs",
@@ -64,6 +74,16 @@
       "import": "./dist/select.mjs",
       "require": "./dist/select.js"
     },
+    "./separator": {
+      "types": "./src/components/separator/index.ts",
+      "import": "./dist/separator.mjs",
+      "require": "./dist/separator.js"
+    },
+    "./skeleton": {
+      "types": "./src/components/skeleton/index.ts",
+      "import": "./dist/skeleton.mjs",
+      "require": "./dist/skeleton.js"
+    },
     "./slider": {
       "types": "./src/components/slider/index.ts",
       "import": "./dist/slider.mjs",
@@ -93,6 +113,11 @@
       "types": "./src/components/toggle-group/index.ts",
       "import": "./dist/toggle-group.mjs",
       "require": "./dist/toggle-group.js"
+    },
+    "./typography": {
+      "types": "./src/components/typography/index.ts",
+      "import": "./dist/typography.mjs",
+      "require": "./dist/typography.js"
     }
   },
   "scripts": {

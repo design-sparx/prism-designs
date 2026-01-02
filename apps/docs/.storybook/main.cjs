@@ -176,6 +176,41 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/alert",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/alert/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/avatar",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/avatar/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/separator",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/separator/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/skeleton",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/skeleton/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/typography",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/typography/index.ts",
+            ),
+          },
+          {
             find: "@prism/react",
             replacement: resolve(__dirname, "../../../packages/react/src"),
           },
