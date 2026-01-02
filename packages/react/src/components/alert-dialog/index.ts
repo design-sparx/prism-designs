@@ -1,0 +1,28 @@
+export type {
+  AlertDialogProps,
+  AlertDialogActionProps,
+  AlertDialogCancelProps,
+  AlertDialogContentProps,
+  AlertDialogDescriptionProps,
+  AlertDialogFooterProps,
+  AlertDialogHeaderProps,
+  AlertDialogOverlayProps,
+  AlertDialogTitleProps,
+} from "./alert-dialog";
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  alertDialogContentVariants,
+  AlertDialogDescription,
+  alertDialogDescriptionVariants,
+  AlertDialogFooter,
+  alertDialogFooterVariants,
+  AlertDialogHeader,
+  alertDialogHeaderVariants,
+  AlertDialogOverlay,
+  alertDialogOverlayVariants,
+  AlertDialogTitle,
+  alertDialogTitleVariants,
+} from "./alert-dialog";

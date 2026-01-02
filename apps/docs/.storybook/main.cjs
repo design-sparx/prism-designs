@@ -106,6 +106,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/command",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/command/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/date-picker",
             replacement: resolve(
               __dirname,
@@ -225,6 +232,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/alert-dialog",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/alert-dialog/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/avatar",
             replacement: resolve(
               __dirname,
@@ -232,10 +246,24 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/breadcrumb",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/breadcrumb/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/separator",
             replacement: resolve(
               __dirname,
               "../../../packages/react/src/components/separator/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/sheet",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/sheet/index.ts",
             ),
           },
           {

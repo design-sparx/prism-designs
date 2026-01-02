@@ -215,16 +215,33 @@ packages/react/src/
    export type { CardProps } from "./card";
    ```
 
-5. **Build automatically discovers the component!**
+5. **Add Vite alias for Storybook** (required for dev server):
 
-   ```bash
-   pnpm build  # Auto-generates exports, runs tests, builds component
+   Edit `apps/docs/.storybook/main.cjs` and add the component alias in alphabetical order:
+
+   ```javascript
+   {
+     find: "@prism/react/card",
+     replacement: resolve(
+       __dirname,
+       "../../../packages/react/src/components/card/index.ts",
+     ),
+   },
    ```
 
-6. **Create Storybook story:**
+6. **Build the component:**
+
+   ```bash
+   pnpm --filter @prism/react build  # Builds component and generates dist files
+   ```
+
+7. **Create Storybook story:**
+
    ```bash
    # apps/docs/stories/card.stories.tsx
    ```
+
+   The story file should follow CSF3 format with multiple variants demonstrating the component's features.
 
 **Testing Requirements:**
 
