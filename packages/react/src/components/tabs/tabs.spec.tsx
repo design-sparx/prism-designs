@@ -1,7 +1,8 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "./tabs";
+import { describe, expect, it, vi } from "vitest";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 
 describe("Tabs", () => {
   it("renders tabs with triggers and content", () => {
@@ -75,7 +76,7 @@ describe("Tabs", () => {
     const handleValueChange = vi.fn();
 
     render(
-      <Tabs value="tab1" onValueChange={handleValueChange}>
+      <Tabs onValueChange={handleValueChange} value="tab1">
         <TabsList>
           <TabsTrigger value="tab1">Tab 1</TabsTrigger>
           <TabsTrigger value="tab2">Tab 2</TabsTrigger>
@@ -110,7 +111,7 @@ describe("Tabs", () => {
     render(
       <Tabs defaultValue="tab1">
         <TabsList>
-          <TabsTrigger value="tab1" className="custom-trigger">
+          <TabsTrigger className="custom-trigger" value="tab1">
             Tab 1
           </TabsTrigger>
         </TabsList>
@@ -128,7 +129,7 @@ describe("Tabs", () => {
         <TabsList>
           <TabsTrigger value="tab1">Tab 1</TabsTrigger>
         </TabsList>
-        <TabsContent value="tab1" className="custom-content">
+        <TabsContent className="custom-content" value="tab1">
           Content 1
         </TabsContent>
       </Tabs>,
@@ -220,7 +221,7 @@ describe("Tabs", () => {
       <Tabs defaultValue="tab1">
         <TabsList>
           <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-          <TabsTrigger value="tab2" disabled>
+          <TabsTrigger disabled value="tab2">
             Tab 2 (Disabled)
           </TabsTrigger>
         </TabsList>
@@ -290,7 +291,7 @@ describe("Tabs", () => {
           <TabsTrigger value="tab2">Tab 2</TabsTrigger>
         </TabsList>
         <TabsContent value="tab1">
-          <input type="text" defaultValue="test" />
+          <input defaultValue="test" type="text" />
         </TabsContent>
         <TabsContent value="tab2">Content 2</TabsContent>
       </Tabs>,

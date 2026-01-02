@@ -1,6 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+
 import {
   Toast,
   ToastAction,
@@ -17,7 +18,7 @@ describe("Toast", () => {
   it("renders toast with title", () => {
     render(
       <ToastProvider>
-        <Toast open={true}>
+        <Toast open>
           <ToastTitle>Test Toast</ToastTitle>
         </Toast>
         <ToastViewport />
@@ -30,7 +31,7 @@ describe("Toast", () => {
   it("renders toast with title and description", () => {
     render(
       <ToastProvider>
-        <Toast open={true}>
+        <Toast open>
           <ToastTitle>Success</ToastTitle>
           <ToastDescription>Your changes have been saved</ToastDescription>
         </Toast>
@@ -47,7 +48,7 @@ describe("Toast", () => {
   it("renders toast with action button", () => {
     render(
       <ToastProvider>
-        <Toast open={true}>
+        <Toast open>
           <ToastTitle>File deleted</ToastTitle>
           <ToastAction altText="Undo deletion">Undo</ToastAction>
         </Toast>
@@ -61,7 +62,7 @@ describe("Toast", () => {
   it("renders close button", () => {
     const { container } = render(
       <ToastProvider>
-        <Toast open={true}>
+        <Toast open>
           <ToastTitle>Toast</ToastTitle>
           <ToastClose />
         </Toast>
@@ -80,7 +81,7 @@ describe("Toast", () => {
 
     const { container } = render(
       <ToastProvider>
-        <Toast open={true} onOpenChange={handleOpenChange}>
+        <Toast onOpenChange={handleOpenChange} open>
           <ToastTitle>Toast</ToastTitle>
           <ToastClose />
         </Toast>
@@ -88,7 +89,7 @@ describe("Toast", () => {
       </ToastProvider>,
     );
 
-    const closeButton = container.querySelector("[toast-close]") as HTMLElement;
+    const closeButton = container.querySelector("[toast-close]")!;
     await user.click(closeButton);
 
     expect(handleOpenChange).toHaveBeenCalledWith(false);
@@ -97,7 +98,7 @@ describe("Toast", () => {
   it("applies default variant styles", () => {
     const { container } = render(
       <ToastProvider>
-        <Toast open={true} variant="default">
+        <Toast open variant="default">
           <ToastTitle>Default Toast</ToastTitle>
         </Toast>
         <ToastViewport />
@@ -111,7 +112,7 @@ describe("Toast", () => {
   it("applies destructive variant styles", () => {
     const { container } = render(
       <ToastProvider>
-        <Toast open={true} variant="destructive">
+        <Toast open variant="destructive">
           <ToastTitle>Error Toast</ToastTitle>
         </Toast>
         <ToastViewport />
@@ -125,7 +126,7 @@ describe("Toast", () => {
   it("applies success variant styles", () => {
     const { container } = render(
       <ToastProvider>
-        <Toast open={true} variant="success">
+        <Toast open variant="success">
           <ToastTitle>Success Toast</ToastTitle>
         </Toast>
         <ToastViewport />
@@ -141,7 +142,7 @@ describe("Toast", () => {
 
     render(
       <ToastProvider>
-        <Toast ref={ref} open={true}>
+        <Toast open ref={ref}>
           <ToastTitle>Toast</ToastTitle>
         </Toast>
         <ToastViewport />
@@ -154,7 +155,7 @@ describe("Toast", () => {
   it("applies custom className", () => {
     const { container } = render(
       <ToastProvider>
-        <Toast open={true} className="custom-class">
+        <Toast className="custom-class" open>
           <ToastTitle>Toast</ToastTitle>
         </Toast>
         <ToastViewport />
@@ -210,7 +211,7 @@ describe("Toaster with useToast", () => {
       expect(screen.getByText("Dismissible Toast")).toBeInTheDocument();
     });
 
-    const closeButton = container.querySelector("[toast-close]") as HTMLElement;
+    const closeButton = container.querySelector("[toast-close]")!;
     await user.click(closeButton);
 
     await waitFor(() => {

@@ -50,6 +50,27 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/accordion",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/accordion/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/tabs",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/tabs/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/toast",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/toast/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/badge",
             replacement: resolve(
               __dirname,

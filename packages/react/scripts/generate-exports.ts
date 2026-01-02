@@ -40,7 +40,7 @@ const exports: Record<
 
 componentFolders.forEach((folder) => {
   exports[`./${folder}`] = {
-    types: `./src/components/${folder}/index.ts`,
+    types: `./dist/${folder}.d.ts`,
     import: `./dist/${folder}.mjs`,
     require: `./dist/${folder}.js`,
   };

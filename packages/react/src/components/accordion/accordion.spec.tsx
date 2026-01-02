@@ -1,17 +1,18 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
 } from "./accordion";
 
 describe("Accordion", () => {
   it("renders accordion with items", () => {
     render(
-      <Accordion type="single" collapsible>
+      <Accordion collapsible type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
@@ -31,7 +32,7 @@ describe("Accordion", () => {
     const user = userEvent.setup();
 
     render(
-      <Accordion type="single" collapsible>
+      <Accordion collapsible type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
@@ -97,7 +98,7 @@ describe("Accordion", () => {
 
   it("supports controlled mode with defaultValue", () => {
     render(
-      <Accordion type="single" defaultValue="item-1" collapsible>
+      <Accordion collapsible defaultValue="item-1" type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
@@ -122,10 +123,10 @@ describe("Accordion", () => {
 
     render(
       <Accordion
+        collapsible
+        onValueChange={handleValueChange}
         type="single"
         value="item-1"
-        onValueChange={handleValueChange}
-        collapsible
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
@@ -146,8 +147,8 @@ describe("Accordion", () => {
 
   it("applies custom className to items", () => {
     const { container } = render(
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1" className="custom-item">
+      <Accordion collapsible type="single">
+        <AccordionItem className="custom-item" value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
         </AccordionItem>
@@ -161,7 +162,7 @@ describe("Accordion", () => {
 
   it("applies custom className to trigger", () => {
     render(
-      <Accordion type="single" collapsible>
+      <Accordion collapsible type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger className="custom-trigger">
             Section 1
@@ -177,7 +178,7 @@ describe("Accordion", () => {
 
   it("applies custom className to content", () => {
     render(
-      <Accordion type="single" defaultValue="item-1" collapsible>
+      <Accordion collapsible defaultValue="item-1" type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent className="custom-content">
@@ -195,7 +196,7 @@ describe("Accordion", () => {
     const ref = vi.fn();
 
     render(
-      <Accordion type="single" collapsible>
+      <Accordion collapsible type="single">
         <AccordionItem ref={ref} value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
@@ -210,7 +211,7 @@ describe("Accordion", () => {
     const ref = vi.fn();
 
     render(
-      <Accordion type="single" collapsible>
+      <Accordion collapsible type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger ref={ref}>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
@@ -225,7 +226,7 @@ describe("Accordion", () => {
     const ref = vi.fn();
 
     render(
-      <Accordion type="single" defaultValue="item-1" collapsible>
+      <Accordion collapsible defaultValue="item-1" type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent ref={ref}>Content 1</AccordionContent>
@@ -240,7 +241,7 @@ describe("Accordion", () => {
     const user = userEvent.setup();
 
     render(
-      <Accordion type="single" collapsible>
+      <Accordion collapsible type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
@@ -267,7 +268,7 @@ describe("Accordion", () => {
     const user = userEvent.setup();
 
     const { container } = render(
-      <Accordion type="single" collapsible>
+      <Accordion collapsible type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
@@ -289,8 +290,8 @@ describe("Accordion", () => {
 
   it("handles disabled state", () => {
     render(
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1" disabled>
+      <Accordion collapsible type="single">
+        <AccordionItem disabled value="item-1">
           <AccordionTrigger>Section 1</AccordionTrigger>
           <AccordionContent>Content 1</AccordionContent>
         </AccordionItem>
