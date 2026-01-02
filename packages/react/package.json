@@ -14,6 +14,11 @@
       "import": "./dist/button.mjs",
       "require": "./dist/button.js"
     },
+    "./calendar": {
+      "types": "./src/components/calendar/index.ts",
+      "import": "./dist/calendar.mjs",
+      "require": "./dist/calendar.js"
+    },
     "./card": {
       "types": "./src/components/card/index.ts",
       "import": "./dist/card.mjs",
@@ -23,6 +28,11 @@
       "types": "./src/components/checkbox/index.ts",
       "import": "./dist/checkbox.mjs",
       "require": "./dist/checkbox.js"
+    },
+    "./date-picker": {
+      "types": "./src/components/date-picker/index.ts",
+      "import": "./dist/date-picker.mjs",
+      "require": "./dist/date-picker.js"
     },
     "./input": {
       "types": "./src/components/input/index.ts",
@@ -133,8 +143,10 @@
     "@types/node": "^25.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.562.0",
     "react": "^18.2.0",
+    "react-day-picker": "^9.13.0",
     "tailwind-merge": "^3.4.0"
   },
   "publishConfig": {

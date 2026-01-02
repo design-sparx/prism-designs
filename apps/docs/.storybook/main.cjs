@@ -64,6 +64,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/calendar",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/calendar/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/card",
             replacement: resolve(
               __dirname,
@@ -75,6 +82,13 @@ const config = {
             replacement: resolve(
               __dirname,
               "../../../packages/react/src/components/checkbox/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/date-picker",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/date-picker/index.ts",
             ),
           },
           {
