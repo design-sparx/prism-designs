@@ -92,6 +92,27 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/dialog",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/dialog/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/dropdown-menu",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/dropdown-menu/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/tooltip",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/tooltip/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/input",
             replacement: resolve(
               __dirname,

@@ -39,7 +39,7 @@ export default defineConfig((options) => ({
   entry: getComponentEntryPoints(),
   format: ["cjs", "esm"],
   dts: true,
-  external: ["react"],
+  external: ["react", "react-dom"],
   clean: true,
   ...options,
 }));
