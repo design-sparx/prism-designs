@@ -89,8 +89,10 @@ describe("Toast", () => {
       </ToastProvider>,
     );
 
-    const closeButton = container.querySelector("[toast-close]")!;
-    await user.click(closeButton);
+    const closeButton = container.querySelector("[toast-close]");
+    if (closeButton) {
+      await user.click(closeButton);
+    }
 
     expect(handleOpenChange).toHaveBeenCalledWith(false);
   });
@@ -211,8 +213,10 @@ describe("Toaster with useToast", () => {
       expect(screen.getByText("Dismissible Toast")).toBeInTheDocument();
     });
 
-    const closeButton = container.querySelector("[toast-close]")!;
-    await user.click(closeButton);
+    const closeButton = container.querySelector("[toast-close]");
+    if (closeButton) {
+      await user.click(closeButton);
+    }
 
     await waitFor(() => {
       expect(screen.queryByText("Dismissible Toast")).not.toBeInTheDocument();

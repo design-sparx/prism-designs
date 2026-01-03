@@ -111,7 +111,7 @@ describe("Tooltip", () => {
   });
 
   it("renders with controlled state", () => {
-    function ControlledTooltip() {
+    function ControlledTooltip(): React.ReactElement {
       const [open, setOpen] = React.useState(false);
 
       return (

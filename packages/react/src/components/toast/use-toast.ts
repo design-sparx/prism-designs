@@ -63,7 +63,7 @@ let count = 0;
  * - In production, consider using UUID or nanoid for guaranteed uniqueness
  * - IDs are used to update/dismiss specific toasts
  */
-function genId() {
+function genId(): string {
   count = (count + 1) % Number.MAX_SAFE_INTEGER;
   return count.toString();
 }
@@ -88,7 +88,7 @@ type Action =
       toastId?: ToasterToast["id"];
     };
 
-interface State {
+interface ToastState {
   toasts: ToasterToast[];
 }
 
@@ -110,7 +110,7 @@ const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
  * - Clears any existing timer for the same toast ID
  * - This prevents duplicate timers when updating a toast
  */
-const addToRemoveQueue = (toastId: string) => {
+const addToRemoveQueue = (toastId: string): void => {
   if (toastTimeouts.has(toastId)) {
     return;
   }
@@ -135,7 +135,7 @@ const addToRemoveQueue = (toastId: string) => {
  * - Enforces TOAST_LIMIT by dismissing oldest toasts
  * - This is a common pattern in state management libraries
  */
-export const reducer = (state: State, action: Action): State => {
+export const reducer = (state: ToastState, action: Action): ToastState => {
   switch (action.type) {
     case "ADD_TOAST":
       return {
@@ -157,8 +157,8 @@ export const reducer = (state: State, action: Action): State => {
       if (toastId) {
         addToRemoveQueue(toastId);
       } else {
-        state.toasts.forEach((toast) => {
-          addToRemoveQueue(toast.id);
+        state.toasts.forEach((currentToast) => {
+          addToRemoveQueue(currentToast.id);
         });
       }
 
@@ -197,9 +197,9 @@ export const reducer = (state: State, action: Action): State => {
  * - This is a simple pub/sub pattern for cross-component communication
  * - The Toaster component subscribes to render toasts
  */
-const listeners: ((state: State) => void)[] = [];
+const listeners: ((state: ToastState) => void)[] = [];
 
-let memoryState: State = { toasts: [] };
+let memoryState: ToastState = { toasts: [] };
 
 /**
  * Dispatches actions to update toast state
@@ -209,7 +209,7 @@ let memoryState: State = { toasts: [] };
  * - Notifies all subscribed listeners
  * - This allows the hook to work outside of React components
  */
-function dispatch(action: Action) {
+function dispatch(action: Action): void {
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
     listener(memoryState);
@@ -234,17 +234,21 @@ type Toast = Omit<ToasterToast, "id">;
  * - Returns the toast object for programmatic updates
  * - This is the primary API for showing toasts
  */
-function toast({ ...props }: Toast) {
+function toast({ ...props }: Toast): {
+  id: string;
+  dismiss: () => void;
+  update: (props: ToasterToast) => void;
+} {
   const id = genId();
 
-  const update = (props: ToasterToast) => {
+  const update = (toastProps: ToasterToast): void => {
     dispatch({
       type: "UPDATE_TOAST",
-      toast: { ...props, id },
+      toast: { ...toastProps, id },
     });
   };
 
-  const dismiss = () => {
+  const dismiss = (): void => {
     dispatch({ type: "DISMISS_TOAST", toastId: id });
   };
 
@@ -254,7 +258,7 @@ function toast({ ...props }: Toast) {
       ...props,
       id,
       open: true,
-      onOpenChange: (open) => {
+      onOpenChange: (open): void => {
         if (!open) dismiss();
       },
     },
@@ -276,8 +280,12 @@ function toast({ ...props }: Toast) {
  * - Returns toast function and current toasts array
  * - Cleans up listener on unmount to prevent memory leaks
  */
-function useToast() {
-  const [state, setState] = React.useState<State>(memoryState);
+function useToast(): {
+  toasts: ToasterToast[];
+  toast: typeof toast;
+  dismiss: (toastId?: string) => void;
+} {
+  const [state, setState] = React.useState<ToastState>(memoryState);
 
   React.useEffect(() => {
     listeners.push(setState);
@@ -292,7 +300,7 @@ function useToast() {
   return {
     ...state,
     toast,
-    dismiss: (toastId?: string) => {
+    dismiss: (toastId?: string): void => {
       dispatch({ type: "DISMISS_TOAST", toastId });
     },
   };
