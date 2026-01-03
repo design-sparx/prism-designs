@@ -113,6 +113,13 @@ const config = {
             ),
           },
           {
+            find: "@prism/react/data-table",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/data-table/index.ts",
+            ),
+          },
+          {
             find: "@prism/react/date-picker",
             replacement: resolve(
               __dirname,
@@ -201,6 +208,13 @@ const config = {
             replacement: resolve(
               __dirname,
               "../../../packages/react/src/components/switch/index.ts",
+            ),
+          },
+          {
+            find: "@prism/react/table",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/react/src/components/table/index.ts",
             ),
           },
           {
