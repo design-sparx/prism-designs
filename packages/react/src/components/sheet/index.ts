@@ -1,10 +1,10 @@
 export type {
-  SheetProps,
   SheetContentProps,
   SheetDescriptionProps,
   SheetFooterProps,
   SheetHeaderProps,
   SheetOverlayProps,
+  SheetProps,
   SheetTitleProps,
 } from "./sheet";
 export {

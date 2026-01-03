@@ -293,17 +293,18 @@ const dropdownMenuShortcutVariants = cva(
 
 export type DropdownMenuShortcutProps = React.HTMLAttributes<HTMLSpanElement>;
 
-const DropdownMenuShortcut: React.FC<DropdownMenuShortcutProps> = ({
-  className,
-  ...props
-}) => {
+const DropdownMenuShortcut = React.forwardRef<
+  HTMLSpanElement,
+  DropdownMenuShortcutProps
+>(({ className, ...props }, ref) => {
   return (
     <span
       className={cn(dropdownMenuShortcutVariants(), className)}
+      ref={ref}
       {...props}
     />
   );
-};
+});
 
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 

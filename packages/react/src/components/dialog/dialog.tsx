@@ -67,7 +67,6 @@ export interface DialogContentProps
     VariantProps<typeof dialogContentVariants> {
   /**
    * Whether to show the close button
-   * @default true
    */
   showClose?: boolean;
   /**
@@ -170,11 +169,9 @@ export type DialogTitleProps = React.HTMLAttributes<HTMLHeadingElement>;
 const DialogTitle = React.forwardRef<HTMLHeadingElement, DialogTitleProps>(
   ({ className, ...props }, ref) => {
     return (
-      <h2
-        className={cn(dialogTitleVariants(), className)}
-        ref={ref}
-        {...props}
-      />
+      <h2 className={cn(dialogTitleVariants(), className)} ref={ref} {...props}>
+        {props.children}
+      </h2>
     );
   },
 );
@@ -217,23 +214,21 @@ export interface DialogProps {
   children: React.ReactNode;
   /**
    * Whether clicking the overlay closes the dialog
-   * @default true
    */
   closeOnOverlayClick?: boolean;
   /**
    * Whether pressing ESC closes the dialog
-   * @default true
    */
   closeOnEsc?: boolean;
 }
 
-const Dialog: React.FC<DialogProps> = ({
+function Dialog({
   open,
   onOpenChange,
   children,
   closeOnOverlayClick = true,
   closeOnEsc = true,
-}) => {
+}: DialogProps): React.ReactElement | null {
   const [mounted, setMounted] = React.useState(false);
 
   // Wait for client-side mount (SSR safety)
@@ -245,7 +240,7 @@ const Dialog: React.FC<DialogProps> = ({
   React.useEffect(() => {
     if (!open || !closeOnEsc) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
         onOpenChange(false);
       }
@@ -283,7 +278,7 @@ const Dialog: React.FC<DialogProps> = ({
   }, [open]);
 
   // Handle overlay click
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
       onOpenChange(false);
     }
@@ -293,16 +288,13 @@ const Dialog: React.FC<DialogProps> = ({
   if (!mounted || !open) return null;
 
   return createPortal(
-    <div data-state={open ? "open" : "closed"}>
-      <DialogOverlay
-        data-state={open ? "open" : "closed"}
-        onClick={handleOverlayClick}
-      />
+    <div data-state="open">
+      <DialogOverlay data-state="open" onClick={handleOverlayClick} />
       {children}
     </div>,
     document.body,
   );
-};
+}
 
 Dialog.displayName = "Dialog";
 

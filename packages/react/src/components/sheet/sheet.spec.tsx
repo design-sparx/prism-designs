@@ -1,6 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "../../test/utils";
 import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+
+import { render, screen, waitFor } from "../../test/utils";
+
 import {
   Sheet,
   SheetContent,
@@ -25,7 +27,7 @@ describe("Sheet", () => {
 
     it("renders when open", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent>
             <p>Content</p>
           </SheetContent>
@@ -41,7 +43,7 @@ describe("Sheet", () => {
       const user = userEvent.setup();
 
       render(
-        <Sheet onOpenChange={onOpenChange} open={true}>
+        <Sheet onOpenChange={onOpenChange} open>
           <SheetContent>
             <p>Content</p>
           </SheetContent>
@@ -57,7 +59,7 @@ describe("Sheet", () => {
       const user = userEvent.setup();
 
       render(
-        <Sheet closeOnEsc={false} onOpenChange={onOpenChange} open={true}>
+        <Sheet closeOnEsc={false} onOpenChange={onOpenChange} open>
           <SheetContent>
             <p>Content</p>
           </SheetContent>
@@ -70,7 +72,7 @@ describe("Sheet", () => {
 
     it("locks body scroll when open", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent>
             <p>Content</p>
           </SheetContent>
@@ -86,7 +88,7 @@ describe("Sheet", () => {
   describe("SheetContent", () => {
     it("renders with role dialog", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent data-testid="sheet-content">Content</SheetContent>
         </Sheet>,
       );
@@ -99,7 +101,7 @@ describe("Sheet", () => {
 
     it("has aria-modal attribute", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent data-testid="sheet-content">Content</SheetContent>
         </Sheet>,
       );
@@ -112,11 +114,12 @@ describe("Sheet", () => {
 
     it("renders close button by default", async () => {
       const onOpenChange = vi.fn();
+      const handleClose = (): void => {
+        onOpenChange(false);
+      };
       render(
-        <Sheet onOpenChange={onOpenChange} open={true}>
-          <SheetContent onClose={() => onOpenChange(false)}>
-            Content
-          </SheetContent>
+        <Sheet onOpenChange={onOpenChange} open>
+          <SheetContent onClose={handleClose}>Content</SheetContent>
         </Sheet>,
       );
 
@@ -128,7 +131,7 @@ describe("Sheet", () => {
 
     it("does not render close button when showClose is false", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent showClose={false}>Content</SheetContent>
         </Sheet>,
       );
@@ -143,7 +146,7 @@ describe("Sheet", () => {
       const user = userEvent.setup();
 
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent onClose={onClose}>Content</SheetContent>
         </Sheet>,
       );
@@ -157,7 +160,7 @@ describe("Sheet", () => {
 
     it("applies correct side variant classes", async () => {
       const { rerender } = render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent data-testid="sheet-content" side="left">
             Content
           </SheetContent>
@@ -170,7 +173,7 @@ describe("Sheet", () => {
       });
 
       rerender(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent data-testid="sheet-content" side="right">
             Content
           </SheetContent>
@@ -187,7 +190,7 @@ describe("Sheet", () => {
   describe("SheetHeader", () => {
     it("renders children", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent>
             <SheetHeader>
               <p>Header content</p>
@@ -205,7 +208,7 @@ describe("Sheet", () => {
   describe("SheetTitle", () => {
     it("renders as h2 element", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent>
             <SheetTitle data-testid="title">Title</SheetTitle>
           </SheetContent>
@@ -222,7 +225,7 @@ describe("Sheet", () => {
   describe("SheetDescription", () => {
     it("renders as paragraph element", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent>
             <SheetDescription data-testid="description">
               Description
@@ -241,7 +244,7 @@ describe("Sheet", () => {
   describe("SheetFooter", () => {
     it("renders children", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent>
             <SheetFooter>
               <p>Footer content</p>
@@ -259,7 +262,7 @@ describe("Sheet", () => {
   describe("Complete sheet", () => {
     it("renders full sheet with all parts", async () => {
       render(
-        <Sheet onOpenChange={vi.fn()} open={true}>
+        <Sheet onOpenChange={vi.fn()} open>
           <SheetContent>
             <SheetHeader>
               <SheetTitle>Sheet Title</SheetTitle>
@@ -267,7 +270,7 @@ describe("Sheet", () => {
             </SheetHeader>
             <div>Main content</div>
             <SheetFooter>
-              <button>Action</button>
+              <button type="button">Action</button>
             </SheetFooter>
           </SheetContent>
         </Sheet>,
