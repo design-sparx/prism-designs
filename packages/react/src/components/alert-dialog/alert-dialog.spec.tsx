@@ -1,6 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "../../test/utils";
 import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+
+import { render, screen, waitFor } from "../../test/utils";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +29,7 @@ describe("AlertDialog", () => {
 
     it("renders when open", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <p>Content</p>
           </AlertDialogContent>
@@ -43,7 +45,7 @@ describe("AlertDialog", () => {
       const user = userEvent.setup();
 
       render(
-        <AlertDialog onOpenChange={onOpenChange} open={true}>
+        <AlertDialog onOpenChange={onOpenChange} open>
           <AlertDialogContent>
             <p>Content</p>
           </AlertDialogContent>
@@ -59,7 +61,7 @@ describe("AlertDialog", () => {
       const user = userEvent.setup();
 
       render(
-        <AlertDialog closeOnEsc={false} onOpenChange={onOpenChange} open={true}>
+        <AlertDialog closeOnEsc={false} onOpenChange={onOpenChange} open>
           <AlertDialogContent>
             <p>Content</p>
           </AlertDialogContent>
@@ -74,7 +76,7 @@ describe("AlertDialog", () => {
       const onOpenChange = vi.fn();
 
       render(
-        <AlertDialog onOpenChange={onOpenChange} open={true}>
+        <AlertDialog onOpenChange={onOpenChange} open>
           <AlertDialogContent data-testid="content">
             <p>Content</p>
           </AlertDialogContent>
@@ -91,7 +93,7 @@ describe("AlertDialog", () => {
 
     it("locks body scroll when open", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <p>Content</p>
           </AlertDialogContent>
@@ -107,7 +109,7 @@ describe("AlertDialog", () => {
   describe("AlertDialogContent", () => {
     it("renders with role alertdialog", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent data-testid="alert-content">
             Content
           </AlertDialogContent>
@@ -122,7 +124,7 @@ describe("AlertDialog", () => {
 
     it("has aria-modal attribute", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent data-testid="alert-content">
             Content
           </AlertDialogContent>
@@ -137,7 +139,7 @@ describe("AlertDialog", () => {
 
     it("has aria-labelledby attribute", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent data-testid="alert-content">
             Content
           </AlertDialogContent>
@@ -155,7 +157,7 @@ describe("AlertDialog", () => {
 
     it("has aria-describedby attribute", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent data-testid="alert-content">
             Content
           </AlertDialogContent>
@@ -175,7 +177,7 @@ describe("AlertDialog", () => {
   describe("AlertDialogHeader", () => {
     it("renders children", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogHeader>
               <p>Header content</p>
@@ -193,7 +195,7 @@ describe("AlertDialog", () => {
   describe("AlertDialogTitle", () => {
     it("renders as h2 element", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogTitle data-testid="title">Title</AlertDialogTitle>
           </AlertDialogContent>
@@ -208,7 +210,7 @@ describe("AlertDialog", () => {
 
     it("has correct id for aria-labelledby", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogTitle data-testid="title">Title</AlertDialogTitle>
           </AlertDialogContent>
@@ -225,7 +227,7 @@ describe("AlertDialog", () => {
   describe("AlertDialogDescription", () => {
     it("renders as paragraph element", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogDescription data-testid="description">
               Description
@@ -242,7 +244,7 @@ describe("AlertDialog", () => {
 
     it("has correct id for aria-describedby", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogDescription data-testid="description">
               Description
@@ -261,7 +263,7 @@ describe("AlertDialog", () => {
   describe("AlertDialogFooter", () => {
     it("renders children", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogFooter>
               <p>Footer content</p>
@@ -279,7 +281,7 @@ describe("AlertDialog", () => {
   describe("AlertDialogAction", () => {
     it("renders as button element", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogFooter>
               <AlertDialogAction data-testid="action">
@@ -298,7 +300,7 @@ describe("AlertDialog", () => {
 
     it("has destructive variant by default", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogFooter>
               <AlertDialogAction data-testid="action">Delete</AlertDialogAction>
@@ -316,7 +318,7 @@ describe("AlertDialog", () => {
 
     it("can use different variant", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogFooter>
               <AlertDialogAction data-testid="action" variant="default">
@@ -337,7 +339,7 @@ describe("AlertDialog", () => {
   describe("AlertDialogCancel", () => {
     it("renders as button element", async () => {
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogFooter>
               <AlertDialogCancel data-testid="cancel">Cancel</AlertDialogCancel>
@@ -357,7 +359,7 @@ describe("AlertDialog", () => {
       const user = userEvent.setup();
 
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogFooter>
               <AlertDialogCancel onClick={onClick}>Cancel</AlertDialogCancel>
@@ -380,7 +382,7 @@ describe("AlertDialog", () => {
       const onCancel = vi.fn();
 
       render(
-        <AlertDialog onOpenChange={vi.fn()} open={true}>
+        <AlertDialog onOpenChange={vi.fn()} open>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>

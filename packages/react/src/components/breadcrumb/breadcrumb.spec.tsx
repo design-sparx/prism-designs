@@ -1,13 +1,15 @@
 import { describe, expect, it } from "vitest";
+
 import { render, screen } from "../../test/utils";
+
 import {
   Breadcrumb,
-  BreadcrumbList,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  BreadcrumbEllipsis,
 } from "./breadcrumb";
 
 describe("Breadcrumb", () => {

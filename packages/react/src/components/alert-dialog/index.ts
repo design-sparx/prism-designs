@@ -1,5 +1,4 @@
 export type {
-  AlertDialogProps,
   AlertDialogActionProps,
   AlertDialogCancelProps,
   AlertDialogContentProps,
@@ -7,6 +6,7 @@ export type {
   AlertDialogFooterProps,
   AlertDialogHeaderProps,
   AlertDialogOverlayProps,
+  AlertDialogProps,
   AlertDialogTitleProps,
 } from "./alert-dialog";
 export {

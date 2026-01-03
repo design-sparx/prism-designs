@@ -135,7 +135,9 @@ const AlertDialogTitle = React.forwardRef<
       id="alert-dialog-title"
       ref={ref}
       {...props}
-    />
+    >
+      {props.children}
+    </h2>
   );
 });
 
@@ -183,8 +185,8 @@ const AlertDialogAction = React.forwardRef<
 AlertDialogAction.displayName = "AlertDialogAction";
 
 // AlertDialog Cancel - Cancel/dismiss button
-export interface AlertDialogCancelProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export type AlertDialogCancelProps =
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const AlertDialogCancel = React.forwardRef<
   HTMLButtonElement,
@@ -212,24 +214,22 @@ export interface AlertDialogProps {
   /**
    * Whether clicking the overlay closes the alert dialog
    * Defaults to false for alert dialogs (requires explicit choice)
-   * @default false
    */
   closeOnOverlayClick?: boolean;
   /**
    * Whether pressing ESC closes the alert dialog
    * Defaults to true
-   * @default true
    */
   closeOnEsc?: boolean;
 }
 
-const AlertDialog: React.FC<AlertDialogProps> = ({
+function AlertDialog({
   open,
   onOpenChange,
   children,
   closeOnOverlayClick = false,
   closeOnEsc = true,
-}) => {
+}: AlertDialogProps): React.ReactElement | null {
   const [mounted, setMounted] = React.useState(false);
 
   // Wait for client-side mount (SSR safety)
@@ -241,7 +241,7 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
   React.useEffect(() => {
     if (!open || !closeOnEsc) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
         onOpenChange(false);
       }
@@ -270,18 +270,16 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
     if (!open) return;
 
     // Store the element that had focus before opening
-    const previousActiveElement = document.activeElement as HTMLElement;
+    const previousActiveElement = document.activeElement as HTMLElement | null;
 
     return () => {
       // Restore focus when closing
-      if (previousActiveElement) {
-        previousActiveElement.focus();
-      }
+      previousActiveElement?.focus();
     };
   }, [open]);
 
   // Handle overlay click
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
       onOpenChange(false);
     }
@@ -291,16 +289,13 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
   if (!mounted || !open) return null;
 
   return createPortal(
-    <div data-state={open ? "open" : "closed"}>
-      <AlertDialogOverlay
-        data-state={open ? "open" : "closed"}
-        onClick={handleOverlayClick}
-      />
+    <div data-state="open">
+      <AlertDialogOverlay data-state="open" onClick={handleOverlayClick} />
       {children}
     </div>,
     document.body,
   );
-};
+}
 
 AlertDialog.displayName = "AlertDialog";
 
