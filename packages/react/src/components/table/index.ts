@@ -1,3 +1,13 @@
+export type {
+  TableBodyProps,
+  TableCaptionProps,
+  TableCellProps,
+  TableFooterProps,
+  TableHeaderProps,
+  TableHeadProps,
+  TableProps,
+  TableRowProps,
+} from "./table";
 export {
   Table,
   TableBody,
@@ -7,15 +17,4 @@ export {
   TableHead,
   TableHeader,
   TableRow,
-} from "./table";
-
-export type {
-  TableProps,
-  TableBodyProps,
-  TableCaptionProps,
-  TableCellProps,
-  TableFooterProps,
-  TableHeadProps,
-  TableHeaderProps,
-  TableRowProps,
 } from "./table";

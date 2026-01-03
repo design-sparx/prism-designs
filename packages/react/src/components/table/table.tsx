@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { cn } from "@prism/core";
 
 /**
@@ -22,15 +23,15 @@ import { cn } from "@prism/core";
  * The `relative` class enables absolute positioning of child elements if needed.
  * The `w-full` ensures the table takes up available width by default.
  */
-export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {}
+export type TableProps = React.HTMLAttributes<HTMLTableElement>;
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, ...props }, ref) => (
     <div className="relative w-full overflow-auto">
       <table
-        ref={ref}
-        className={cn("w-full caption-bottom text-sm", className)}
         {...props}
+        className={cn("w-full caption-bottom text-sm", className)}
+        ref={ref}
       />
     </div>
   ),
@@ -42,12 +43,11 @@ Table.displayName = "Table";
  *
  * Uses <thead> for semantic HTML. Screen readers announce this as the table header section.
  */
-export interface TableHeaderProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
+export type TableHeaderProps = React.HTMLAttributes<HTMLTableSectionElement>;
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => (
-    <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+    <thead {...props} className={cn("[&_tr]:border-b", className)} ref={ref} />
   ),
 );
 TableHeader.displayName = "TableHeader";
@@ -58,15 +58,14 @@ TableHeader.displayName = "TableHeader";
  * Uses <tbody> for semantic HTML. Contains the main data rows.
  * The `[&_tr:last-child]:border-0` removes border from the last row for cleaner appearance.
  */
-export interface TableBodyProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
+export type TableBodyProps = React.HTMLAttributes<HTMLTableSectionElement>;
 
 const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, ...props }, ref) => (
     <tbody
-      ref={ref}
-      className={cn("[&_tr:last-child]:border-0", className)}
       {...props}
+      className={cn("[&_tr:last-child]:border-0", className)}
+      ref={ref}
     />
   ),
 );
@@ -79,18 +78,17 @@ TableBody.displayName = "TableBody";
  * The `border-t` adds a top border to visually separate from body content.
  * Background color helps distinguish footer from body rows.
  */
-export interface TableFooterProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
+export type TableFooterProps = React.HTMLAttributes<HTMLTableSectionElement>;
 
 const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
   ({ className, ...props }, ref) => (
     <tfoot
-      ref={ref}
+      {...props}
       className={cn(
         "border-t bg-neutral-100/50 font-medium [&>tr]:last:border-b-0",
         className,
       )}
-      {...props}
+      ref={ref}
     />
   ),
 );
@@ -103,18 +101,17 @@ TableFooter.displayName = "TableFooter";
  * Hover state provides visual feedback for interactive tables.
  * The `data-[state=selected]` attribute is used by data tables for row selection styling.
  */
-export interface TableRowProps
-  extends React.HTMLAttributes<HTMLTableRowElement> {}
+export type TableRowProps = React.HTMLAttributes<HTMLTableRowElement>;
 
 const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, ...props }, ref) => (
     <tr
-      ref={ref}
+      {...props}
       className={cn(
         "border-b transition-colors hover:bg-neutral-100/50 data-[state=selected]:bg-neutral-100",
         className,
       )}
-      {...props}
+      ref={ref}
     />
   ),
 );
@@ -128,18 +125,17 @@ TableRow.displayName = "TableRow";
  * Text alignment is left by default but can be customized via className.
  * The `[&:has([role=checkbox])]:pr-0` removes padding when checkbox is present for better alignment.
  */
-export interface TableHeadProps
-  extends React.ThHTMLAttributes<HTMLTableCellElement> {}
+export type TableHeadProps = React.ThHTMLAttributes<HTMLTableCellElement>;
 
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, ...props }, ref) => (
     <th
-      ref={ref}
+      {...props}
       className={cn(
         "h-12 px-4 text-left align-middle font-medium text-neutral-500 [&:has([role=checkbox])]:pr-0",
         className,
       )}
-      {...props}
+      ref={ref}
     />
   ),
 );
@@ -152,18 +148,17 @@ TableHead.displayName = "TableHead";
  * Padding and alignment match TableHead for visual consistency.
  * The `[&:has([role=checkbox])]:pr-0` removes padding when checkbox is present.
  */
-export interface TableCellProps
-  extends React.TdHTMLAttributes<HTMLTableCellElement> {}
+export type TableCellProps = React.TdHTMLAttributes<HTMLTableCellElement>;
 
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, ...props }, ref) => (
     <td
-      ref={ref}
+      {...props}
       className={cn(
         "p-4 align-middle [&:has([role=checkbox])]:pr-0",
         className,
       )}
-      {...props}
+      ref={ref}
     />
   ),
 );
@@ -176,28 +171,27 @@ TableCell.displayName = "TableCell";
  * Screen readers announce this first, helping users understand the table's purpose.
  * Positioned at the bottom with `caption-bottom` class on the table element.
  */
-export interface TableCaptionProps
-  extends React.HTMLAttributes<HTMLTableCaptionElement> {}
+export type TableCaptionProps = React.HTMLAttributes<HTMLTableCaptionElement>;
 
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   TableCaptionProps
 >(({ className, ...props }, ref) => (
   <caption
-    ref={ref}
-    className={cn("mt-4 text-sm text-neutral-500", className)}
     {...props}
+    className={cn("mt-4 text-sm text-neutral-500", className)}
+    ref={ref}
   />
 ));
 TableCaption.displayName = "TableCaption";
 
 export {
   Table,
-  TableHeader,
   TableBody,
+  TableCaption,
+  TableCell,
   TableFooter,
   TableHead,
+  TableHeader,
   TableRow,
-  TableCell,
-  TableCaption,
 };

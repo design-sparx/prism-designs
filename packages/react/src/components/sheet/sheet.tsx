@@ -69,7 +69,6 @@ export interface SheetContentProps
     VariantProps<typeof sheetContentVariants> {
   /**
    * Whether to show the close button
-   * @default true
    */
   showClose?: boolean;
   /**
@@ -172,11 +171,9 @@ export type SheetTitleProps = React.HTMLAttributes<HTMLHeadingElement>;
 const SheetTitle = React.forwardRef<HTMLHeadingElement, SheetTitleProps>(
   ({ className, ...props }, ref) => {
     return (
-      <h2
-        className={cn(sheetTitleVariants(), className)}
-        ref={ref}
-        {...props}
-      />
+      <h2 className={cn(sheetTitleVariants(), className)} ref={ref} {...props}>
+        {props.children}
+      </h2>
     );
   },
 );
@@ -219,23 +216,21 @@ export interface SheetProps {
   children: React.ReactNode;
   /**
    * Whether clicking the overlay closes the sheet
-   * @default true
    */
   closeOnOverlayClick?: boolean;
   /**
    * Whether pressing ESC closes the sheet
-   * @default true
    */
   closeOnEsc?: boolean;
 }
 
-const Sheet: React.FC<SheetProps> = ({
+function Sheet({
   open,
   onOpenChange,
   children,
   closeOnOverlayClick = true,
   closeOnEsc = true,
-}) => {
+}: SheetProps): React.ReactElement | null {
   const [mounted, setMounted] = React.useState(false);
 
   // Wait for client-side mount (SSR safety)
@@ -247,7 +242,7 @@ const Sheet: React.FC<SheetProps> = ({
   React.useEffect(() => {
     if (!open || !closeOnEsc) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
         onOpenChange(false);
       }
@@ -276,18 +271,16 @@ const Sheet: React.FC<SheetProps> = ({
     if (!open) return;
 
     // Store the element that had focus before opening
-    const previousActiveElement = document.activeElement as HTMLElement;
+    const previousActiveElement = document.activeElement as HTMLElement | null;
 
     return () => {
       // Restore focus when closing
-      if (previousActiveElement) {
-        previousActiveElement.focus();
-      }
+      previousActiveElement?.focus();
     };
   }, [open]);
 
   // Handle overlay click
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
       onOpenChange(false);
     }
@@ -297,16 +290,13 @@ const Sheet: React.FC<SheetProps> = ({
   if (!mounted || !open) return null;
 
   return createPortal(
-    <div data-state={open ? "open" : "closed"}>
-      <SheetOverlay
-        data-state={open ? "open" : "closed"}
-        onClick={handleOverlayClick}
-      />
+    <div data-state="open">
+      <SheetOverlay data-state="open" onClick={handleOverlayClick} />
       {children}
     </div>,
     document.body,
   );
-};
+}
 
 Sheet.displayName = "Sheet";
 
