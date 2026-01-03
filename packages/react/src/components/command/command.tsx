@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { Search } from "lucide-react";
 
 import { cn } from "@prism/core";
@@ -56,13 +56,16 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
     const [internalValue, setInternalValue] = React.useState("");
     const searchValue = value ?? internalValue;
 
-    const handleValueChange = (newValue: string) => {
-      if (onValueChange) {
-        onValueChange(newValue);
-      } else {
-        setInternalValue(newValue);
-      }
-    };
+    const handleValueChange = React.useCallback(
+      (newValue: string): void => {
+        if (onValueChange) {
+          onValueChange(newValue);
+        } else {
+          setInternalValue(newValue);
+        }
+      },
+      [onValueChange],
+    );
 
     // Provide search context to children
     const contextValue = React.useMemo(
@@ -71,12 +74,14 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
         onSearchChange: handleValueChange,
         filter,
       }),
-      [searchValue, filter],
+      [searchValue, filter, handleValueChange],
     );
 
     return (
       <CommandContext.Provider value={contextValue}>
         <div
+          aria-controls="command-list"
+          aria-expanded="true"
           className={cn(commandVariants(), className)}
           ref={ref}
           role="combobox"
@@ -100,29 +105,32 @@ interface CommandContextValue {
 
 const CommandContext = React.createContext<CommandContextValue>({
   search: "",
-  onSearchChange: () => {},
+  onSearchChange: () => {
+    // Empty function for default context
+  },
 });
 
-const useCommand = () => React.useContext(CommandContext);
+const useCommand = (): CommandContextValue => React.useContext(CommandContext);
 
 // Command Input
 const commandInputVariants = cva(
   "flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
 );
 
-export interface CommandInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export type CommandInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const CommandInput = React.forwardRef<HTMLInputElement, CommandInputProps>(
   ({ className, ...props }, ref) => {
     const { search, onSearchChange } = useCommand();
 
     return (
-      <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
+      <div className="flex items-center border-b px-3">
         <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
         <input
           className={cn(commandInputVariants(), className)}
-          onChange={(e) => onSearchChange(e.target.value)}
+          onChange={(e) => {
+            onSearchChange(e.target.value);
+          }}
           ref={ref}
           value={search}
           {...props}
@@ -139,8 +147,7 @@ const commandListVariants = cva(
   "max-h-[300px] overflow-y-auto overflow-x-hidden",
 );
 
-export interface CommandListProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+export type CommandListProps = React.HTMLAttributes<HTMLDivElement>;
 
 const CommandList = React.forwardRef<HTMLDivElement, CommandListProps>(
   ({ className, children, ...props }, ref) => {
@@ -164,8 +171,7 @@ const commandEmptyVariants = cva(
   "py-6 text-center text-sm text-muted-foreground",
 );
 
-export interface CommandEmptyProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+export type CommandEmptyProps = React.HTMLAttributes<HTMLDivElement>;
 
 const CommandEmpty = React.forwardRef<HTMLDivElement, CommandEmptyProps>(
   ({ className, ...props }, ref) => {
@@ -203,7 +209,7 @@ const CommandGroup = React.forwardRef<HTMLDivElement, CommandGroupProps>(
         role="group"
         {...props}
       >
-        {heading ? <div cmdk-group-heading="">{heading}</div> : null}
+        {heading ? <div>{heading}</div> : null}
         {children}
       </div>
     );
@@ -215,8 +221,7 @@ CommandGroup.displayName = "CommandGroup";
 // Command Separator
 const commandSeparatorVariants = cva("-mx-1 h-px bg-border");
 
-export interface CommandSeparatorProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+export type CommandSeparatorProps = React.HTMLAttributes<HTMLDivElement>;
 
 const CommandSeparator = React.forwardRef<
   HTMLDivElement,
@@ -262,7 +267,7 @@ const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
     const { search, filter } = useCommand();
 
     // Default filter: case-insensitive includes
-    const defaultFilter = (itemValue: string, searchValue: string) => {
+    const defaultFilter = (itemValue: string, searchValue: string): boolean => {
       return itemValue.toLowerCase().includes(searchValue.toLowerCase());
     };
 
@@ -278,6 +283,7 @@ const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
 
     return (
       <div
+        aria-selected="false"
         className={cn(commandItemVariants(), className)}
         data-disabled={disabled ? "" : undefined}
         onClick={() => {
@@ -311,8 +317,7 @@ const commandShortcutVariants = cva(
   "ml-auto text-xs tracking-widest text-muted-foreground",
 );
 
-export interface CommandShortcutProps
-  extends React.HTMLAttributes<HTMLSpanElement> {}
+export type CommandShortcutProps = React.HTMLAttributes<HTMLSpanElement>;
 
 const CommandShortcut = React.forwardRef<HTMLSpanElement, CommandShortcutProps>(
   ({ className, ...props }, ref) => {
@@ -330,19 +335,19 @@ CommandShortcut.displayName = "CommandShortcut";
 
 export {
   Command,
-  commandVariants,
-  CommandInput,
-  commandInputVariants,
-  CommandList,
-  commandListVariants,
   CommandEmpty,
   commandEmptyVariants,
   CommandGroup,
   commandGroupVariants,
+  CommandInput,
+  commandInputVariants,
   CommandItem,
   commandItemVariants,
+  CommandList,
+  commandListVariants,
   CommandSeparator,
   commandSeparatorVariants,
   CommandShortcut,
   commandShortcutVariants,
+  commandVariants,
 };
