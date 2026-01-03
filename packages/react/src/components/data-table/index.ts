@@ -1,9 +1,9 @@
-export { DataTable } from "./data-table";
 export type {
-  DataTableProps,
   ColumnDef,
   ColumnFiltersState,
+  DataTableProps,
   SortingState,
-  VisibilityState,
   TanStackTable,
+  VisibilityState,
 } from "./data-table";
+export { DataTable } from "./data-table";

@@ -1,17 +1,18 @@
 import * as React from "react";
 import {
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-  type ColumnFiltersState,
   type SortingState,
-  type VisibilityState,
   type Table as TanStackTable,
+  useReactTable,
+  type VisibilityState,
 } from "@tanstack/react-table";
+
 import {
   Table,
   TableBody,
@@ -40,7 +41,7 @@ import {
  *
  * Key Concepts:
  * - ColumnDef: Defines how each column displays and behaves
- * - Row Model: Transforms raw data (core -> sorted -> filtered -> paginated)
+ * - Row Model: Transforms raw data (core -\> sorted -\> filtered -\> paginated)
  * - State: Sorting, filters, visibility, pagination are all controllable
  */
 
@@ -139,7 +140,7 @@ export function DataTable<TData, TValue = unknown>({
   pageSize = 10,
   renderControls,
   className,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData, TValue>): React.ReactElement {
   /**
    * Internal state management
    * These are used when the component is uncontrolled (parent doesn't pass state)
@@ -188,7 +189,7 @@ export function DataTable<TData, TValue = unknown>({
    * - getFilteredRowModel: Applies filter transformations
    * - getPaginationRowModel: Splits rows into pages (optional)
    *
-   * The order of row models matters: Core -> Sorted -> Filtered -> Paginated
+   * The order of row models matters: Core -\> Sorted -\> Filtered -\> Paginated
    */
   const table = useReactTable({
     data,
@@ -219,7 +220,9 @@ export function DataTable<TData, TValue = unknown>({
   return (
     <div className={className}>
       {/* Custom controls (filters, pagination, etc.) */}
-      {renderControls && <div className="mb-4">{renderControls(table)}</div>}
+      {renderControls ? (
+        <div className="mb-4">{renderControls(table)}</div>
+      ) : null}
 
       {/* Table */}
       <div className="rounded-md border">
@@ -241,11 +244,11 @@ export function DataTable<TData, TValue = unknown>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={row.id}
                   data-state={row.getIsSelected() ? "selected" : undefined}
+                  key={row.id}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -260,8 +263,8 @@ export function DataTable<TData, TValue = unknown>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center"
+                  colSpan={columns.length}
                 >
                   No results.
                 </TableCell>
@@ -282,6 +285,6 @@ export type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
-  VisibilityState,
   Table as TanStackTable,
+  VisibilityState,
 } from "@tanstack/react-table";

@@ -1,18 +1,19 @@
 import * as React from "react";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi } from "vitest";
-import { DataTable, type ColumnDef } from "./data-table";
+import { describe, expect, it, vi } from "vitest";
+
+import { type ColumnDef, DataTable } from "./data-table";
 
 /**
  * Test data structure
  */
-type Payment = {
+interface Payment {
   id: string;
   amount: number;
   status: "pending" | "processing" | "success" | "failed";
   email: string;
-};
+}
 
 /**
  * Sample data for testing
@@ -123,8 +124,8 @@ describe("DataTable", () => {
         <DataTable
           columns={mockColumns}
           data={mockData}
-          sorting={[]}
           onSortingChange={onSortingChange}
+          sorting={[]}
         />,
       );
 
@@ -145,9 +146,9 @@ describe("DataTable", () => {
 
       render(
         <DataTable
+          columnFilters={[]}
           columns={mockColumns}
           data={mockData}
-          columnFilters={[]}
           onColumnFiltersChange={onColumnFiltersChange}
         />,
       );
@@ -158,9 +159,9 @@ describe("DataTable", () => {
     it("should filter data when column filter is applied", () => {
       render(
         <DataTable
+          columnFilters={[{ id: "status", value: "success" }]}
           columns={mockColumns}
           data={mockData}
-          columnFilters={[{ id: "status", value: "success" }]}
         />,
       );
 
@@ -176,9 +177,9 @@ describe("DataTable", () => {
 
       render(
         <DataTable
+          columnVisibility={{}}
           columns={mockColumns}
           data={mockData}
-          columnVisibility={{}}
           onColumnVisibilityChange={onColumnVisibilityChange}
         />,
       );
@@ -189,9 +190,9 @@ describe("DataTable", () => {
     it("should hide columns based on visibility state", () => {
       render(
         <DataTable
+          columnVisibility={{ email: false }}
           columns={mockColumns}
           data={mockData}
-          columnVisibility={{ email: false }}
         />,
       );
 
@@ -211,18 +212,18 @@ describe("DataTable", () => {
         id: "select",
         header: ({ table }) => (
           <input
-            type="checkbox"
+            aria-label="Select all"
             checked={table.getIsAllPageRowsSelected()}
             onChange={table.getToggleAllPageRowsSelectedHandler()}
-            aria-label="Select all"
+            type="checkbox"
           />
         ),
         cell: ({ row }) => (
           <input
-            type="checkbox"
+            aria-label={`Select row ${row.id}`}
             checked={row.getIsSelected()}
             onChange={row.getToggleSelectedHandler()}
-            aria-label={`Select row ${row.id}`}
+            type="checkbox"
           />
         ),
       },
@@ -236,8 +237,8 @@ describe("DataTable", () => {
         <DataTable
           columns={selectableColumns}
           data={mockData}
-          rowSelection={{}}
           onRowSelectionChange={onRowSelectionChange}
+          rowSelection={{}}
         />,
       );
 
@@ -284,7 +285,7 @@ describe("DataTable", () => {
         <DataTable
           columns={mockColumns}
           data={mockData}
-          enablePagination={true}
+          enablePagination
           pageSize={2}
         />,
       );
@@ -311,11 +312,7 @@ describe("DataTable", () => {
       }));
 
       render(
-        <DataTable
-          columns={mockColumns}
-          data={largeData}
-          enablePagination={true}
-        />,
+        <DataTable columns={mockColumns} data={largeData} enablePagination />,
       );
 
       const rows = screen.getAllByRole("row");
@@ -326,7 +323,7 @@ describe("DataTable", () => {
 
   describe("Custom Controls", () => {
     it("should render custom controls via renderControls", () => {
-      const renderControls = () => (
+      const renderControls = (): React.ReactElement => (
         <div data-testid="custom-controls">Custom Controls</div>
       );
 
@@ -361,30 +358,32 @@ describe("DataTable", () => {
     it("should allow filter controls through renderControls", async () => {
       const user = userEvent.setup();
 
-      const FilterableTable = () => {
+      function FilterableTable(): React.ReactElement {
         const [columnFilters, setColumnFilters] = React.useState([]);
 
         return (
           <DataTable
+            columnFilters={columnFilters}
             columns={mockColumns}
             data={mockData}
-            columnFilters={columnFilters}
             onColumnFiltersChange={setColumnFilters}
             renderControls={(table) => (
               <input
-                placeholder="Filter emails..."
-                value={
-                  (table.getColumn("email")?.getFilterValue() as string) ?? ""
-                }
+                data-testid="email-filter"
                 onChange={(event) =>
                   table.getColumn("email")?.setFilterValue(event.target.value)
                 }
-                data-testid="email-filter"
+                placeholder="Filter emails..."
+                value={
+                  (table.getColumn("email")?.getFilterValue() as
+                    | string
+                    | undefined) ?? ""
+                }
               />
             )}
           />
         );
-      };
+      }
 
       render(<FilterableTable />);
 
@@ -401,9 +400,9 @@ describe("DataTable", () => {
     it("should apply custom className to wrapper", () => {
       const { container } = render(
         <DataTable
+          className="custom-table-wrapper"
           columns={mockColumns}
           data={mockData}
-          className="custom-table-wrapper"
         />,
       );
 
