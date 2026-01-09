@@ -1,10 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { DataTable, type ColumnDef } from "@prism/react/data-table";
-import { Button } from "@prism/react/button";
-import { Input } from "@prism/react/input";
-import { Checkbox } from "@prism/react/checkbox";
+import type { Meta, StoryObj } from "@storybook/react";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
+
+import { Button } from "@prism/react/button";
+import { Checkbox } from "@prism/react/checkbox";
+import { type ColumnDef, DataTable } from "@prism/react/data-table";
+import { Input } from "@prism/react/input";
 
 /**
  * The DataTable component is a powerful data table built on TanStack Table.
@@ -40,12 +41,12 @@ type Story = StoryObj<typeof meta>;
 /**
  * Sample payment data type
  */
-type Payment = {
+interface Payment {
   id: string;
   amount: number;
   status: "pending" | "processing" | "success" | "failed";
   email: string;
-};
+}
 
 /**
  * Sample data
@@ -143,20 +144,22 @@ export const Default: Story = {
  */
 export const WithPagination: Story = {
   render: () => {
-    const PaginatedTable = () => {
+    function PaginatedTable(): JSX.Element {
       return (
         <DataTable
           columns={columns}
           data={payments}
-          enablePagination={true}
+          enablePagination
           pageSize={5}
           renderControls={(table) => (
             <div className="flex items-center justify-end space-x-2">
               <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
+                onClick={() => {
+                  table.previousPage();
+                }}
+                size="sm"
+                variant="outline"
               >
                 Previous
               </Button>
@@ -165,10 +168,12 @@ export const WithPagination: Story = {
                 {table.getPageCount()}
               </div>
               <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
+                onClick={() => {
+                  table.nextPage();
+                }}
+                size="sm"
+                variant="outline"
               >
                 Next
               </Button>
@@ -176,7 +181,7 @@ export const WithPagination: Story = {
           )}
         />
       );
-    };
+    }
 
     return <PaginatedTable />;
   },
@@ -187,41 +192,41 @@ export const WithPagination: Story = {
  */
 export const WithFiltering: Story = {
   render: () => {
-    const FilterableTable = () => {
-      const [columnFilters, setColumnFilters] = useState([]);
+    function FilterableTable(): JSX.Element {
+      const [columnFilters, setColumnFilters] = useState<unknown[]>([]);
 
       return (
         <DataTable
+          columnFilters={columnFilters}
           columns={columns}
           data={payments}
-          columnFilters={columnFilters}
           onColumnFiltersChange={setColumnFilters}
           renderControls={(table) => (
             <div className="flex items-center gap-2">
               <Input
+                className="max-w-sm"
+                onChange={(event) =>
+                  table.getColumn("email")?.setFilterValue(event.target.value)
+                }
                 placeholder="Filter emails..."
                 value={
                   (table.getColumn("email")?.getFilterValue() as string) ?? ""
                 }
-                onChange={(event) =>
-                  table.getColumn("email")?.setFilterValue(event.target.value)
-                }
-                className="max-w-sm"
               />
-              {table.getColumn("email")?.getFilterValue() && (
+              {table.getColumn("email")?.getFilterValue() ? (
                 <Button
-                  variant="ghost"
-                  size="sm"
                   onClick={() => table.getColumn("email")?.setFilterValue("")}
+                  size="sm"
+                  variant="ghost"
                 >
                   Clear
                 </Button>
-              )}
+              ) : null}
             </div>
           )}
         />
       );
-    };
+    }
 
     return <FilterableTable />;
   },
@@ -242,11 +247,11 @@ export const WithSorting: Story = {
         header: ({ column }) => {
           return (
             <Button
-              variant="ghost"
+              onClick={() => {
+                column.toggleSorting(column.getIsSorted() === "asc");
+              }}
               size="sm"
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === "asc")
-              }
+              variant="ghost"
             >
               Status
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -259,11 +264,11 @@ export const WithSorting: Story = {
         header: ({ column }) => {
           return (
             <Button
-              variant="ghost"
+              onClick={() => {
+                column.toggleSorting(column.getIsSorted() === "asc");
+              }}
               size="sm"
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === "asc")
-              }
+              variant="ghost"
             >
               Email
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -277,11 +282,11 @@ export const WithSorting: Story = {
           return (
             <div className="text-right">
               <Button
-                variant="ghost"
+                onClick={() => {
+                  column.toggleSorting(column.getIsSorted() === "asc");
+                }}
                 size="sm"
-                onClick={() =>
-                  column.toggleSorting(column.getIsSorted() === "asc")
-                }
+                variant="ghost"
               >
                 Amount
                 <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -309,26 +314,30 @@ export const WithSorting: Story = {
  */
 export const WithRowSelection: Story = {
   render: () => {
-    const SelectableTable = () => {
-      const [rowSelection, setRowSelection] = useState({});
+    function SelectableTable(): JSX.Element {
+      const [rowSelection, setRowSelection] = useState<Record<string, boolean>>(
+        {},
+      );
 
       const selectableColumns: ColumnDef<Payment>[] = [
         {
           id: "select",
           header: ({ table }) => (
             <Checkbox
-              checked={table.getIsAllPageRowsSelected()}
-              onCheckedChange={(value) =>
-                table.toggleAllPageRowsSelected(!!value)
-              }
               aria-label="Select all"
+              checked={table.getIsAllPageRowsSelected()}
+              onCheckedChange={(value) => {
+                table.toggleAllPageRowsSelected(Boolean(value));
+              }}
             />
           ),
           cell: ({ row }) => (
             <Checkbox
-              checked={row.getIsSelected()}
-              onCheckedChange={(value) => row.toggleSelected(!!value)}
               aria-label="Select row"
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => {
+                row.toggleSelected(Boolean(value));
+              }}
             />
           ),
           enableSorting: false,
@@ -341,7 +350,6 @@ export const WithRowSelection: Story = {
         <DataTable
           columns={selectableColumns}
           data={payments}
-          rowSelection={rowSelection}
           onRowSelectionChange={setRowSelection}
           renderControls={(table) => (
             <div className="flex items-center justify-between">
@@ -351,18 +359,21 @@ export const WithRowSelection: Story = {
               </div>
               {table.getFilteredSelectedRowModel().rows.length > 0 && (
                 <Button
-                  variant="outline"
+                  onClick={() => {
+                    table.resetRowSelection();
+                  }}
                   size="sm"
-                  onClick={() => table.resetRowSelection()}
+                  variant="outline"
                 >
                   Clear Selection
                 </Button>
               )}
             </div>
           )}
+          rowSelection={rowSelection}
         />
       );
-    };
+    }
 
     return <SelectableTable />;
   },
@@ -373,14 +384,16 @@ export const WithRowSelection: Story = {
  */
 export const WithColumnVisibility: Story = {
   render: () => {
-    const VisibilityTable = () => {
-      const [columnVisibility, setColumnVisibility] = useState({});
+    function VisibilityTable(): JSX.Element {
+      const [columnVisibility, setColumnVisibility] = useState<
+        Record<string, boolean>
+      >({});
 
       return (
         <DataTable
+          columnVisibility={columnVisibility}
           columns={columns}
           data={payments}
-          columnVisibility={columnVisibility}
           onColumnVisibilityChange={setColumnVisibility}
           renderControls={(table) => (
             <div className="flex items-center gap-2">
@@ -395,14 +408,14 @@ export const WithColumnVisibility: Story = {
                     .map((column) => {
                       return (
                         <label
-                          key={column.id}
                           className="flex cursor-pointer items-center gap-2 rounded p-2 hover:bg-neutral-100"
+                          key={column.id}
                         >
                           <Checkbox
                             checked={column.getIsVisible()}
-                            onCheckedChange={(value) =>
-                              column.toggleVisibility(!!value)
-                            }
+                            onCheckedChange={(value) => {
+                              column.toggleVisibility(Boolean(value));
+                            }}
                           />
                           <span className="text-sm capitalize">
                             {column.id}
@@ -416,7 +429,7 @@ export const WithColumnVisibility: Story = {
           )}
         />
       );
-    };
+    }
 
     return <VisibilityTable />;
   },
@@ -427,29 +440,35 @@ export const WithColumnVisibility: Story = {
  */
 export const FullFeatured: Story = {
   render: () => {
-    const FullTable = () => {
-      const [sorting, setSorting] = useState([]);
-      const [columnFilters, setColumnFilters] = useState([]);
-      const [columnVisibility, setColumnVisibility] = useState({});
-      const [rowSelection, setRowSelection] = useState({});
+    function FullTable(): JSX.Element {
+      const [sorting, setSorting] = useState<unknown[]>([]);
+      const [columnFilters, setColumnFilters] = useState<unknown[]>([]);
+      const [columnVisibility, setColumnVisibility] = useState<
+        Record<string, boolean>
+      >({});
+      const [rowSelection, setRowSelection] = useState<Record<string, boolean>>(
+        {},
+      );
 
       const fullColumns: ColumnDef<Payment>[] = [
         {
           id: "select",
           header: ({ table }) => (
             <Checkbox
-              checked={table.getIsAllPageRowsSelected()}
-              onCheckedChange={(value) =>
-                table.toggleAllPageRowsSelected(!!value)
-              }
               aria-label="Select all"
+              checked={table.getIsAllPageRowsSelected()}
+              onCheckedChange={(value) => {
+                table.toggleAllPageRowsSelected(Boolean(value));
+              }}
             />
           ),
           cell: ({ row }) => (
             <Checkbox
-              checked={row.getIsSelected()}
-              onCheckedChange={(value) => row.toggleSelected(!!value)}
               aria-label="Select row"
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => {
+                row.toggleSelected(Boolean(value));
+              }}
             />
           ),
           enableSorting: false,
@@ -464,11 +483,11 @@ export const FullFeatured: Story = {
           header: ({ column }) => {
             return (
               <Button
-                variant="ghost"
+                onClick={() => {
+                  column.toggleSorting(column.getIsSorted() === "asc");
+                }}
                 size="sm"
-                onClick={() =>
-                  column.toggleSorting(column.getIsSorted() === "asc")
-                }
+                variant="ghost"
               >
                 Status
                 <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -476,7 +495,7 @@ export const FullFeatured: Story = {
             );
           },
           cell: ({ row }) => {
-            const status = row.getValue("status") as string;
+            const status = row.getValue("status");
             const colorMap = {
               success: "bg-green-100 text-green-700",
               processing: "bg-blue-100 text-blue-700",
@@ -497,11 +516,11 @@ export const FullFeatured: Story = {
           header: ({ column }) => {
             return (
               <Button
-                variant="ghost"
+                onClick={() => {
+                  column.toggleSorting(column.getIsSorted() === "asc");
+                }}
                 size="sm"
-                onClick={() =>
-                  column.toggleSorting(column.getIsSorted() === "asc")
-                }
+                variant="ghost"
               >
                 Email
                 <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -515,11 +534,11 @@ export const FullFeatured: Story = {
             return (
               <div className="text-right">
                 <Button
-                  variant="ghost"
+                  onClick={() => {
+                    column.toggleSorting(column.getIsSorted() === "asc");
+                  }}
                   size="sm"
-                  onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                  }
+                  variant="ghost"
                 >
                   Amount
                   <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -541,34 +560,32 @@ export const FullFeatured: Story = {
       return (
         <div className="w-full max-w-4xl">
           <DataTable
+            columnFilters={columnFilters}
+            columnVisibility={columnVisibility}
             columns={fullColumns}
             data={payments}
-            sorting={sorting}
-            onSortingChange={setSorting}
-            columnFilters={columnFilters}
+            enablePagination
             onColumnFiltersChange={setColumnFilters}
-            columnVisibility={columnVisibility}
             onColumnVisibilityChange={setColumnVisibility}
-            rowSelection={rowSelection}
             onRowSelectionChange={setRowSelection}
-            enablePagination={true}
+            onSortingChange={setSorting}
             pageSize={5}
             renderControls={(table) => (
               <div className="space-y-4">
                 {/* Filters and Column Visibility */}
                 <div className="flex items-center justify-between">
                   <Input
-                    placeholder="Filter emails..."
-                    value={
-                      (table.getColumn("email")?.getFilterValue() as string) ??
-                      ""
-                    }
+                    className="max-w-sm"
                     onChange={(event) =>
                       table
                         .getColumn("email")
                         ?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    placeholder="Filter emails..."
+                    value={
+                      (table.getColumn("email")?.getFilterValue() as string) ??
+                      ""
+                    }
                   />
                   <details className="relative">
                     <summary className="inline-flex h-9 cursor-pointer items-center justify-center rounded-md border border-neutral-200 bg-white px-4 py-2 text-sm font-medium hover:bg-neutral-100">
@@ -581,14 +598,14 @@ export const FullFeatured: Story = {
                         .map((column) => {
                           return (
                             <label
-                              key={column.id}
                               className="flex cursor-pointer items-center gap-2 rounded p-2 hover:bg-neutral-100"
+                              key={column.id}
                             >
                               <Checkbox
                                 checked={column.getIsVisible()}
-                                onCheckedChange={(value) =>
-                                  column.toggleVisibility(!!value)
-                                }
+                                onCheckedChange={(value) => {
+                                  column.toggleVisibility(Boolean(value));
+                                }}
                               />
                               <span className="text-sm capitalize">
                                 {column.id}
@@ -608,10 +625,12 @@ export const FullFeatured: Story = {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => table.previousPage()}
                       disabled={!table.getCanPreviousPage()}
+                      onClick={() => {
+                        table.previousPage();
+                      }}
+                      size="sm"
+                      variant="outline"
                     >
                       Previous
                     </Button>
@@ -620,10 +639,12 @@ export const FullFeatured: Story = {
                       {table.getPageCount()}
                     </div>
                     <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => table.nextPage()}
                       disabled={!table.getCanNextPage()}
+                      onClick={() => {
+                        table.nextPage();
+                      }}
+                      size="sm"
+                      variant="outline"
                     >
                       Next
                     </Button>
@@ -631,10 +652,12 @@ export const FullFeatured: Story = {
                 </div>
               </div>
             )}
+            rowSelection={rowSelection}
+            sorting={sorting}
           />
         </div>
       );
-    };
+    }
 
     return <FullTable />;
   },

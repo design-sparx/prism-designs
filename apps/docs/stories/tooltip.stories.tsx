@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
+
+import { Button } from "@prism/react/button";
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
   TooltipProvider,
+  TooltipTrigger,
 } from "@prism/react/tooltip";
-import { Button } from "@prism/react/button";
 
 const meta: Meta<typeof Tooltip> = {
   title: "Components/Tooltip",
@@ -58,17 +59,17 @@ export const WithIcon: Story = {
   render: () => (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button size="icon" variant="outline">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
             fill="none"
+            height="20"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <circle cx="12" cy="12" r="10" />
             <path d="M12 16v-4" />
@@ -253,14 +254,14 @@ export const InFormContext: Story = {
   render: () => (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <label htmlFor="username" className="text-sm font-medium">
+        <label className="text-sm font-medium" htmlFor="username">
           Username
         </label>
         <Tooltip>
           <TooltipTrigger asChild>
             <button
-              type="button"
               className="inline-flex h-4 w-4 items-center justify-center rounded-full border text-xs"
+              type="button"
             >
               ?
             </button>
@@ -274,10 +275,10 @@ export const InFormContext: Story = {
         </Tooltip>
       </div>
       <input
-        type="text"
-        id="username"
         className="w-full rounded-md border px-3 py-2"
+        id="username"
         placeholder="Enter username"
+        type="text"
       />
     </div>
   ),

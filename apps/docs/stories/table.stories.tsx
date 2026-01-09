@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+
 import {
   Table,
   TableBody,
@@ -196,7 +197,7 @@ export const WithColSpan: Story = {
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell rowSpan={2} className="align-top font-medium">
+          <TableCell className="align-top font-medium" rowSpan={2}>
             Planning
           </TableCell>
           <TableCell>Requirements Gathering</TableCell>
@@ -207,7 +208,7 @@ export const WithColSpan: Story = {
           <TableCell>3 weeks</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell rowSpan={3} className="align-top font-medium">
+          <TableCell className="align-top font-medium" rowSpan={3}>
             Development
           </TableCell>
           <TableCell>Frontend Development</TableCell>
@@ -355,8 +356,8 @@ export const Striped: Story = {
           { id: "E005", name: "Tom Brown", dept: "Engineering", loc: "SF" },
         ].map((employee, index) => (
           <TableRow
-            key={employee.id}
             className={index % 2 === 0 ? "bg-neutral-50" : ""}
+            key={employee.id}
           >
             <TableCell className="font-medium">{employee.id}</TableCell>
             <TableCell>{employee.name}</TableCell>
