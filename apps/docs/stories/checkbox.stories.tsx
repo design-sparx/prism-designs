@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment -- Storybook demo code uses setState callbacks which TypeScript marks as 'any' */
-/* eslint-disable @typescript-eslint/no-unsafe-call -- Storybook demo code uses setState callbacks which TypeScript marks as 'any' */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- Storybook demo code with typed state objects */
-/* eslint-disable @typescript-eslint/no-unsafe-return -- Storybook demo code with callbacks */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- Checkbox checked prop accepts boolean | 'indeterminate' */
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";

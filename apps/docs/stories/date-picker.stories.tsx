@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks -- Storybook render functions require hooks */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment -- Storybook typing issue */
-/* eslint-disable @typescript-eslint/no-unsafe-call -- Storybook typing issue */
+
 /* eslint-disable jsx-a11y/label-has-associated-control -- Story example labels */
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";

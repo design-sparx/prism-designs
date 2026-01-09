@@ -68,13 +68,13 @@ export const Default: Story = {
 };
 
 function WithSearchComponent(): JSX.Element {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
 
   return (
     <div className="w-[450px]">
       <Command className="rounded-lg border shadow-md">
         <CommandInput
-          onValueChange={setValue}
+          onValueChange={(newValue: string) => setValue(newValue)}
           placeholder="Search fruits..."
           value={value}
         />
@@ -100,7 +100,7 @@ export const WithSearch: Story = {
 };
 
 function WithActionsComponent(): JSX.Element {
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItem, setSelectedItem] = useState<string>("");
 
   return (
     <div className="w-[450px] space-y-4">
@@ -109,16 +109,16 @@ function WithActionsComponent(): JSX.Element {
         <CommandList>
           <CommandEmpty>No actions found.</CommandEmpty>
           <CommandGroup heading="Actions">
-            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+            <CommandItem onSelect={(value: string) => setSelectedItem(value)}>
               Create New Document
             </CommandItem>
-            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+            <CommandItem onSelect={(value: string) => setSelectedItem(value)}>
               Open File
             </CommandItem>
-            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+            <CommandItem onSelect={(value: string) => setSelectedItem(value)}>
               Save As
             </CommandItem>
-            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+            <CommandItem onSelect={(value: string) => setSelectedItem(value)}>
               Export PDF
             </CommandItem>
           </CommandGroup>

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment -- Storybook demo code uses setState callbacks which TypeScript marks as 'any' */
-/* eslint-disable @typescript-eslint/no-unsafe-call -- Storybook demo code uses setState callbacks which TypeScript marks as 'any' */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- Storybook demo code with typed state objects */
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 

@@ -26,14 +26,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 function DefaultComponent(): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <Button onClick={() => setOpen(true)} variant="destructive">
         Delete Account
       </Button>
-      <AlertDialog onOpenChange={setOpen} open={open}>
+      <AlertDialog
+        onOpenChange={(value: boolean) => setOpen(value)}
+        open={open}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -43,10 +46,18 @@ function DefaultComponent(): JSX.Element {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setOpen(false)}>
+            <AlertDialogCancel
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={() => setOpen(false)}>
+            <AlertDialogAction
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -61,14 +72,17 @@ export const Default: Story = {
 };
 
 function DeleteFileComponent(): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <Button onClick={() => setOpen(true)} variant="destructive">
         Delete File
       </Button>
-      <AlertDialog onOpenChange={setOpen} open={open}>
+      <AlertDialog
+        onOpenChange={(value: boolean) => setOpen(value)}
+        open={open}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete file?</AlertDialogTitle>
@@ -78,10 +92,18 @@ function DeleteFileComponent(): JSX.Element {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setOpen(false)}>
+            <AlertDialogCancel
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={() => setOpen(false)}>
+            <AlertDialogAction
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -96,12 +118,15 @@ export const DeleteFile: Story = {
 };
 
 function ConfirmationComponent(): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <Button onClick={() => setOpen(true)}>Submit Form</Button>
-      <AlertDialog onOpenChange={setOpen} open={open}>
+      <AlertDialog
+        onOpenChange={(value: boolean) => setOpen(value)}
+        open={open}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Submit form?</AlertDialogTitle>
@@ -111,10 +136,19 @@ function ConfirmationComponent(): JSX.Element {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setOpen(false)}>
+            <AlertDialogCancel
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               Go Back
             </AlertDialogCancel>
-            <AlertDialogAction onClick={() => setOpen(false)} variant="default">
+            <AlertDialogAction
+              onClick={() => {
+                setOpen(false);
+              }}
+              variant="default"
+            >
               Submit
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -129,14 +163,17 @@ export const Confirmation: Story = {
 };
 
 function WarningComponent(): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <Button onClick={() => setOpen(true)} variant="outline">
         Reset Settings
       </Button>
-      <AlertDialog onOpenChange={setOpen} open={open}>
+      <AlertDialog
+        onOpenChange={(value: boolean) => setOpen(value)}
+        open={open}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Reset all settings?</AlertDialogTitle>
@@ -147,10 +184,18 @@ function WarningComponent(): JSX.Element {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setOpen(false)}>
+            <AlertDialogCancel
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={() => setOpen(false)}>
+            <AlertDialogAction
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               Reset Settings
             </AlertDialogAction>
           </AlertDialogFooter>

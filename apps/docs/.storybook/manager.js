@@ -6,7 +6,7 @@ const prismTheme = create({
   base: "light",
 
   // Brand
-  brandTitle: "Prism Design System",
+  brandTitle: "Prism Designs",
   brandUrl: "https://github.com/design-sparx/prism",
   brandTarget: "_blank",
 

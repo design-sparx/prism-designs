@@ -1,3 +1,21 @@
+<script>
+  // Update page title dynamically to replace "Docs" with "Prism Designs"
+  const updateTitle = () => {
+    const observer = new MutationObserver(() => {
+      if (document.title.includes('Docs ⋅ Storybook')) {
+        document.title = document.title.replace('Docs ⋅ Storybook', 'Prism Designs');
+      }
+    });
+    observer.observe(document.querySelector('title'), { childList: true, characterData: true, subtree: true });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateTitle);
+  } else {
+    updateTitle();
+  }
+</script>
+
 <style>
   /* Override Storybook sidebar hover and selected states with cyan/teal theme */
 
