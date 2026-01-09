@@ -7,6 +7,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  type OnChangeFn,
   type SortingState,
   type Table as TanStackTable,
   useReactTable,
@@ -64,7 +65,7 @@ export interface DataTableProps<TData, TValue = unknown> {
   /**
    * Optional sorting state change handler (controlled)
    */
-  onSortingChange?: (sorting: SortingState) => void;
+  onSortingChange?: OnChangeFn<SortingState>;
 
   /**
    * Optional column filters state (controlled)
@@ -74,7 +75,7 @@ export interface DataTableProps<TData, TValue = unknown> {
   /**
    * Optional column filters change handler (controlled)
    */
-  onColumnFiltersChange?: (filters: ColumnFiltersState) => void;
+  onColumnFiltersChange?: OnChangeFn<ColumnFiltersState>;
 
   /**
    * Optional column visibility state (controlled)
@@ -84,7 +85,7 @@ export interface DataTableProps<TData, TValue = unknown> {
   /**
    * Optional column visibility change handler (controlled)
    */
-  onColumnVisibilityChange?: (visibility: VisibilityState) => void;
+  onColumnVisibilityChange?: OnChangeFn<VisibilityState>;
 
   /**
    * Optional row selection state (controlled)
@@ -94,7 +95,7 @@ export interface DataTableProps<TData, TValue = unknown> {
   /**
    * Optional row selection change handler (controlled)
    */
-  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
+  onRowSelectionChange?: OnChangeFn<Record<string, boolean>>;
 
   /**
    * Enable pagination (default: false)

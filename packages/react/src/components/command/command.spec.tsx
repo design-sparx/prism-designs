@@ -99,9 +99,9 @@ describe("Command", () => {
           <CommandInput />
         </Command>,
       );
-      // Check for the search icon by looking for the svg wrapper
-      const wrapper = document.querySelector("[cmdk-input-wrapper]");
-      expect(wrapper).toBeInTheDocument();
+      // Check for the search icon - the Search component renders an svg
+      const searchIcon = document.querySelector("svg");
+      expect(searchIcon).toBeInTheDocument();
     });
   });
 
