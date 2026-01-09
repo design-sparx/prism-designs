@@ -38,8 +38,17 @@ function getComponentEntryPoints(): Record<string, string> {
 export default defineConfig((options) => ({
   entry: getComponentEntryPoints(),
   format: ["cjs", "esm"],
-  dts: true,
+  dts: {
+    // Resolve type declarations
+    resolve: true,
+  },
   external: ["react", "react-dom"],
   clean: true,
+  // Disable minification to save memory during build
+  minify: false,
+  // Split outputs to reduce memory pressure
+  splitting: false,
+  // Reduce memory usage by skipping sourcemaps in production
+  sourcemap: false,
   ...options,
 }));

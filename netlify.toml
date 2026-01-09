@@ -1,0 +1,16 @@
+# Netlify Build Configuration
+
+[build]
+  # Build command
+  command = "pnpm build"
+
+  # Output directory (Storybook static files)
+  publish = "apps/docs/storybook-static"
+
+[build.environment]
+  # Increase Node.js memory limit for DTS build
+  # Default is ~512MB, increasing to 4GB to handle type generation
+  NODE_OPTIONS = "--max-old-space-size=4096"
+
+  # Use pnpm
+  NPM_FLAGS = "--version"
