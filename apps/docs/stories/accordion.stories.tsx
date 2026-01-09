@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
+
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
 } from "@prism/react/accordion";
 
 const meta = {
@@ -20,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <Accordion type="single" collapsible className="w-full max-w-md">
+    <Accordion className="w-full max-w-md" collapsible type="single">
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it accessible?</AccordionTrigger>
         <AccordionContent>
@@ -48,18 +49,19 @@ export const Default: Story = {
 
 export const Multiple: Story = {
   render: () => (
-    <Accordion type="multiple" className="w-full max-w-md">
+    <Accordion className="w-full max-w-md" type="multiple">
       <AccordionItem value="item-1">
         <AccordionTrigger>Can I open multiple items?</AccordionTrigger>
         <AccordionContent>
-          Yes! This accordion uses type="multiple", allowing multiple sections
-          to be open at once.
+          Yes! This accordion uses type=&quot;multiple&quot;, allowing multiple
+          sections to be open at once.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
         <AccordionTrigger>How do I enable this?</AccordionTrigger>
         <AccordionContent>
-          Simply set the type prop to "multiple" instead of "single".
+          Simply set the type prop to &quot;multiple&quot; instead of
+          &quot;single&quot;.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
@@ -76,10 +78,10 @@ export const Multiple: Story = {
 export const DefaultOpen: Story = {
   render: () => (
     <Accordion
-      type="single"
-      defaultValue="item-2"
-      collapsible
       className="w-full max-w-md"
+      collapsible
+      defaultValue="item-2"
+      type="single"
     >
       <AccordionItem value="item-1">
         <AccordionTrigger>First Section</AccordionTrigger>
@@ -101,14 +103,14 @@ export const DefaultOpen: Story = {
 
 export const WithDisabledItem: Story = {
   render: () => (
-    <Accordion type="single" collapsible className="w-full max-w-md">
+    <Accordion className="w-full max-w-md" collapsible type="single">
       <AccordionItem value="item-1">
         <AccordionTrigger>Enabled Section</AccordionTrigger>
         <AccordionContent>
           This section can be toggled normally.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-2" disabled>
+      <AccordionItem disabled value="item-2">
         <AccordionTrigger>Disabled Section</AccordionTrigger>
         <AccordionContent>This content cannot be accessed.</AccordionContent>
       </AccordionItem>
@@ -122,7 +124,7 @@ export const WithDisabledItem: Story = {
 
 export const LongContent: Story = {
   render: () => (
-    <Accordion type="single" collapsible className="w-full max-w-md">
+    <Accordion className="w-full max-w-md" collapsible type="single">
       <AccordionItem value="item-1">
         <AccordionTrigger>What is Prism?</AccordionTrigger>
         <AccordionContent>
@@ -138,16 +140,16 @@ export const LongContent: Story = {
           Prism is built as a monorepo using modern tools like Turborepo,
           TypeScript, and React. It includes packages for design tokens, core
           utilities, and React components. Each component is thoroughly
-          documented with educational comments explaining the "why" behind
-          architectural decisions. The system uses Radix UI primitives for
-          accessibility and Tailwind CSS for styling.
+          documented with educational comments explaining the &quot;why&quot;
+          behind architectural decisions. The system uses Radix UI primitives
+          for accessibility and Tailwind CSS for styling.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger>Who should use it?</AccordionTrigger>
         <AccordionContent>
           Prism is ideal for developers who want to learn how to build a design
-          system from scratch. Whether you're creating your first component
+          system from scratch. Whether you&apos;re creating your first component
           library or looking to understand design system best practices, Prism
           provides clear examples and patterns you can study and adapt.
         </AccordionContent>

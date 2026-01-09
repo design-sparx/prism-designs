@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
+
 import { Button } from "@prism/react/button";
-import { Toaster } from "@prism/react/toast";
-import { toast, ToastAction } from "@prism/react/toast";
+import { toast, ToastAction, Toaster } from "@prism/react/toast";
 
 const meta = {
   title: "Components/Toast",
@@ -80,7 +80,9 @@ export const WithAction: Story = {
           action: (
             <ToastAction
               altText="Undo deletion"
-              onClick={() => console.log("Undo clicked")}
+              onClick={() => {
+                // Handle undo action
+              }}
             >
               Undo
             </ToastAction>
