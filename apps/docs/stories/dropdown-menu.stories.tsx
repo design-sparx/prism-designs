@@ -1,22 +1,23 @@
-import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+
+import { Button } from "@prism/react/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuGroup,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
 } from "@prism/react/dropdown-menu";
-import { Button } from "@prism/react/button";
 
 const meta: Meta<typeof DropdownMenu> = {
   title: "Components/DropdownMenu",
@@ -99,7 +100,7 @@ export const WithShortcuts: Story = {
 };
 
 export const WithCheckboxItems: Story = {
-  render: function WithCheckboxItemsDemo() {
+  render: function WithCheckboxItemsDemo(): JSX.Element {
     const [showStatusBar, setShowStatusBar] = useState(true);
     const [showActivityBar, setShowActivityBar] = useState(false);
     const [showPanel, setShowPanel] = useState(false);
@@ -137,7 +138,7 @@ export const WithCheckboxItems: Story = {
 };
 
 export const WithRadioGroup: Story = {
-  render: function WithRadioGroupDemo() {
+  render: function WithRadioGroupDemo(): JSX.Element {
     const [position, setPosition] = useState("bottom");
 
     return (
@@ -148,7 +149,7 @@ export const WithRadioGroup: Story = {
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+          <DropdownMenuRadioGroup onValueChange={setPosition} value={position}>
             <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
@@ -251,16 +252,16 @@ export const WithIcon: Story = {
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
+            className="mr-2"
             fill="none"
+            height="16"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="mr-2"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <circle cx="12" cy="12" r="1" />
             <circle cx="12" cy="5" r="1" />
@@ -274,16 +275,16 @@ export const WithIcon: Story = {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
+            className="mr-2"
             fill="none"
+            height="16"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="mr-2"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
@@ -294,16 +295,16 @@ export const WithIcon: Story = {
         </DropdownMenuItem>
         <DropdownMenuItem>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
+            className="mr-2"
             fill="none"
+            height="16"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="mr-2"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
             <circle cx="12" cy="12" r="3" />
@@ -312,16 +313,16 @@ export const WithIcon: Story = {
         </DropdownMenuItem>
         <DropdownMenuItem>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
+            className="mr-2"
             fill="none"
+            height="16"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="mr-2"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
             <polyline points="16 17 21 12 16 7" />

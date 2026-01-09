@@ -15,6 +15,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
     "clean": "rimraf .turbo node_modules dist"
   },
   "devDependencies": {

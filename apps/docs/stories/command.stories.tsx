@@ -1,16 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Calculator, Calendar, Settings, Smile, User } from "lucide-react";
+
 import {
   Command,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
+  CommandList,
   CommandSeparator,
   CommandShortcut,
 } from "@prism/react/command";
-import { Calendar, Smile, Calculator, User, Settings } from "lucide-react";
 
 const meta = {
   title: "Components/Command",
@@ -66,72 +67,76 @@ export const Default: Story = {
   },
 };
 
-export const WithSearch: Story = {
-  render: () => {
-    const [value, setValue] = useState("");
+function WithSearchComponent(): JSX.Element {
+  const [value, setValue] = useState("");
 
-    return (
-      <div className="w-[450px]">
-        <Command className="rounded-lg border shadow-md">
-          <CommandInput
-            onValueChange={setValue}
-            placeholder="Search fruits..."
-            value={value}
-          />
-          <CommandList>
-            <CommandEmpty>No fruits found.</CommandEmpty>
-            <CommandGroup heading="Fruits">
-              <CommandItem>Apple</CommandItem>
-              <CommandItem>Banana</CommandItem>
-              <CommandItem>Cherry</CommandItem>
-              <CommandItem>Date</CommandItem>
-              <CommandItem>Elderberry</CommandItem>
-              <CommandItem>Fig</CommandItem>
-              <CommandItem>Grape</CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </div>
-    );
-  },
+  return (
+    <div className="w-[450px]">
+      <Command className="rounded-lg border shadow-md">
+        <CommandInput
+          onValueChange={setValue}
+          placeholder="Search fruits..."
+          value={value}
+        />
+        <CommandList>
+          <CommandEmpty>No fruits found.</CommandEmpty>
+          <CommandGroup heading="Fruits">
+            <CommandItem>Apple</CommandItem>
+            <CommandItem>Banana</CommandItem>
+            <CommandItem>Cherry</CommandItem>
+            <CommandItem>Date</CommandItem>
+            <CommandItem>Elderberry</CommandItem>
+            <CommandItem>Fig</CommandItem>
+            <CommandItem>Grape</CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </div>
+  );
+}
+
+export const WithSearch: Story = {
+  render: () => <WithSearchComponent />,
 };
 
-export const WithActions: Story = {
-  render: () => {
-    const [selectedItem, setSelectedItem] = useState("");
+function WithActionsComponent(): JSX.Element {
+  const [selectedItem, setSelectedItem] = useState("");
 
-    return (
-      <div className="w-[450px] space-y-4">
-        <Command className="rounded-lg border shadow-md">
-          <CommandInput placeholder="Select an action..." />
-          <CommandList>
-            <CommandEmpty>No actions found.</CommandEmpty>
-            <CommandGroup heading="Actions">
-              <CommandItem onSelect={(value) => setSelectedItem(value)}>
-                Create New Document
-              </CommandItem>
-              <CommandItem onSelect={(value) => setSelectedItem(value)}>
-                Open File
-              </CommandItem>
-              <CommandItem onSelect={(value) => setSelectedItem(value)}>
-                Save As
-              </CommandItem>
-              <CommandItem onSelect={(value) => setSelectedItem(value)}>
-                Export PDF
-              </CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
-        {selectedItem && (
-          <div className="rounded-lg border p-4">
-            <p className="text-sm text-gray-600">
-              Selected: <span className="font-semibold">{selectedItem}</span>
-            </p>
-          </div>
-        )}
-      </div>
-    );
-  },
+  return (
+    <div className="w-[450px] space-y-4">
+      <Command className="rounded-lg border shadow-md">
+        <CommandInput placeholder="Select an action..." />
+        <CommandList>
+          <CommandEmpty>No actions found.</CommandEmpty>
+          <CommandGroup heading="Actions">
+            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+              Create New Document
+            </CommandItem>
+            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+              Open File
+            </CommandItem>
+            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+              Save As
+            </CommandItem>
+            <CommandItem onSelect={(value) => setSelectedItem(value)}>
+              Export PDF
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+      {selectedItem ? (
+        <div className="rounded-lg border p-4">
+          <p className="text-sm text-gray-600">
+            Selected: <span className="font-semibold">{selectedItem}</span>
+          </p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export const WithActions: Story = {
+  render: () => <WithActionsComponent />,
 };
 
 export const MultipleGroups: Story = {

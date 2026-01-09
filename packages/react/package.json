@@ -190,6 +190,7 @@
     "build": "pnpm generate:theme && pnpm generate:exports && pnpm test && tsup",
     "dev": "tsup --watch",
     "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
     "clean": "rimraf .turbo node_modules dist"
   },
   "devDependencies": {

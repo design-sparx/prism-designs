@@ -8,7 +8,8 @@
     "build": "storybook build --docs",
     "preview-storybook": "serve storybook-static",
     "clean": "rimraf .turbo node_modules",
-    "lint": "eslint ./stories/*.stories.tsx --max-warnings 0"
+    "lint": "eslint ./stories/*.stories.tsx --max-warnings 0",
+    "lint:fix": "eslint ./stories/*.stories.tsx --fix"
   },
   "dependencies": {
     "@prism/react": "workspace:*",
