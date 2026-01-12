@@ -4,7 +4,7 @@
 
 ![Prism Design System](https://github.com/design-sparx/prism-designs/blob/main/prism-designs-landing.jpg)
 
-Prism is not just another design system—it's a learning resource. Every architectural decision, pattern, and convention is documented to help you understand why design systems are built the way they are.
+Prism is not just another design system; it's a learning resource. Every architectural decision, pattern, and convention is documented to help you understand why design systems are built the way they are.
 
 ## Philosophy
 
