@@ -1,0 +1,123 @@
+# Prism Design System
+
+> An educational design system that teaches developers how to build their own design system from scratch.
+
+Prism is a fully working, production-quality design system built to be read and learned from — not just used. Every pattern, naming decision, and architectural choice is documented with inline comments explaining the "why".
+
+## What this repo contains
+
+- `packages/tokens` — Design tokens (colors, spacing, typography, shadows, borders). Pure TypeScript, no runtime deps. These are the foundation everything else builds on.
+- `packages/core` — Framework-agnostic utilities and shared TypeScript types. Depends on tokens.
+- `packages/react` — 35 React components built with TypeScript, Tailwind CSS v4, and class-variance-authority. Depends on core and tokens.
+- `apps/docs` — Interactive Storybook documentation for all components.
+
+## Design Tokens
+
+Tokens live in `packages/tokens/src/` and are exported from `packages/tokens/src/index.ts`.
+
+Available token categories:
+- **colors** — Primary scale (50–900), neutral/gray, semantic colors (success, error, warning, info)
+- **spacing** — 4px/8px grid scale (0, 1–6, 8, 10, 12, 16, 20, 24)
+- **typography** — Font families (sans, serif, mono), sizes (xs–5xl), weights (light–bold), line heights
+- **shadows** — sm, md, lg
+- **border-radius** — Rounded corner values
+- **border-width** — Border thickness values
+- **sizes** — Component dimension values
+- **transitions** — Animation timing and easing
+
+Import: `import { colors, spacing, typography } from '@prism/tokens'`
+
+## React Components
+
+All 35 components live in `packages/react/src/components/`. Each component folder contains:
+- `[name].tsx` — Component implementation using `cva` + `cn` pattern
+- `[name].spec.tsx` — Tests (80% coverage required)
+- `index.ts` — Public exports
+
+Import pattern: `import { Button } from '@prism/react/button'`
+
+### Available Components
+
+accordion, alert, alert-dialog, avatar, badge, breadcrumb, button, calendar, card, checkbox, command, data-table, date-picker, dialog, dropdown-menu, input, label, popover, progress, radio-group, select, separator, sheet, skeleton, slider, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group, tooltip, typography
+
+### Component Pattern
+
+All components follow this pattern:
+
+```typescript
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@prism/core';
+
+const componentVariants = cva(
+  'base-classes',
+  {
+    variants: {
+      variant: { primary: '...', secondary: '...' },
+      size: { sm: '...', md: '...', lg: '...' },
+    },
+    defaultVariants: { variant: 'primary', size: 'md' },
+  }
+);
+
+export interface ComponentProps
+  extends React.HTMLAttributes<HTMLElement>,
+    VariantProps<typeof componentVariants> {}
+
+const Component = React.forwardRef<HTMLElement, ComponentProps>(
+  ({ className, variant, size, ...props }, ref) => (
+    <element className={cn(componentVariants({ variant, size, className }))} ref={ref} {...props} />
+  )
+);
+
+Component.displayName = 'Component';
+export { Component, componentVariants };
+```
+
+## Shared Utilities
+
+From `@prism/core`:
+- `cn(...classes)` — Merges class names with Tailwind conflict resolution (clsx + tailwind-merge)
+- `Size` type — `"sm" | "md" | "lg"`
+- `Variant` type — `"primary" | "secondary" | "outline" | "ghost"`
+- `ColorIntent` type — `"success" | "error" | "warning" | "info"`
+
+## Theming
+
+Design tokens are converted to Tailwind v4 CSS custom properties via `pnpm generate:theme`.
+
+Generated files:
+- `packages/react/src/styles/theme.css` — for React package builds
+- `apps/docs/.storybook/prism.css` — for Storybook
+
+## Build System
+
+- Monorepo managed with Turborepo + pnpm workspaces
+- Build order: tokens → core → react → docs
+- Components are auto-discovered — no manual config needed when adding new components
+- Each package builds to both CJS and ESM via tsup
+
+## Key Commands
+
+```bash
+pnpm install          # Install all dependencies
+pnpm build            # Build all packages
+pnpm dev              # Start Storybook + watch mode
+pnpm --filter @prism/react test  # Run component tests
+pnpm generate:theme   # Regenerate Tailwind theme from tokens
+```
+
+## Adding a New Component
+
+1. Create `packages/react/src/components/[name]/`
+2. Add `[name].tsx`, `[name].spec.tsx`, `index.ts`
+3. Run `pnpm build` — auto-discovery handles the rest
+4. Create `apps/docs/stories/[name].stories.tsx`
+
+No changes to build config, package.json exports, or tsup config needed — it's all automatic.
+
+## Adding New Tokens
+
+1. Create `packages/tokens/src/[category].ts`
+2. Export from `packages/tokens/src/index.ts`
+3. Run `pnpm generate:theme` to update Tailwind CSS

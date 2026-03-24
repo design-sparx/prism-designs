@@ -6,6 +6,12 @@
 
 Prism is not just another design system; it's a learning resource. Every architectural decision, pattern, and convention is documented to help you understand why design systems are built the way they are.
 
+## Why build a design system in the age of AI?
+
+AI tools are excellent at generating UI — until your product needs to be *yours*. Companies like IBM (Carbon), Microsoft (Fluent), and Anthropic (Claude's UI) invest in design systems precisely because a shared visual language can't be prompt-engineered on the fly. When your team scales, or your brand needs to be consistent across dozens of surfaces, you need a foundation that's explicit, versioned, and owned.
+
+That said, Prism fully embraces AI workflows. Drop `llms.txt` into your editor context and your AI assistant can generate new components that match your exact token values, naming conventions, and patterns — no hallucinated class names, no inconsistent spacing. The design system becomes the ruleset; AI becomes the speed multiplier.
+
 ## Philosophy
 
 Most design systems (Material-UI, Ant Design, Carbon) are production-ready but challenging to learn from. Their codebases are complex, and architectural decisions aren't always clear. Prism takes the opposite approach:
@@ -191,39 +197,85 @@ prism/
 
 ## Learning Path
 
-If you're new to design systems, we recommend this learning path:
+New here? Follow these steps in order. Each step builds on the previous one — don't skip ahead.
 
-### 1. Start with Tokens (`packages/tokens`)
+**Goal:** By the end you'll have built a component from scratch, tested it, and documented it in Storybook.
 
-- Read the inline documentation
-- Understand the color, spacing, and typography systems
-- Try modifying token values and see how they propagate
+---
 
-### 2. Explore Core (`packages/core`)
+### Step 1 — See the final result first
 
-- See framework-agnostic utilities
-- Understand shared TypeScript types
-- Learn when to extract to core vs keep in components
+Run the project and see what you're building toward:
 
-### 3. Study Components (`packages/react`)
+```bash
+pnpm install && pnpm build && pnpm dev
+```
 
-- Study the Button component as a reference
-- Understand the export pattern in `package.json`
-- Learn how components consume tokens and core utilities
-- Review the testing patterns in `TESTING.md`
+Open `http://localhost:6006`. Browse the components. This is your destination.
 
-### 4. Run Storybook (`apps/docs`)
+---
 
-- See how components are documented
-- Understand the stories structure (CSF3 format)
-- Try creating a story for a new component
+### Step 2 — Understand design tokens (`packages/tokens`)
 
-### 5. Build Something
+Tokens are the foundation. Everything else — components, themes, Tailwind classes — derives from them.
 
-- Create a new component (Card, Input, Badge)
-- Apply the patterns you've learned
-- Write tests following the testing guide
-- Document it in Storybook
+Open `packages/tokens/src/colors.ts`. Read the inline comments. Notice:
+- Why colors use a numeric scale (50–900)
+- Why semantic names (`success`, `error`) exist alongside raw values
+- The `as const` pattern and why it matters for TypeScript
+
+**Checkpoint:** Change a color value in `colors.ts`, run `pnpm generate:theme`, and see it update in Storybook.
+
+---
+
+### Step 3 — Understand the core utilities (`packages/core`)
+
+Open `packages/core/src/utils.ts` and `packages/core/src/types.ts`.
+
+The `cn()` utility and shared types (`Size`, `Variant`, `ColorIntent`) are used across every component. Understanding these two files means you understand the shared language of the whole system.
+
+**Checkpoint:** Open any component in `packages/react/src/components/` and trace where `cn()` and the shared types are used.
+
+---
+
+### Step 4 — Read one component end to end (`packages/react`)
+
+Open the Button component (`packages/react/src/components/button/`). Read all three files:
+1. `button.tsx` — how `cva` + `cn` + tokens come together
+2. `button.spec.tsx` — what good component tests look like
+3. `index.ts` — what gets exported and why
+
+This is the reference implementation. Every other component follows the same structure.
+
+**Checkpoint:** Run `pnpm --filter @prism/react test button` and read what's being tested.
+
+---
+
+### Step 5 — Read a Storybook story (`apps/docs`)
+
+Open `apps/docs/stories/button.stories.tsx`. See how the CSF3 format works and how stories document variants, states, and edge cases.
+
+**Checkpoint:** Can you add a new story variant (e.g., a Button with an icon)?
+
+---
+
+### Step 6 — Build your own component
+
+Now you have everything you need. Create a new component:
+
+```bash
+mkdir packages/react/src/components/card
+```
+
+Create `card.tsx`, `card.spec.tsx`, `index.ts`, then `apps/docs/stories/card.stories.tsx`.
+
+Run `pnpm build` — the auto-discovery system handles exports and build config automatically.
+
+**Checkpoint:** Your component appears in Storybook with at least two variants and passing tests.
+
+---
+
+Each step has a concrete checkpoint so you always know where you are. If you get stuck, the inline code comments are your first resource — they explain the "why" behind every decision.
 
 ## Testing
 
