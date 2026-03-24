@@ -1,0 +1,181 @@
+# Prism Design System - LLM Reference Guide
+
+> Machine-readable summary for AI-assisted development
+
+## Project Overview
+
+Prism is an educational design system that teaches developers how to build their own. It prioritizes clarity and learning over features, with inline documentation explaining the "why" behind every pattern.
+
+## Architecture
+
+```
+prism/
+├── apps/docs/              # Storybook documentation
+├── packages/
+│   ├── tokens/            # Design tokens (colors, spacing, typography)
+│   ├── core/              # Core utilities and types
+│   ├── react/             # React component library
+│   ├── eslint-config/     # Shared ESLint config
+│   ├── typescript-config/ # Shared TypeScript config
+│   └── vitest-config/     # Shared Vitest config
+```
+
+## Design Tokens
+
+Located in `packages/tokens/src/`:
+
+### Colors (`colors.ts`)
+```typescript
+export const colors = {
+  primary: { 50: "#f0f9ff", 100: "#e0f2fe", ... },
+  gray: { 50: "#f9fafb", 100: "#f3f4f6", ... },
+  // Full semantic color system
+} as const;
+```
+
+### Spacing (`spacing.ts`)
+```typescript
+export const spacing = {
+  0: "0",
+  1: "0.25rem",   // 4px
+  2: "0.5rem",    // 8px
+  3: "0.75rem",   // 12px
+  4: "1rem",      // 16px
+  // ... 4px-based scale
+} as const;
+```
+
+### Typography (`typography.ts`)
+```typescript
+export const fontSizes = { xs: "0.75rem", sm: "0.875rem", base: "1rem", ... } as const;
+export const fontWeights = { normal: "400", medium: "500", semibold: "600", bold: "700" } as const;
+```
+
+## Core Utilities
+
+Located in `packages/core/src/`:
+
+### `cn()` utility (class names)
+```typescript
+import { cn } from "@prism/core";
+
+// Merges classNames intelligently, handling conflicts
+const classes = cn("base-class", condition && "conditional-class");
+```
+
+### Key patterns:
+- Framework-agnostic (no React-specific code)
+- Depends on `@prism/tokens`
+- Exports utility functions, types, constants
+
+## Component Structure
+
+Components live in `packages/react/src/components/<name>/`:
+
+### Required files:
+- `<name>.tsx` - Component implementation
+- `<name>.spec.tsx` - Tests (required)
+- `index.ts` - Public exports
+
+### Component template:
+```typescript
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@prism/core";
+
+const componentVariants = cva("base-styles", {
+  variants: {
+    variant: {
+      default: "variant-default",
+      secondary: "variant-secondary",
+    },
+    size: {
+      sm: "size-sm",
+      md: "size-md",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "md",
+  },
+});
+
+export interface ComponentProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof componentVariants> {}
+
+const Component = React.forwardRef<HTMLDivElement, ComponentProps>(
+  ({ className, variant, size, ...props }, ref) => {
+    return (
+      <div
+        className={cn(componentVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+
+Component.displayName = "Component";
+
+export { Component, componentVariants };
+export type { ComponentProps };
+```
+
+### Index file template:
+```typescript
+export { Component, componentVariants } from "./component";
+export type { ComponentProps } from "./component";
+```
+
+## Key Conventions
+
+1. **Use `cva` for variant props** - class-variance-authority for type-safe variants
+2. **Use `as const` on token objects** - enables type narrowing and autocomplete
+3. **Forward refs** - components wrap native elements
+4. **Interface over type for props** - better error messages
+5. **Avoid enums** - use `as const` objects instead
+6. **All components require tests** - 80% coverage minimum
+
+## Build Commands
+
+```bash
+pnpm install          # Install dependencies
+pnpm build            # Build all packages
+pnpm dev              # Run Storybook + watch mode
+pnpm lint             # Lint all packages
+pnpm format           # Format code
+
+# Package-specific
+pnpm --filter @prism/react test           # Run tests
+pnpm --filter @prism/react test:watch    # Watch mode
+pnpm --filter @prism/tokens build         # Build specific package
+```
+
+## Import Paths
+
+- `@prism/tokens` - Design tokens
+- `@prism/core` - Core utilities (`cn`, types)
+- `@prism/react` - React components
+- `@prism/react/<component>` - Individual component
+
+## Testing Patterns
+
+Components must have `.spec.tsx` files with:
+- Render tests
+- Variant prop tests
+- Accessibility tests
+- User interaction tests
+
+## Storybook Stories
+
+Stories in `apps/docs/stories/<component>.stories.tsx`:
+- Use CSF3 format
+- Include multiple variants
+- Test edge cases
+
+## Dependencies
+
+- `@prism/core` depends on `@prism/tokens`
+- `@prism/react` depends on `@prism/core` and `@prism/tokens`
+- `apps/docs` depends on `@prism/react`

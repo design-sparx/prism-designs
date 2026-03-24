@@ -220,10 +220,11 @@ If you're new to design systems, we recommend this learning path:
 
 ### 5. Build Something
 
-- Create a new component (Card, Input, Badge)
-- Apply the patterns you've learned
-- Write tests following the testing guide
-- Document it in Storybook
+Create a new component (use a unique name like `my-component`):
+```bash
+mkdir packages/react/src/components/my-component
+```
+Then create the component files following the patterns from Step 4.
 
 ## Testing
 
