@@ -72,6 +72,14 @@ const Component = React.forwardRef<HTMLElement, ComponentProps>(
 
 Component.displayName = 'Component';
 export { Component, componentVariants };
+export type { ComponentProps };
+```
+
+### Index file (`index.ts`)
+
+```typescript
+export { Component, componentVariants } from "./[name]";
+export type { ComponentProps } from "./[name]";
 ```
 
 ## Shared Utilities
