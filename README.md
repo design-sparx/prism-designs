@@ -6,6 +6,12 @@
 
 Prism is not just another design system; it's a learning resource. Every architectural decision, pattern, and convention is documented to help you understand why design systems are built the way they are.
 
+## Why build a design system in the age of AI?
+
+AI tools are excellent at generating UI — until your product needs to be *yours*. Companies like IBM (Carbon), Microsoft (Fluent), and Anthropic (Claude's UI) invest in design systems precisely because a shared visual language can't be prompt-engineered on the fly. When your team scales, or your brand needs to be consistent across dozens of surfaces, you need a foundation that's explicit, versioned, and owned.
+
+That said, Prism fully embraces AI workflows. Drop `llms.txt` into your editor context and your AI assistant can generate new components that match your exact token values, naming conventions, and patterns — no hallucinated class names, no inconsistent spacing. The design system becomes the ruleset; AI becomes the speed multiplier.
+
 ## Philosophy
 
 Most design systems (Material-UI, Ant Design, Carbon) are production-ready but challenging to learn from. Their codebases are complex, and architectural decisions aren't always clear. Prism takes the opposite approach:
@@ -191,40 +197,29 @@ prism/
 
 ## Learning Path
 
-If you're new to design systems, we recommend this learning path:
+New here? Follow these steps in order. Each step builds on the previous one — don't skip ahead.
 
-### 1. Start with Tokens (`packages/tokens`)
+**Goal:** By the end you'll have built a component from scratch, tested it, and documented it in Storybook.
 
-- Read the inline documentation
-- Understand the color, spacing, and typography systems
-- Try modifying token values and see how they propagate
+---
 
-### 2. Explore Core (`packages/core`)
+### Step 1 — See the final result first
 
-- See framework-agnostic utilities
-- Understand shared TypeScript types
-- Learn when to extract to core vs keep in components
+Run the project and see what you're building toward:
 
-### 3. Study Components (`packages/react`)
-
-- Study the Button component as a reference
-- Understand the export pattern in `package.json`
-- Learn how components consume tokens and core utilities
-- Review the testing patterns in `TESTING.md`
-
-### 4. Run Storybook (`apps/docs`)
-
-- See how components are documented
-- Understand the stories structure (CSF3 format)
-- Try creating a story for a new component
-
-### 5. Build Something
-
-Create a new component (use a unique name like `my-component`):
 ```bash
-mkdir packages/react/src/components/my-component
+pnpm install && pnpm build && pnpm dev
 ```
-Then create the component files following the patterns from Step 4.
+
+Open `http://localhost:6006`. Browse the components. This is your destination.
+
+---
+
+### Step 2 — Understand design tokens (`packages/tokens`)
+
+Tokens are the foundation. Everything else — components, themes, Tailwind classes — derives from them.
+
+Create `card.tsx`, `card.spec.tsx`, `index.ts`, then `apps/docs/stories/card.stories.tsx`.
 
 ## Testing
 
