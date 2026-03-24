@@ -111,8 +111,11 @@ pnpm generate:theme   # Regenerate Tailwind theme from tokens
 
 1. Create `packages/react/src/components/[name]/` (use a unique name like `my-component`)
 2. Add `[name].tsx`, `[name].spec.tsx`, `index.ts`
-3. Run `pnpm build` — auto-discovery handles the rest
-4. Create `apps/docs/stories/[name].stories.tsx`
+3. In `index.ts`, export from `./[name]` (e.g., `export { MyComponent } from "./my-component"`)
+4. Run `pnpm build` — auto-discovery handles the rest
+5. Create `apps/docs/stories/[name].stories.tsx`
+
+Import pattern: `import { MyComponent } from '@prism/react/my-component'`
 
 No changes to build config, package.json exports, or tsup config needed — it's all automatic.
 
